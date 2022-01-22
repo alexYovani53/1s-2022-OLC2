@@ -1,0 +1,1 @@
+{"version":3,"file":"Entorno.js","sourceRoot":"","sources":["../../../src/analizador/entorno/Entorno.ts"],"names":[],"mappings":";;;AAEA,MAAa,OAAO;IAQhB,YAAY,cAAsB,EAAE,MAAa;QAC7C,IAAI,CAAC,KAAK,GAAI,IAAI,GAAG,EAAE,CAAC;QACxB,IAAI,CAAC,YAAY,GAAG,cAAc,CAAC;QACnC,IAAI,CAAC,MAAM,GAAG,MAAM,CAAC;IACzB,CAAC;CACJ;AAbD,0BAaC"}
