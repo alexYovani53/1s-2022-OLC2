@@ -1,0 +1,36 @@
+
+.pagina{
+    background-image: url("../fondo.jpg");
+    background-size: cover;
+    height: 100vh;
+    width: 100vw;
+    
+}
+
+
+.container{
+    position: relative;
+    height: 80%;
+    width: 80%;
+    transform: translate(-50%,-50%);
+    left: 50%;
+    top: 50%;
+}
+
+.enviar{
+    width: 60px;
+    box-shadow: 0 0 3px black;
+    border-radius: 5px;
+    border-style: none;
+    background: greenyellow;
+    
+    margin: 15px auto;
+
+    display: block;
+    text-align: center;
+    height: 25px;
+}
+
+.enviar:hover{
+    background: rgb(131, 208, 15);
+}
