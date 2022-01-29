@@ -2,14 +2,14 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.NodoAst = void 0;
 class NodoAst {
-    constructor(linea, columna) {
-        this.linea = linea;
+    constructor(line, columna) {
+        this.line = line;
         this.columna = columna;
-        this.linea = linea;
+        this.line = line;
         this.columna = columna;
     }
-    getLinea() {
-        return this.linea;
+    getLine() {
+        return this.line;
     }
     getColumna() {
         return this.columna;

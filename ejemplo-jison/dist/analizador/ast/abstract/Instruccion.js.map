@@ -1,1 +1,1 @@
-{"version":3,"file":"Instruccion.js","sourceRoot":"","sources":["../../../../src/analizador/ast/abstract/Instruccion.ts"],"names":[],"mappings":";;;AACA,uCAAoC;AAEpC,MAAsB,WAAY,SAAQ,iBAAO;IAI7C,YAAY,KAAY,EAAE,OAAc;QACpC,KAAK,CAAC,KAAK,EAAC,OAAO,CAAC,CAAC;IACzB,CAAC;CAKJ;AAXD,kCAWC"}
+{"version":3,"file":"Instruccion.js","sourceRoot":"","sources":["../../../../src/analizador/ast/abstract/Instruccion.ts"],"names":[],"mappings":";;;AAAA,uCAAoC;AAGpC,MAAsB,WAAY,SAAQ,iBAAO;IAE7C,YAAY,IAAW,EAAE,OAAc;QACnC,KAAK,CAAC,IAAI,EAAC,OAAO,CAAC,CAAC;IACxB,CAAC;CAKJ;AATD,kCASC"}

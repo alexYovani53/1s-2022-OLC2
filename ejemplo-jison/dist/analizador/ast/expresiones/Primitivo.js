@@ -8,7 +8,7 @@ class Primitivo extends Expresion_1.Expresion {
         this.valor = valor;
         this.tipo = tipo;
     }
-    getValorImplicido(ent) {
+    getValorImplicito() {
         return { value: this.valor, type: this.tipo };
     }
 }

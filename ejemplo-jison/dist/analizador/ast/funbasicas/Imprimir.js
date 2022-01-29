@@ -7,8 +7,8 @@ class Imprimir extends Instruccion_1.Instruccion {
         super(linea, columna);
         this.expresion = expresion;
     }
-    ejecutar(ent) {
-        let val = this.expresion.getValorImplicido(ent);
+    ejecutar() {
+        let val = this.expresion.getValorImplicito();
         return val.value + "\n";
     }
 }

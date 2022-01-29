@@ -1,5 +1,4 @@
-import { Error_ } from "analizador/Error";
-import { errores } from "analizador/Errores";
+
 import { Expresion } from "../abstract/Expresion";
 import { Retorno, tipo } from "../abstract/Retorno";
 import { Primitivo } from "./Primitivo";
@@ -13,11 +12,43 @@ export enum operador{
     DIVISION
 }
 
+/**
+ *     operando  int    float    string   boolean    null
+ * int          [      |       |         |         |     ]
+ * float        [      |       |         |         |     ]
+ * string       [      |       |         |         |     ]
+ * boolean      [      |       |         |         |     ]
+ * null         [      |       |         |         |     ]
+ */
+
+ const sumaDominante  = [
+    [tipo.INTEGER, tipo.FLOAT, tipo.STRING, tipo.NULL,   tipo.NULL ],
+    [tipo.FLOAT,   tipo.FLOAT, tipo.STRING, tipo.NULL,   tipo.NULL],
+    [tipo.STRING,  tipo.STRING,tipo.STRING, tipo.STRING, tipo.NULL],
+    [tipo.NULL  ,  tipo.NULL,  tipo.STRING, tipo.NULL,   tipo.NULL],
+    [tipo.NULL,    tipo.NULL,  tipo.NULL,   tipo.NULL,   tipo.NULL],
+]
+
+
+const multi_division_Dominante:tipo [][] = [
+    [tipo.INTEGER, tipo.FLOAT, tipo.NULL, tipo.NULL ,tipo.NULL],
+    [tipo.FLOAT,   tipo.FLOAT, tipo.NULL, tipo.NULL,tipo.NULL],
+    [tipo.NULL,    tipo.NULL,  tipo.NULL, tipo.NULL,tipo.NULL],
+    [tipo.NULL,    tipo.NULL,  tipo.NULL, tipo.NULL,tipo.NULL],
+    [tipo.NULL,    tipo.NULL,  tipo.NULL, tipo.NULL,tipo.NULL],
+]
+
+const restaDominante:tipo [][] = [
+    [tipo.INTEGER,tipo.FLOAT, tipo.NULL, tipo.NULL ,tipo.NULL],
+    [tipo.FLOAT,  tipo.FLOAT, tipo.NULL, tipo.NULL, tipo.NULL],
+    [tipo.NULL,   tipo.NULL,  tipo.NULL, tipo.NULL, tipo.NULL],
+    [tipo.NULL,   tipo.NULL,  tipo.NULL, tipo.NULL, tipo.NULL],
+    [tipo.NULL,   tipo.NULL,  tipo.NULL, tipo.NULL, tipo.NULL],
+]
 export class Operacion extends Expresion{
 
     operandoIz: Expresion;
     operandoDe: Expresion;
-    operandoUn: Expresion;
     operador: operador;
     unario: boolean;
 
@@ -47,26 +78,45 @@ export class Operacion extends Expresion{
             valorDer = this.operandoDe.getValorImplicito();
         }
 
+
+        let dominante:tipo;
+
         switch(this.operador){
 
             case operador.MAS:{
 
-                if(valorIz.type==tipo.INTEGER && valorDer.type == tipo.INTEGER) return {value:(valorIz.value + valorDer.value),type:tipo.INTEGER};
-                if(valorIz.type==tipo.INTEGER && valorDer.type == tipo.FLOAT) return {value:(valorIz.value + valorDer.value),type:tipo.FLOAT};
-                if(valorIz.type==tipo.INTEGER && valorDer.type == tipo.STRING) return {value:(valorIz.value + valorDer.value),type:tipo.STRING};
-                if(valorIz.type==tipo.INTEGER && valorDer.type == tipo.BOOLEAN) {
-                    errores.push(new Error_(1,2,"Semantico","No se puede operar Integer con boolean"));
-                }
+                
+                dominante = sumaDominante[valorIz.type][valorDer.type];
 
+                if(dominante == tipo.INTEGER) return {value:(valorIz.value + valorDer.value),type:tipo.INTEGER}
+                else if(dominante == tipo.FLOAT ) return {value:(valorIz.value + valorDer.value),type:tipo.FLOAT};
+                else if(dominante == tipo.STRING ) return {value:(valorIz.value.toString() + valorDer.value.toString()),type:tipo.STRING};
+                else if(dominante == tipo.NULL) return {value: null, type:tipo.NULL} 
             }  
 
             
             case operador.MULTIPLICACION:{
 
-                if(valorIz.type==tipo.INTEGER && valorDer.type == tipo.INTEGER) return {value:(valorIz.value * valorDer.value),type:tipo.INTEGER};
-                if(valorIz.type==tipo.INTEGER && valorDer.type == tipo.FLOAT) return {value:(valorIz.value *valorDer.value),type:tipo.FLOAT};
+                dominante = multi_division_Dominante[valorIz.type][valorDer.type];
 
-            }  
+                if(dominante == tipo.INTEGER ) return {value:(valorIz.value * valorDer.value),type:tipo.INTEGER};
+                else if(dominante == tipo.FLOAT ) return {value:(valorIz.value * valorDer.value),type:tipo.FLOAT};
+                else if(dominante == tipo.NULL) return {value: null, type:tipo.NULL} 
+            } 
+            
+            
+            case operador.DIVISION:
+                {
+
+                    dominante = multi_division_Dominante[valorIz.type][valorDer.type];
+                    if(dominante == tipo.NULL) return {value: null, type:tipo.NULL} 
+                    
+                    if(!valorDer.value || valorDer.value == 0 )  return {value: null, type:tipo.NULL} 
+
+                    if(dominante == tipo.INTEGER ) return {value:(valorIz.value / valorDer.value),type:tipo.INTEGER};
+                    else if(dominante == tipo.FLOAT ) return {value:(valorIz.value / valorDer.value),type:tipo.FLOAT};
+                    
+                }
 
 
         }

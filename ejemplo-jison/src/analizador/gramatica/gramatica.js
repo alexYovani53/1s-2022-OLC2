@@ -96,10 +96,10 @@ case 4:
 this.$ = $$[$0]
 break;
 case 7:
- $$[$0-1].push($$[$0]); this.$ = $$[$0-1]
+ $$[$0-1].push($$[$0]); this.$ = $$[$0-1] 
 break;
 case 8:
-this.$ = [$$[$0]]
+ this.$ = [$$[$0]] 
 break;
 case 9:
  console.error('Este es un error sintáctico: ' + yytext + ', en la linea: ' + this._$.first_line + ', en la columna: ' + this._$.first_column); 
@@ -132,7 +132,7 @@ case 18: case 19:
  this.$ = new Primitivo($$[$0].substring(1,$$[$0].length-1),tipo.STRING);
 break;
 case 20:
- this.$ = $$[$0-1]; 
+ this.$ = $$[$0-1];
 break;
 }
 },
@@ -388,6 +388,7 @@ _handle_error:
 
     const {errores} = require("../Errores");
     const {Error_} = require('../Error');
+	
 	const {Primitivo} = require('../ast/expresiones/Primitivo');
 	const {Operacion,operador} = require('../ast/expresiones/Operacion');
 	const {tipo} = require('../ast/abstract/Retorno');
