@@ -1,0 +1,28 @@
+publico Main: clase [
+		principal ( String {} ): metodo [
+				
+				Sentencia.consola("Resultado: " + (6 + 6));
+
+				declarar ID_1  int  = 8;				
+				declarar ID_2  string  = "Saludo1";
+				declarar ID_3  string  = "Saludo2";	
+				
+				ID_1 =  15; 	
+		
+				if: (ID_1 >= 10)[
+
+						Sentencia.consola("Operacion 1" +  (5*5*5*5*5 + 3*2 - 9/2 * 4% 5));
+						ID_2 = "Cambiando saludo ";
+
+				] entonces if: (ID_1<5)[
+
+						Sentencia.consola( "resultado" (6*5 + 15*2 + 9/2 * 4% 5) );
+						ID_3 = "Saludo 2 -> llego acá";
+
+				] entonces [
+
+						Sentencia.consola( ID_2  + ID_3 );
+					
+				]
+		] 
+]

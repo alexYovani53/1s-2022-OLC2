@@ -30,7 +30,7 @@ export default function App() {
       text:editor1.current.getCode()
     })
     .then(result=>{
-
+      console.log(result)
       editor2.current.establecerCodigo(result.data.val);
     })
     .catch(err=>console.log(err))
