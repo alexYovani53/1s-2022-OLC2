@@ -1,10 +1,5 @@
 parser grammar Calc;
-/*
 
-  antlr4 -Dlanguage=Go  CalcLexer.g4
-  antlr4 -Dlanguage=Go  Calc.g4
-
- */
 
 
 options {

@@ -1,0 +1,98 @@
+2022-02-11 13:31:48:406 grammar LogManager.java:25 before: (PARSER_GRAMMAR Calculadora (OPTIONS (= tokenVocab CalLexer)) (RULES (RULE inicio (returns int salida) (@ init {
+    $salida = 10
+}) (BLOCK (ALT expresion))) (RULE expresion (returns  int salida) (BLOCK (ALT (= opIz expresion) (= op (BLOCK (ALT ADD) (ALT SUB))) (= opDe expresion)) (ALT (= opIz expresion) (= op (BLOCK (ALT MUL) (ALT DIV))) (= opDe expresion)) (ALT primitivo))) (RULE primitivo (returns int salida) (BLOCK (ALT NUMBER)))))
+2022-02-11 13:31:48:436 grammar LogManager.java:25 after: (PARSER_GRAMMAR Calculadora (OPTIONS (= tokenVocab CalLexer)) (RULES (RULE inicio (returns int salida) (@ init {
+    $salida = 10
+}) (BLOCK (ALT expresion))) (RULE expresion (returns  int salida) (BLOCK (ALT (= opIz expresion) (= op (SET ADD SUB)) (= opDe expresion)) (ALT (= opIz expresion) (= op (SET MUL DIV)) (= opDe expresion)) (ALT primitivo))) (RULE primitivo (returns int salida) (BLOCK (ALT NUMBER)))))
+2022-02-11 13:31:49:074 left-recursion LogManager.java:25 expresion returns [ int salida]
+    :   ( {} primitivo<tokenIndex=98> 
+        )
+        (
+          {p.Precpred(p.GetParserRuleContext(), 3)}?<p=3> op = (ADD<tokenIndex=55> | SUB<tokenIndex=59> ) opDe = expresion<tokenIndex=67,p=4>
+                  | {p.Precpred(p.GetParserRuleContext(), 2)}?<p=2> op = (MUL<tokenIndex=82> | DIV<tokenIndex=86> ) opDe = expresion<tokenIndex=94,p=3>
+        )*
+    ;
+2022-02-11 13:31:49:098 grammar LogManager.java:25 added: (RULE expresion (returns  int salida) (BLOCK (ALT (BLOCK (ALT {} (primitivo (ELEMENT_OPTIONS (= tokenIndex 98))))) (* (BLOCK (ALT ({p.Precpred(p.GetParserRuleContext(), 3)}? (ELEMENT_OPTIONS (= p 3))) (= op (SET (ADD (ELEMENT_OPTIONS (= tokenIndex 55))) (SUB (ELEMENT_OPTIONS (= tokenIndex 59))))) (= opDe (expresion (ELEMENT_OPTIONS (= tokenIndex 67) (= p 4))))) (ALT ({p.Precpred(p.GetParserRuleContext(), 2)}? (ELEMENT_OPTIONS (= p 2))) (= op (SET (MUL (ELEMENT_OPTIONS (= tokenIndex 82))) (DIV (ELEMENT_OPTIONS (= tokenIndex 86))))) (= opDe (expresion (ELEMENT_OPTIONS (= tokenIndex 94) (= p 3))))))))))
+2022-02-11 13:31:49:142 grammar LogManager.java:25 import LP=1
+2022-02-11 13:31:49:143 grammar LogManager.java:25 import RP=2
+2022-02-11 13:31:49:143 grammar LogManager.java:25 import L_LLAVE=3
+2022-02-11 13:31:49:143 grammar LogManager.java:25 import R_LLAVE=4
+2022-02-11 13:31:49:144 grammar LogManager.java:25 import SYSTEM=5
+2022-02-11 13:31:49:144 grammar LogManager.java:25 import OUT=6
+2022-02-11 13:31:49:144 grammar LogManager.java:25 import PRINTLN=7
+2022-02-11 13:31:49:145 grammar LogManager.java:25 import INTTYPE=8
+2022-02-11 13:31:49:145 grammar LogManager.java:25 import FLOATTYPE=9
+2022-02-11 13:31:49:145 grammar LogManager.java:25 import STRINGTYPE=10
+2022-02-11 13:31:49:145 grammar LogManager.java:25 import BOOLTYPE=11
+2022-02-11 13:31:49:145 grammar LogManager.java:25 import PUNTO=12
+2022-02-11 13:31:49:145 grammar LogManager.java:25 import COMA=13
+2022-02-11 13:31:49:145 grammar LogManager.java:25 import PTCOMA=14
+2022-02-11 13:31:49:145 grammar LogManager.java:25 import AND=15
+2022-02-11 13:31:49:145 grammar LogManager.java:25 import OR=16
+2022-02-11 13:31:49:145 grammar LogManager.java:25 import NOT=17
+2022-02-11 13:31:49:145 grammar LogManager.java:25 import IGUAL=18
+2022-02-11 13:31:49:146 grammar LogManager.java:25 import DIFERENTE=19
+2022-02-11 13:31:49:146 grammar LogManager.java:25 import MAYORIGUAL=20
+2022-02-11 13:31:49:146 grammar LogManager.java:25 import MENORIGUAL=21
+2022-02-11 13:31:49:146 grammar LogManager.java:25 import MAYOR=22
+2022-02-11 13:31:49:146 grammar LogManager.java:25 import MENOR=23
+2022-02-11 13:31:49:146 grammar LogManager.java:25 import MUL=24
+2022-02-11 13:31:49:147 grammar LogManager.java:25 import DIV=25
+2022-02-11 13:31:49:147 grammar LogManager.java:25 import ADD=26
+2022-02-11 13:31:49:147 grammar LogManager.java:25 import SUB=27
+2022-02-11 13:31:49:148 grammar LogManager.java:25 import NUMBER=28
+2022-02-11 13:31:49:148 grammar LogManager.java:25 import FLOAT=29
+2022-02-11 13:31:49:148 grammar LogManager.java:25 import STRING=30
+2022-02-11 13:31:49:148 grammar LogManager.java:25 import ID=31
+2022-02-11 13:31:49:148 grammar LogManager.java:25 import TRUE=32
+2022-02-11 13:31:49:148 grammar LogManager.java:25 import FALSE=33
+2022-02-11 13:31:49:148 grammar LogManager.java:25 import WHITESPACE=34
+2022-02-11 13:31:49:148 grammar LogManager.java:25 import AB=35
+2022-02-11 13:31:49:148 grammar LogManager.java:25 import '('=1
+2022-02-11 13:31:49:148 grammar LogManager.java:25 import ')'=2
+2022-02-11 13:31:49:148 grammar LogManager.java:25 import '{'=3
+2022-02-11 13:31:49:148 grammar LogManager.java:25 import '}'=4
+2022-02-11 13:31:49:149 grammar LogManager.java:25 import 'system'=5
+2022-02-11 13:31:49:149 grammar LogManager.java:25 import 'out'=6
+2022-02-11 13:31:49:149 grammar LogManager.java:25 import 'println'=7
+2022-02-11 13:31:49:149 grammar LogManager.java:25 import 'int'=8
+2022-02-11 13:31:49:149 grammar LogManager.java:25 import 'float'=9
+2022-02-11 13:31:49:149 grammar LogManager.java:25 import 'string'=10
+2022-02-11 13:31:49:149 grammar LogManager.java:25 import 'boolean'=11
+2022-02-11 13:31:49:150 grammar LogManager.java:25 import '.'=12
+2022-02-11 13:31:49:150 grammar LogManager.java:25 import ','=13
+2022-02-11 13:31:49:150 grammar LogManager.java:25 import ';'=14
+2022-02-11 13:31:49:150 grammar LogManager.java:25 import '&&'=15
+2022-02-11 13:31:49:150 grammar LogManager.java:25 import '||'=16
+2022-02-11 13:31:49:150 grammar LogManager.java:25 import '!'=17
+2022-02-11 13:31:49:150 grammar LogManager.java:25 import '='=18
+2022-02-11 13:31:49:150 grammar LogManager.java:25 import '!='=19
+2022-02-11 13:31:49:150 grammar LogManager.java:25 import '>='=20
+2022-02-11 13:31:49:150 grammar LogManager.java:25 import '<='=21
+2022-02-11 13:31:49:151 grammar LogManager.java:25 import '>'=22
+2022-02-11 13:31:49:151 grammar LogManager.java:25 import '<'=23
+2022-02-11 13:31:49:151 grammar LogManager.java:25 import '*'=24
+2022-02-11 13:31:49:151 grammar LogManager.java:25 import '/'=25
+2022-02-11 13:31:49:151 grammar LogManager.java:25 import '+'=26
+2022-02-11 13:31:49:151 grammar LogManager.java:25 import '-'=27
+2022-02-11 13:31:49:153 grammar LogManager.java:25 import 'true'=32
+2022-02-11 13:31:49:154 grammar LogManager.java:25 tokens={LP=1, RP=2, L_LLAVE=3, R_LLAVE=4, SYSTEM=5, OUT=6, PRINTLN=7, INTTYPE=8, FLOATTYPE=9, STRINGTYPE=10, BOOLTYPE=11, PUNTO=12, COMA=13, PTCOMA=14, AND=15, OR=16, NOT=17, IGUAL=18, DIFERENTE=19, MAYORIGUAL=20, MENORIGUAL=21, MAYOR=22, MENOR=23, MUL=24, DIV=25, ADD=26, SUB=27, NUMBER=28, FLOAT=29, STRING=30, ID=31, TRUE=32, FALSE=33, WHITESPACE=34, AB=35, '('=1, ')'=2, '{'=3, '}'=4, 'system'=5, 'out'=6, 'println'=7, 'int'=8, 'float'=9, 'string'=10, 'boolean'=11, '.'=12, ','=13, ';'=14, '&&'=15, '||'=16, '!'=17, '='=18, '!='=19, '>='=20, '<='=21, '>'=22, '<'=23, '*'=24, '/'=25, '+'=26, '-'=27, 'true'=32}
+2022-02-11 13:31:49:155 semantics LogManager.java:25 tokens={EOF=-1, LP=1, RP=2, L_LLAVE=3, R_LLAVE=4, SYSTEM=5, OUT=6, PRINTLN=7, INTTYPE=8, FLOATTYPE=9, STRINGTYPE=10, BOOLTYPE=11, PUNTO=12, COMA=13, PTCOMA=14, AND=15, OR=16, NOT=17, IGUAL=18, DIFERENTE=19, MAYORIGUAL=20, MENORIGUAL=21, MAYOR=22, MENOR=23, MUL=24, DIV=25, ADD=26, SUB=27, NUMBER=28, FLOAT=29, STRING=30, ID=31, TRUE=32, FALSE=33, WHITESPACE=34, AB=35}
+2022-02-11 13:31:49:155 semantics LogManager.java:25 strings={'('=1, ')'=2, '{'=3, '}'=4, 'system'=5, 'out'=6, 'println'=7, 'int'=8, 'float'=9, 'string'=10, 'boolean'=11, '.'=12, ','=13, ';'=14, '&&'=15, '||'=16, '!'=17, '='=18, '!='=19, '>='=20, '<='=21, '>'=22, '<'=23, '*'=24, '/'=25, '+'=26, '-'=27, 'true'=32}
+2022-02-11 13:31:49:267 LL1 LogManager.java:25 
+DECISION 0 in rule expresion
+2022-02-11 13:31:49:276 LL1 LogManager.java:25 look=[null, null]
+2022-02-11 13:31:49:276 LL1 LogManager.java:25 LL(1)? false
+2022-02-11 13:31:49:277 LL1 LogManager.java:25 
+DECISION 1 in rule expresion
+2022-02-11 13:31:49:277 LL1 LogManager.java:25 look=[null, null]
+2022-02-11 13:31:49:277 LL1 LogManager.java:25 LL(1)? false
+2022-02-11 13:31:50:052 action-translator LogManager.java:25 translate 
+    $salida = 10
+
+2022-02-11 13:31:50:054 action-translator LogManager.java:25 attr [@-1,7:12='salida',<0>,23:5]
+2022-02-11 13:31:50:076 action-translator LogManager.java:25 translate 
+2022-02-11 13:31:50:078 action-translator LogManager.java:25 translate p.Precpred(p.GetParserRuleContext(), 3)
+2022-02-11 13:31:50:081 action-translator LogManager.java:25 translate p.Precpred(p.GetParserRuleContext(), 2)
+2022-02-11 13:31:50:086 action-translator LogManager.java:25 translate p.Precpred(p.GetParserRuleContext(), 3)
+2022-02-11 13:31:50:086 action-translator LogManager.java:25 translate p.Precpred(p.GetParserRuleContext(), 2)

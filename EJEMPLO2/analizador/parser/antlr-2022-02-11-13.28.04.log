@@ -1,0 +1,14 @@
+2022-02-11 13:28:03:211 grammar LogManager.java:25 before: (PARSER_GRAMMAR Calculadora (OPTIONS (= tokenVocab CalLexer)) (RULES (RULE inicio (returns int salida) (BLOCK (ALT expresion))) (RULE expresion (returns  int salida) (BLOCK (ALT (= opIz expresion) (= op (BLOCK (ALT ADD) (ALT SUB))) (= opDe expresion)) (ALT (= opIz expresion) (= op (BLOCK (ALT MUL) (ALT DIV))) (= opDe expresion)) (ALT primitivo))) (RULE primitivo (returns int salida) (BLOCK (ALT NUMBER)))))
+2022-02-11 13:28:03:254 grammar LogManager.java:25 after: (PARSER_GRAMMAR Calculadora (OPTIONS (= tokenVocab CalLexer)) (RULES (RULE inicio (returns int salida) (BLOCK (ALT expresion))) (RULE expresion (returns  int salida) (BLOCK (ALT (= opIz expresion) (= op (SET ADD SUB)) (= opDe expresion)) (ALT (= opIz expresion) (= op (SET MUL DIV)) (= opDe expresion)) (ALT primitivo))) (RULE primitivo (returns int salida) (BLOCK (ALT NUMBER)))))
+2022-02-11 13:28:03:924 left-recursion LogManager.java:25 expresion returns [ int salida]
+    :   ( {} primitivo<tokenIndex=94> 
+        )
+        (
+          {p.Precpred(p.GetParserRuleContext(), 3)}?<p=3> op = (ADD<tokenIndex=51> | SUB<tokenIndex=55> ) opDe = expresion<tokenIndex=63,p=4>
+                  | {p.Precpred(p.GetParserRuleContext(), 2)}?<p=2> op = (MUL<tokenIndex=78> | DIV<tokenIndex=82> ) opDe = expresion<tokenIndex=90,p=3>
+        )*
+    ;
+2022-02-11 13:28:03:948 grammar LogManager.java:25 added: (RULE expresion (returns  int salida) (BLOCK (ALT (BLOCK (ALT {} (primitivo (ELEMENT_OPTIONS (= tokenIndex 94))))) (* (BLOCK (ALT ({p.Precpred(p.GetParserRuleContext(), 3)}? (ELEMENT_OPTIONS (= p 3))) (= op (SET (ADD (ELEMENT_OPTIONS (= tokenIndex 51))) (SUB (ELEMENT_OPTIONS (= tokenIndex 55))))) (= opDe (expresion (ELEMENT_OPTIONS (= tokenIndex 63) (= p 4))))) (ALT ({p.Precpred(p.GetParserRuleContext(), 2)}? (ELEMENT_OPTIONS (= p 2))) (= op (SET (MUL (ELEMENT_OPTIONS (= tokenIndex 78))) (DIV (ELEMENT_OPTIONS (= tokenIndex 82))))) (= opDe (expresion (ELEMENT_OPTIONS (= tokenIndex 90) (= p 3))))))))))
+2022-02-11 13:28:04:000 grammar LogManager.java:25 tokens={}
+2022-02-11 13:28:04:031 semantics LogManager.java:25 tokens={EOF=-1, ADD=1, SUB=2, MUL=3, DIV=4, NUMBER=5}
+2022-02-11 13:28:04:031 semantics LogManager.java:25 strings={}
