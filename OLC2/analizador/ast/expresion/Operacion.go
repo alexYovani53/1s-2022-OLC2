@@ -4,29 +4,31 @@ import (
 	interfaces2 "OLC2/analizador/ast/interfaces"
 	"OLC2/analizador/entorno"
 	"fmt"
+	"reflect"
+	"strconv"
 )
 
-var suma_dominante = [5][5]interfaces2.TipoDato{
-	{interfaces2.INTEGER, interfaces2.FLOAT, interfaces2.STRING, interfaces2.NULL, interfaces2.NULL},
-	{interfaces2.FLOAT, interfaces2.FLOAT, interfaces2.STRING, interfaces2.NULL, interfaces2.NULL},
-	{interfaces2.STRING, interfaces2.STRING, interfaces2.STRING, interfaces2.STRING, interfaces2.NULL},
-	{interfaces2.NULL, interfaces2.NULL, interfaces2.STRING, interfaces2.NULL, interfaces2.NULL},
-	{interfaces2.NULL, interfaces2.NULL, interfaces2.NULL, interfaces2.NULL, interfaces2.NULL},
+var suma_dominante = [5][5]entorno.TipoDato{
+	{entorno.INTEGER, entorno.FLOAT, entorno.STRING, entorno.NULL, entorno.NULL},
+	{entorno.FLOAT, entorno.FLOAT, entorno.STRING, entorno.NULL, entorno.NULL},
+	{entorno.STRING, entorno.STRING, entorno.STRING, entorno.STRING, entorno.NULL},
+	{entorno.NULL, entorno.NULL, entorno.STRING, entorno.NULL, entorno.NULL},
+	{entorno.NULL, entorno.NULL, entorno.NULL, entorno.NULL, entorno.NULL},
 }
 
-var multi_division_dominante = [5][5]interfaces2.TipoDato{
-	{interfaces2.INTEGER, interfaces2.FLOAT, interfaces2.NULL, interfaces2.NULL, interfaces2.NULL},
-	{interfaces2.FLOAT, interfaces2.FLOAT, interfaces2.NULL, interfaces2.NULL, interfaces2.NULL},
-	{interfaces2.NULL, interfaces2.NULL, interfaces2.NULL, interfaces2.NULL, interfaces2.NULL},
-	{interfaces2.NULL, interfaces2.NULL, interfaces2.NULL, interfaces2.NULL, interfaces2.NULL},
-	{interfaces2.NULL, interfaces2.NULL, interfaces2.NULL, interfaces2.NULL, interfaces2.NULL},
+var multi_division_dominante = [5][5]entorno.TipoDato{
+	{entorno.INTEGER, entorno.FLOAT, entorno.NULL, entorno.NULL, entorno.NULL},
+	{entorno.FLOAT, entorno.FLOAT, entorno.NULL, entorno.NULL, entorno.NULL},
+	{entorno.NULL, entorno.NULL, entorno.NULL, entorno.NULL, entorno.NULL},
+	{entorno.NULL, entorno.NULL, entorno.NULL, entorno.NULL, entorno.NULL},
+	{entorno.NULL, entorno.NULL, entorno.NULL, entorno.NULL, entorno.NULL},
 }
-var resta_dominante = [5][5]interfaces2.TipoDato{
-	{interfaces2.INTEGER, interfaces2.FLOAT, interfaces2.NULL, interfaces2.NULL, interfaces2.NULL},
-	{interfaces2.FLOAT, interfaces2.FLOAT, interfaces2.NULL, interfaces2.NULL, interfaces2.NULL},
-	{interfaces2.NULL, interfaces2.NULL, interfaces2.NULL, interfaces2.NULL, interfaces2.NULL},
-	{interfaces2.NULL, interfaces2.NULL, interfaces2.NULL, interfaces2.NULL, interfaces2.NULL},
-	{interfaces2.NULL, interfaces2.NULL, interfaces2.NULL, interfaces2.NULL, interfaces2.NULL},
+var resta_dominante = [5][5]entorno.TipoDato{
+	{entorno.INTEGER, entorno.FLOAT, entorno.NULL, entorno.NULL, entorno.NULL},
+	{entorno.FLOAT, entorno.FLOAT, entorno.NULL, entorno.NULL, entorno.NULL},
+	{entorno.NULL, entorno.NULL, entorno.NULL, entorno.NULL, entorno.NULL},
+	{entorno.NULL, entorno.NULL, entorno.NULL, entorno.NULL, entorno.NULL},
+	{entorno.NULL, entorno.NULL, entorno.NULL, entorno.NULL, entorno.NULL},
 }
 
 type Operacion struct {
@@ -42,19 +44,33 @@ func NewOperacion(Op1 interfaces2.Expresion, Operador string, Op2 interfaces2.Ex
 	return e
 }
 
-func (p Operacion) ObtenerValor(entorno entorno.Entorno) interfaces2.RetornoType {
+func (p Operacion) ObtenerValor(ent entorno.Entorno) entorno.RetornoType {
 
-	var retornoIzq interfaces2.RetornoType
-	var retornoDer interfaces2.RetornoType
+	var retornoIzq entorno.RetornoType
+	var retornoDer entorno.RetornoType
 
 	if p.Unario == true {
-		retornoIzq = p.Op1.ObtenerValor(entorno)
+		retornoIzq = p.Op1.ObtenerValor(ent)
 	} else {
-		retornoIzq = p.Op1.ObtenerValor(entorno)
-		retornoDer = p.Op2.ObtenerValor(entorno)
+
+		if reflect.TypeOf(p.Op1).Name() == "Identificador" {
+			existeIzquierdo := ent.ExisteSimbolo(p.Op1.(Identificador).Identificador)
+			if !existeIzquierdo {
+				return entorno.RetornoType{Tipo: entorno.NULL, Valor: nil}
+			}
+		}
+		if reflect.TypeOf(p.Op2).Name() == "Identificador" {
+			existeDerecho := ent.ExisteSimbolo(p.Op2.(Identificador).Identificador)
+			if !existeDerecho {
+				return entorno.RetornoType{Tipo: entorno.NULL, Valor: nil}
+			}
+		}
+
+		retornoIzq = p.Op1.ObtenerValor(ent)
+		retornoDer = p.Op2.ObtenerValor(ent)
 	}
 
-	var dominante interfaces2.TipoDato
+	var dominante entorno.TipoDato
 
 	switch p.Operador {
 	case "+":
@@ -62,21 +78,30 @@ func (p Operacion) ObtenerValor(entorno entorno.Entorno) interfaces2.RetornoType
 
 			dominante = suma_dominante[retornoIzq.Tipo][retornoDer.Tipo]
 
-			if dominante == interfaces2.INTEGER {
+			if dominante == entorno.INTEGER {
 
 				fmt.Println(retornoIzq.Tipo)
 				fmt.Println(retornoDer.Tipo)
 
-				return interfaces2.RetornoType{Tipo: dominante, Valor: retornoIzq.Valor.(int) + retornoDer.Valor.(int)}
+				/*
 
-			} else if dominante == interfaces2.FLOAT {
-				return interfaces2.RetornoType{Tipo: dominante, Valor: retornoIzq.Valor.(float64) + retornoDer.Valor.(float64)}
+					nuevaVariable :=   variable.(instrucciones.Imprimir)
 
-			} else if dominante == interfaces2.STRING {
+				*/
+
+				return entorno.RetornoType{Tipo: dominante, Valor: retornoIzq.Valor.(int) + retornoDer.Valor.(int)}
+
+			} else if dominante == entorno.FLOAT {
+				val1, _ := strconv.ParseFloat(fmt.Sprintf("%v", retornoIzq.Valor), 64)
+				val2, _ := strconv.ParseFloat(fmt.Sprintf("%v", retornoDer.Valor), 64)
+				return entorno.RetornoType{Tipo: dominante, Valor: val1 + val2}
+
+			} else if dominante == entorno.STRING {
+				
 				r1 := fmt.Sprintf("%v", retornoIzq.Valor)
 				r2 := fmt.Sprintf("%v", retornoDer.Valor)
 
-				return interfaces2.RetornoType{Tipo: dominante, Valor: r1 + r2}
+				return entorno.RetornoType{Tipo: dominante, Valor: r1 + r2}
 			}
 
 		}
@@ -85,18 +110,54 @@ func (p Operacion) ObtenerValor(entorno entorno.Entorno) interfaces2.RetornoType
 		{
 			dominante = multi_division_dominante[retornoIzq.Tipo][retornoDer.Tipo]
 
-			if dominante == interfaces2.INTEGER {
-				return interfaces2.RetornoType{Tipo: dominante, Valor: retornoIzq.Valor.(int) * retornoDer.Valor.(int)}
+			if dominante == entorno.INTEGER {
+				return entorno.RetornoType{Tipo: dominante, Valor: retornoIzq.Valor.(int) * retornoDer.Valor.(int)}
 
-			} else if dominante == interfaces2.FLOAT {
-				return interfaces2.RetornoType{Tipo: dominante, Valor: retornoIzq.Valor.(float64) * retornoDer.Valor.(float64)}
+			} else if dominante == entorno.FLOAT {
+				val1, _ := strconv.ParseFloat(fmt.Sprintf("%v", retornoIzq.Valor), 64)
+				val2, _ := strconv.ParseFloat(fmt.Sprintf("%v", retornoDer.Valor), 64)
+				return entorno.RetornoType{Tipo: dominante, Valor: val1 * val2}
 
-			} else if dominante == interfaces2.NULL {
-				return interfaces2.RetornoType{Tipo: dominante, Valor: nil}
+			} else if dominante == entorno.NULL {
+				return entorno.RetornoType{Tipo: dominante, Valor: nil}
 			}
 
 		}
+	case "-":
+		{
+			if p.Unario {
+
+				if retornoIzq.Tipo != entorno.INTEGER && retornoIzq.Tipo != entorno.FLOAT {
+					return entorno.RetornoType{Tipo: entorno.NULL, Valor: nil}
+				}
+
+				if retornoIzq.Tipo == entorno.INTEGER {
+					return entorno.RetornoType{Tipo: retornoIzq.Tipo, Valor: -1 * retornoIzq.Valor.(int)}
+				} else if retornoIzq.Tipo == entorno.FLOAT {
+					return entorno.RetornoType{Tipo: retornoIzq.Tipo, Valor: -1 * retornoIzq.Valor.(float64)}
+				}
+
+			} else {
+				dominante = resta_dominante[retornoIzq.Tipo][retornoDer.Tipo]
+
+				if dominante == entorno.INTEGER {
+
+					fmt.Println(retornoIzq.Tipo)
+					fmt.Println(retornoDer.Tipo)
+
+					return entorno.RetornoType{Tipo: dominante, Valor: retornoIzq.Valor.(int) - retornoDer.Valor.(int)}
+
+				} else if dominante == entorno.FLOAT {
+					val1, _ := strconv.ParseFloat(fmt.Sprintf("%v", retornoIzq.Valor), 64)
+					val2, _ := strconv.ParseFloat(fmt.Sprintf("%v", retornoDer.Valor), 64)
+					return entorno.RetornoType{Tipo: dominante, Valor: val1 - val2}
+
+				} else if dominante == entorno.NULL {
+					return entorno.RetornoType{Tipo: dominante, Valor: nil}
+				}
+			}
+		}
 	}
 
-	return interfaces2.RetornoType{Tipo: interfaces2.NULL, Valor: nil}
+	return entorno.RetornoType{Tipo: entorno.NULL, Valor: nil}
 }

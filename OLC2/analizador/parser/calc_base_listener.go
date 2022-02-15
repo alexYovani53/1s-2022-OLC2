@@ -22,13 +22,16 @@ func (s *BaseCalcListener) EnterEveryRule(ctx antlr.ParserRuleContext) {}
 func (s *BaseCalcListener) ExitEveryRule(ctx antlr.ParserRuleContext) {}
 
 // EnterStart is called when production start is entered.
-func (s *BaseCalcListener) EnterStart(ctx *StartContext) {
-
-
-}
+func (s *BaseCalcListener) EnterStart(ctx *StartContext) {}
 
 // ExitStart is called when production start is exited.
 func (s *BaseCalcListener) ExitStart(ctx *StartContext) {}
+
+// EnterPrueba is called when production prueba is entered.
+func (s *BaseCalcListener) EnterPrueba(ctx *PruebaContext) {}
+
+// ExitPrueba is called when production prueba is exited.
+func (s *BaseCalcListener) ExitPrueba(ctx *PruebaContext) {}
 
 // EnterInstrucciones is called when production instrucciones is entered.
 func (s *BaseCalcListener) EnterInstrucciones(ctx *InstruccionesContext) {}
@@ -41,6 +44,24 @@ func (s *BaseCalcListener) EnterInstruccion(ctx *InstruccionContext) {}
 
 // ExitInstruccion is called when production instruccion is exited.
 func (s *BaseCalcListener) ExitInstruccion(ctx *InstruccionContext) {}
+
+// EnterDeclaracion is called when production declaracion is entered.
+func (s *BaseCalcListener) EnterDeclaracion(ctx *DeclaracionContext) {}
+
+// ExitDeclaracion is called when production declaracion is exited.
+func (s *BaseCalcListener) ExitDeclaracion(ctx *DeclaracionContext) {}
+
+// EnterListides is called when production listides is entered.
+func (s *BaseCalcListener) EnterListides(ctx *ListidesContext) {}
+
+// ExitListides is called when production listides is exited.
+func (s *BaseCalcListener) ExitListides(ctx *ListidesContext) {}
+
+// EnterTiposvars is called when production tiposvars is entered.
+func (s *BaseCalcListener) EnterTiposvars(ctx *TiposvarsContext) {}
+
+// ExitTiposvars is called when production tiposvars is exited.
+func (s *BaseCalcListener) ExitTiposvars(ctx *TiposvarsContext) {}
 
 // EnterExpression is called when production expression is entered.
 func (s *BaseCalcListener) EnterExpression(ctx *ExpressionContext) {}
@@ -59,6 +80,12 @@ func (s *BaseCalcListener) EnterExpr_arit(ctx *Expr_aritContext) {}
 
 // ExitExpr_arit is called when production expr_arit is exited.
 func (s *BaseCalcListener) ExitExpr_arit(ctx *Expr_aritContext) {}
+
+// EnterExpr_valor is called when production expr_valor is entered.
+func (s *BaseCalcListener) EnterExpr_valor(ctx *Expr_valorContext) {}
+
+// ExitExpr_valor is called when production expr_valor is exited.
+func (s *BaseCalcListener) ExitExpr_valor(ctx *Expr_valorContext) {}
 
 // EnterPrimitivo is called when production primitivo is entered.
 func (s *BaseCalcListener) EnterPrimitivo(ctx *PrimitivoContext) {}

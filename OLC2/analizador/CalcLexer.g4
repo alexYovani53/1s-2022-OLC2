@@ -3,16 +3,32 @@ lexer grammar CalcLexer;
 
 // Tokens
 
+
+
+LP       : '(';
+RP       : ')';
+L_LLAVE  : '{';
+R_LLAVE  : '}';
+
+
 SYSTEM:  'system';
 OUT:      'out';
 PRINTLN:   'println';
+INTTYPE:    'int';
+FLOATTYPE:  'float';
+STRINGTYPE: 'string';
+BOOLTYPE:   'boolean';
 
-NUMBER: [0-9]+;
-STRING: '"'~["]*'"';
 
 PUNTO       : '.';
+COMA        : ',';
 PTCOMA      : ';';
-DIFERENTE: '!';
+
+AND:        '&&';
+OR:         '||';
+NOT:         '!' ;
+IGUAL:     '=';
+DIFERENTE: '!=';
 MAYORIGUAL: '>=';
 MENORIGUAL: '<=';
 MAYOR: '>';
@@ -21,13 +37,17 @@ MUL: '*' ;
 DIV: '/' ;
 ADD: '+' ;
 SUB: '-' ;
-LP       : '(';
-RP       : ')';
-L_LLAVE  : '{';
-R_LLAVE  : '}';
 
 
-WHITESPACE: [ \\\r\n\t]+ -> skip;
+NUMBER: [0-9]+;
+FLOAT: [0-9]+[.][0-9]+;
+STRING: '"'~["]*'"';
+ID: [a-zA-Z_] [a-zA-Z0-9_]*;
+TRUE: 'true';
+FALSE: 'false';
+
+
+WHITESPACE: [ \r\n\t]+ -> skip;
 
 fragment
 ESC_SEQ

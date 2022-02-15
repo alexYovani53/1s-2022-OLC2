@@ -1,15 +1,13 @@
 package utilidades
 
 import (
-	"OLC2/analizador/ast/interfaces"
-	"OLC2/analizador/entorno"
+	"OLC2/analizador/ast"
 	parser2 "OLC2/analizador/parser"
-	"fmt"
 )
 
 type TreeShapeListener struct {
 	*parser2.BaseCalcListener
-	Cadena string
+	Ast ast.Ast
 }
 
 func NewTreeShapeListener() *TreeShapeListener {
@@ -17,16 +15,18 @@ func NewTreeShapeListener() *TreeShapeListener {
 }
 
 func (this *TreeShapeListener) ExitStart(ctx *parser2.StartContext) {
-	result := ctx.GetLista()
+	this.Ast = ctx.GetAst()
+
+	/*en := entorno.NewEntorno("hl", nil)
+
 	for i := 0; i < result.Len(); i++ {
 
 		r := result.GetValue(i)
 		if r != nil {
-			val := result.GetValue(i).(interfaces.Instruccion).Ejecutar(entorno.NewEntorno("hl", nil))
-			this.Cadena += fmt.Sprintf("%v", val)
+			val := result.GetValue(i).(interfaces.Instruccion).Ejecutar(en)
 		}
 
-	}
+	}*/
 
 	/*data, err := json.MarshalIndent(result.ToArray(), "", "  ")
 	if err != nil {

@@ -1,6 +1,8 @@
 package utilidades
 
-import "github.com/antlr/antlr4/runtime/Go/antlr"
+import (
+	"github.com/antlr/antlr4/runtime/Go/antlr"
+)
 
 type CustomSyntaxError struct {
 	line, column int

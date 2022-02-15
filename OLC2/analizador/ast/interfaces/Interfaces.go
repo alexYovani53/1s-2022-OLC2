@@ -5,7 +5,7 @@ import (
 )
 
 type Expresion interface {
-	ObtenerValor(entorno entorno.Entorno) RetornoType
+	ObtenerValor(entorno entorno.Entorno) entorno.RetornoType
 }
 
 type Instruccion interface {

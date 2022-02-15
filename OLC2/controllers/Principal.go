@@ -1,6 +1,9 @@
 package controllers
 
 import (
+	"OLC2/analizador"
+	"OLC2/analizador/ast/interfaces"
+	"OLC2/analizador/entorno"
 	parser2 "OLC2/analizador/parser"
 	"OLC2/utilidades"
 	"encoding/json"
@@ -23,7 +26,7 @@ func Inicio() http.HandlerFunc {
 func Data() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
-		
+
 		var solicitu Solicitud
 
 		if err := json.NewDecoder(r.Body).Decode(&solicitu); err != nil {
@@ -63,8 +66,19 @@ func Data() http.HandlerFunc {
 			antlr.ParseTreeWalkerDefault.Walk(listener, tree)
 		}
 
-		fmt.Println(listener.Cadena)
+		AST := listener.Ast
 
-		json.NewEncoder(w).Encode(map[string]interface{}{"val": listener.Cadena})
+		ENTORNO_GLOBAL := entorno.NewEntorno("GLOBAL", nil)
+
+		for i := 0; i < AST.ListaInstrucciones.Len(); i++ {
+
+			r := AST.ListaInstrucciones.GetValue(i)
+			if r != nil {
+				r.(interfaces.Instruccion).Ejecutar(ENTORNO_GLOBAL)
+			}
+
+		}
+
+		json.NewEncoder(w).Encode(map[string]interface{}{"val": analizador.Consola})
 	}
 }

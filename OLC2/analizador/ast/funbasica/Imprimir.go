@@ -1,8 +1,10 @@
 package funbasica
 
 import (
+	analizador2 "OLC2/analizador"
 	"OLC2/analizador/ast/interfaces"
 	"OLC2/analizador/entorno"
+	"fmt"
 )
 
 type Imprimir struct {
@@ -14,9 +16,14 @@ func NewImprimir(val interfaces.Expresion) Imprimir {
 	return e
 }
 
-func (p Imprimir) Ejecutar(entorno entorno.Entorno) interface{} {
+func (p Imprimir) Ejecutar(ent entorno.Entorno) interface{} {
 
-	retornoExpr := p.Expresiones.ObtenerValor(entorno)
+	retornoExpr := p.Expresiones.ObtenerValor(ent)
 
-	return retornoExpr.Valor
+	conSalto := fmt.Sprintf("%v", retornoExpr.Valor)
+	conSalto = conSalto + "\n"
+
+	analizador2.Consola += conSalto
+
+	return nil
 }
