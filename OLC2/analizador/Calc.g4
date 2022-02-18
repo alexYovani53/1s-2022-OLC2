@@ -11,6 +11,7 @@ options {
     import "OLC2/analizador/ast/expresion"
     import "OLC2/analizador/ast/funbasica"
     import "OLC2/analizador/ast/definicion"
+    import "OLC2/analizador/ast/control"
     import "OLC2/analizador/entorno"
     import arrayList "github.com/colegno/arraylist"
 }
@@ -34,10 +35,24 @@ prueba
 
 /*
     {
+            FORMA 1
+            instruccion instruccion  instruccion instruccion instruccion 
 
-            instruccion instruccion instruccion
+             recolector +=  instruccion+
 
-            recolector +=  instruccion+
+
+            FORMA 2 
+            list return [retornoLista]
+              : pivote = list listaItem   pivote.retornoLista.Add( ....... )
+                                          retornoLista = pivote
+
+              | listaItem                 retornoLista.Add(listaItem.instruccion)
+            ;
+
+            listaItem return [instruccion]
+              : instruccion
+            ;
+
 
             System.println("hola")   instruccion
             System.println("hola")   instruccion
@@ -88,8 +103,13 @@ instrucciones returns [*arrayList.List l]
 
 
 instruccion returns [interfaces.Instruccion instr]
-  : SYSTEM '.' OUT '.' PRINTLN LP expression RP ';'             {$instr = funbasica.NewImprimir($expression.p)}
+  : consola ';'                                                 {$instr = $consola.instr}
   | declaracion ';'                                             {$instr = $declaracion.instr}
+  | if_instr                                                    {$instr = $if_instr.instr}
+;
+
+consola returns [interfaces.Instruccion instr]
+    : SYSTEM '.' OUT '.' PRINTLN LP expression RP             {$instr = funbasica.NewImprimir($expression.p)}
 ;
 
 declaracion returns [interfaces.Instruccion instr]
@@ -97,6 +117,88 @@ declaracion returns [interfaces.Instruccion instr]
                                                                     $instr = definicion.NewDeclaracionInicializacion($listides.lista,$tiposvars.tipo,$expression.p)
                                                                 }
 ;
+
+
+/**
+    if(expresion){
+      instr
+      inst
+      inst.....
+    }
+
+    if(expresion){
+
+    }else {
+
+    }
+
+
+    if(expresion){
+
+    }else if(expresion) {
+      
+    }else if(expresion) {
+      
+    }else if(expresion) {
+      
+    }
+
+    
+    if(expresion){
+
+    }else if(expresion) {
+      
+    }else{
+        inst.
+        inst.
+        inst.
+    }
+
+ */
+
+if_instr returns [interfaces.Instruccion instr]
+  : IF_T LP expression RP bloque                                    {$instr = control.NewIfInstruccion($expression.p,$bloque.contenido,nil,nil)}
+  | IF_T LP expression RP bprincipal= bloque ELSE_T belse = bloque  {$instr = control.NewIfInstruccion($expression.p,$bprincipal.contenido,nil,$belse.contenido)}
+  | IF_T LP expression RP bprincipal= bloque listaelseif            {$instr = control.NewIfInstruccion($expression.p,$bloque.contenido,$listaelseif.lista,nil)}
+  | IF_T LP expression RP bprincipal= bloque listaelseif ELSE_T belse = bloque {$instr = control.NewIfInstruccion($expression.p,$bprincipal.contenido,$listaelseif.lista,$belse.contenido)}
+;
+
+listaelseif returns[*arrayList.List lista]
+@init{
+  $lista =  arrayList.New()
+}
+    : list += else_if+   {
+
+                          pivoteLista := localctx.(*ListaelseifContext).GetList()
+
+                          for _ , e := range pivoteLista {
+                            $lista.Add(e.GetInstr())
+                          }
+
+    }
+;
+
+else_if returns[interfaces.Instruccion instr]
+    : ELSE_T IF_T LP expression RP bloque        {$instr = control.NewIfInstruccion($expression.p,$bloque.contenido,nil,nil)}
+;
+
+bloque returns [*arrayList.List contenido]
+  : L_LLAVE instrucciones R_LLAVE       {$contenido = $instrucciones.l}
+  | L_LLAVE  R_LLAVE                    {$contenido = arrayList.New() }
+;
+
+/*
+
+  {
+
+    inst
+    inst
+
+  }
+
+
+ */
+
 
 /*
     RETORNO TIPO LISTA   [lista]
@@ -134,6 +236,9 @@ tiposvars returns[entorno.TipoDato tipo]
 expression returns[interfaces.Expresion p]
     : expr_rel                                                  {$p = $expr_rel.p}
     | expr_arit                                                 {$p = $expr_arit.p}
+
+    // localctx.(ExpressionContext).GetExpr_arit().GetStart().GetLine()
+    // localctx.(ExpressionContext).GetExpr_arit().GetStart().GetColumn()
 ;
 
 
@@ -188,12 +293,14 @@ expr_rel returns[interfaces.Expresion p]
 ;
 
 expr_arit returns[interfaces.Expresion p]
-
     : '-' opU = expression                                      {$p = expresion.NewOperacion($opU.p,"-",nil,true)}
     | opIz = expr_arit op=('*'|'/') opDe = expr_arit            {$p = expresion.NewOperacion($opIz.p,$op.text,$opDe.p,false)}
     | opIz = expr_arit op=('+'|'-') opDe = expr_arit            {$p = expresion.NewOperacion($opIz.p,$op.text,$opDe.p,false)}
     | expr_valor                                                {$p = $expr_valor.p}
     | LP expression RP                                          {$p = $expression.p}
+
+
+
 ;
 
 expr_valor returns[interfaces.Expresion p]
@@ -220,11 +327,10 @@ primitivo returns[interfaces.Expresion p]
                                                                     str:= $STRING.text[1:len($STRING.text)-1]
                                                                     $p = expresion.NewPrimitivo(str,entorno.STRING)
                                                                 }
-
+    | ID                                                        { $p = expresion.NewIdentificador($ID.text)}
     | TRUE                                                      { $p = expresion.NewPrimitivo(true,entorno.BOOLEAN)}
     | FALSE                                                     { $p = expresion.NewPrimitivo(false,entorno.BOOLEAN)}
-    | ID                                                        { $p = expresion.NewIdentificador($ID.text)}
-
+    
 ;
 
 

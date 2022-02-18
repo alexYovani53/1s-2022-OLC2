@@ -20,8 +20,23 @@ type CalcListener interface {
 	// EnterInstruccion is called when entering the instruccion production.
 	EnterInstruccion(c *InstruccionContext)
 
+	// EnterConsola is called when entering the consola production.
+	EnterConsola(c *ConsolaContext)
+
 	// EnterDeclaracion is called when entering the declaracion production.
 	EnterDeclaracion(c *DeclaracionContext)
+
+	// EnterIf_instr is called when entering the if_instr production.
+	EnterIf_instr(c *If_instrContext)
+
+	// EnterListaelseif is called when entering the listaelseif production.
+	EnterListaelseif(c *ListaelseifContext)
+
+	// EnterElse_if is called when entering the else_if production.
+	EnterElse_if(c *Else_ifContext)
+
+	// EnterBloque is called when entering the bloque production.
+	EnterBloque(c *BloqueContext)
 
 	// EnterListides is called when entering the listides production.
 	EnterListides(c *ListidesContext)
@@ -56,8 +71,23 @@ type CalcListener interface {
 	// ExitInstruccion is called when exiting the instruccion production.
 	ExitInstruccion(c *InstruccionContext)
 
+	// ExitConsola is called when exiting the consola production.
+	ExitConsola(c *ConsolaContext)
+
 	// ExitDeclaracion is called when exiting the declaracion production.
 	ExitDeclaracion(c *DeclaracionContext)
+
+	// ExitIf_instr is called when exiting the if_instr production.
+	ExitIf_instr(c *If_instrContext)
+
+	// ExitListaelseif is called when exiting the listaelseif production.
+	ExitListaelseif(c *ListaelseifContext)
+
+	// ExitElse_if is called when exiting the else_if production.
+	ExitElse_if(c *Else_ifContext)
+
+	// ExitBloque is called when exiting the bloque production.
+	ExitBloque(c *BloqueContext)
 
 	// ExitListides is called when exiting the listides production.
 	ExitListides(c *ListidesContext)

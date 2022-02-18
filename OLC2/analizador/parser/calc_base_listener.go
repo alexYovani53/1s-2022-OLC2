@@ -45,11 +45,41 @@ func (s *BaseCalcListener) EnterInstruccion(ctx *InstruccionContext) {}
 // ExitInstruccion is called when production instruccion is exited.
 func (s *BaseCalcListener) ExitInstruccion(ctx *InstruccionContext) {}
 
+// EnterConsola is called when production consola is entered.
+func (s *BaseCalcListener) EnterConsola(ctx *ConsolaContext) {}
+
+// ExitConsola is called when production consola is exited.
+func (s *BaseCalcListener) ExitConsola(ctx *ConsolaContext) {}
+
 // EnterDeclaracion is called when production declaracion is entered.
 func (s *BaseCalcListener) EnterDeclaracion(ctx *DeclaracionContext) {}
 
 // ExitDeclaracion is called when production declaracion is exited.
 func (s *BaseCalcListener) ExitDeclaracion(ctx *DeclaracionContext) {}
+
+// EnterIf_instr is called when production if_instr is entered.
+func (s *BaseCalcListener) EnterIf_instr(ctx *If_instrContext) {}
+
+// ExitIf_instr is called when production if_instr is exited.
+func (s *BaseCalcListener) ExitIf_instr(ctx *If_instrContext) {}
+
+// EnterListaelseif is called when production listaelseif is entered.
+func (s *BaseCalcListener) EnterListaelseif(ctx *ListaelseifContext) {}
+
+// ExitListaelseif is called when production listaelseif is exited.
+func (s *BaseCalcListener) ExitListaelseif(ctx *ListaelseifContext) {}
+
+// EnterElse_if is called when production else_if is entered.
+func (s *BaseCalcListener) EnterElse_if(ctx *Else_ifContext) {}
+
+// ExitElse_if is called when production else_if is exited.
+func (s *BaseCalcListener) ExitElse_if(ctx *Else_ifContext) {}
+
+// EnterBloque is called when production bloque is entered.
+func (s *BaseCalcListener) EnterBloque(ctx *BloqueContext) {}
+
+// ExitBloque is called when production bloque is exited.
+func (s *BaseCalcListener) ExitBloque(ctx *BloqueContext) {}
 
 // EnterListides is called when production listides is entered.
 func (s *BaseCalcListener) EnterListides(ctx *ListidesContext) {}

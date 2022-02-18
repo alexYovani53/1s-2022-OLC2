@@ -19,6 +19,9 @@ FLOATTYPE:  'float';
 STRINGTYPE: 'string';
 BOOLTYPE:   'boolean';
 
+IF_T:    'if';
+ELSE_T:   'else';
+
 
 PUNTO       : '.';
 COMA        : ',';
@@ -42,9 +45,10 @@ SUB: '-' ;
 NUMBER: [0-9]+;
 FLOAT: [0-9]+[.][0-9]+;
 STRING: '"'~["]*'"';
-ID: [a-zA-Z_] [a-zA-Z0-9_]*;
+
 TRUE: 'true';
 FALSE: 'false';
+ID: [a-zA-Z_] [a-zA-Z0-9_]*;
 
 
 WHITESPACE: [ \r\n\t]+ -> skip;

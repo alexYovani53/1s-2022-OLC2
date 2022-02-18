@@ -28,6 +28,7 @@ func Data() http.HandlerFunc {
 		w.Header().Set("Content-Type", "application/json")
 
 		var solicitu Solicitud
+		analizador.Consola = ""
 
 		if err := json.NewDecoder(r.Body).Decode(&solicitu); err != nil {
 			w.WriteHeader(http.StatusBadRequest)

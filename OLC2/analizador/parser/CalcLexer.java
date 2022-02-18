@@ -1,4 +1,4 @@
-// Generated from e:\Documentos\Cursos Sistemas\PracticasFinales\OLC2-LABORATORIO\OLC2\analizador\CalcLexer.g4 by ANTLR 4.8
+// Generated from CalcLexer.g4 by ANTLR 4.7.2
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.Token;
@@ -10,7 +10,7 @@ import org.antlr.v4.runtime.misc.*;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
 public class CalcLexer extends Lexer {
-	static { RuntimeMetaData.checkVersion("4.8", RuntimeMetaData.VERSION); }
+	static { RuntimeMetaData.checkVersion("4.7.2", RuntimeMetaData.VERSION); }
 
 	protected static final DFA[] _decisionToDFA;
 	protected static final PredictionContextCache _sharedContextCache =
@@ -20,7 +20,7 @@ public class CalcLexer extends Lexer {
 		FLOATTYPE=9, STRINGTYPE=10, BOOLTYPE=11, IF_T=12, ELSE_T=13, PUNTO=14, 
 		COMA=15, PTCOMA=16, AND=17, OR=18, NOT=19, IGUAL=20, DIFERENTE=21, MAYORIGUAL=22, 
 		MENORIGUAL=23, MAYOR=24, MENOR=25, MUL=26, DIV=27, ADD=28, SUB=29, NUMBER=30, 
-		FLOAT=31, STRING=32, TRUE=33, FALSE=34, ID=35, WHITESPACE=36;
+		FLOAT=31, STRING=32, ID=33, TRUE=34, FALSE=35, WHITESPACE=36;
 	public static String[] channelNames = {
 		"DEFAULT_TOKEN_CHANNEL", "HIDDEN"
 	};
@@ -35,7 +35,7 @@ public class CalcLexer extends Lexer {
 			"FLOATTYPE", "STRINGTYPE", "BOOLTYPE", "IF_T", "ELSE_T", "PUNTO", "COMA", 
 			"PTCOMA", "AND", "OR", "NOT", "IGUAL", "DIFERENTE", "MAYORIGUAL", "MENORIGUAL", 
 			"MAYOR", "MENOR", "MUL", "DIV", "ADD", "SUB", "NUMBER", "FLOAT", "STRING", 
-			"TRUE", "FALSE", "ID", "WHITESPACE", "ESC_SEQ"
+			"ID", "TRUE", "FALSE", "WHITESPACE", "ESC_SEQ"
 		};
 	}
 	public static final String[] ruleNames = makeRuleNames();
@@ -45,7 +45,7 @@ public class CalcLexer extends Lexer {
 			null, "'('", "')'", "'{'", "'}'", "'system'", "'out'", "'println'", "'int'", 
 			"'float'", "'string'", "'boolean'", "'if'", "'else'", "'.'", "','", "';'", 
 			"'&&'", "'||'", "'!'", "'='", "'!='", "'>='", "'<='", "'>'", "'<'", "'*'", 
-			"'/'", "'+'", "'-'", null, null, null, "'true'", "'false'"
+			"'/'", "'+'", "'-'", null, null, null, null, "'true'", "'false'"
 		};
 	}
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
@@ -55,7 +55,7 @@ public class CalcLexer extends Lexer {
 			"FLOATTYPE", "STRINGTYPE", "BOOLTYPE", "IF_T", "ELSE_T", "PUNTO", "COMA", 
 			"PTCOMA", "AND", "OR", "NOT", "IGUAL", "DIFERENTE", "MAYORIGUAL", "MENORIGUAL", 
 			"MAYOR", "MENOR", "MUL", "DIV", "ADD", "SUB", "NUMBER", "FLOAT", "STRING", 
-			"TRUE", "FALSE", "ID", "WHITESPACE"
+			"ID", "TRUE", "FALSE", "WHITESPACE"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -130,10 +130,10 @@ public class CalcLexer extends Lexer {
 		"\3\24\3\24\3\25\3\25\3\26\3\26\3\26\3\27\3\27\3\27\3\30\3\30\3\30\3\31"+
 		"\3\31\3\32\3\32\3\33\3\33\3\34\3\34\3\35\3\35\3\36\3\36\3\37\6\37\u00b0"+
 		"\n\37\r\37\16\37\u00b1\3 \6 \u00b5\n \r \16 \u00b6\3 \3 \6 \u00bb\n \r"+
-		" \16 \u00bc\3!\3!\7!\u00c1\n!\f!\16!\u00c4\13!\3!\3!\3\"\3\"\3\"\3\"\3"+
-		"\"\3#\3#\3#\3#\3#\3#\3$\3$\7$\u00d5\n$\f$\16$\u00d8\13$\3%\6%\u00db\n"+
-		"%\r%\16%\u00dc\3%\3%\3&\3&\3&\2\2\'\3\3\5\4\7\5\t\6\13\7\r\b\17\t\21\n"+
-		"\23\13\25\f\27\r\31\16\33\17\35\20\37\21!\22#\23%\24\'\25)\26+\27-\30"+
+		" \16 \u00bc\3!\3!\7!\u00c1\n!\f!\16!\u00c4\13!\3!\3!\3\"\3\"\7\"\u00ca"+
+		"\n\"\f\"\16\"\u00cd\13\"\3#\3#\3#\3#\3#\3$\3$\3$\3$\3$\3$\3%\6%\u00db"+
+		"\n%\r%\16%\u00dc\3%\3%\3&\3&\3&\2\2\'\3\3\5\4\7\5\t\6\13\7\r\b\17\t\21"+
+		"\n\23\13\25\f\27\r\31\16\33\17\35\20\37\21!\22#\23%\24\'\25)\26+\27-\30"+
 		"/\31\61\32\63\33\65\34\67\359\36;\37= ?!A\"C#E$G%I&K\2\3\2\t\3\2\62;\3"+
 		"\2\60\60\3\2$$\5\2C\\aac|\6\2\62;C\\aac|\5\2\13\f\17\17\"\"\t\2\"#%%-"+
 		"-/\60<<BB]_\2\u00e7\2\3\3\2\2\2\2\5\3\2\2\2\2\7\3\2\2\2\2\t\3\2\2\2\2"+
@@ -149,7 +149,7 @@ public class CalcLexer extends Lexer {
 		"\3\2\2\2)\u0097\3\2\2\2+\u0099\3\2\2\2-\u009c\3\2\2\2/\u009f\3\2\2\2\61"+
 		"\u00a2\3\2\2\2\63\u00a4\3\2\2\2\65\u00a6\3\2\2\2\67\u00a8\3\2\2\29\u00aa"+
 		"\3\2\2\2;\u00ac\3\2\2\2=\u00af\3\2\2\2?\u00b4\3\2\2\2A\u00be\3\2\2\2C"+
-		"\u00c7\3\2\2\2E\u00cc\3\2\2\2G\u00d2\3\2\2\2I\u00da\3\2\2\2K\u00e0\3\2"+
+		"\u00c7\3\2\2\2E\u00ce\3\2\2\2G\u00d3\3\2\2\2I\u00da\3\2\2\2K\u00e0\3\2"+
 		"\2\2MN\7*\2\2N\4\3\2\2\2OP\7+\2\2P\6\3\2\2\2QR\7}\2\2R\b\3\2\2\2ST\7\177"+
 		"\2\2T\n\3\2\2\2UV\7u\2\2VW\7{\2\2WX\7u\2\2XY\7v\2\2YZ\7g\2\2Z[\7o\2\2"+
 		"[\f\3\2\2\2\\]\7q\2\2]^\7w\2\2^_\7v\2\2_\16\3\2\2\2`a\7r\2\2ab\7t\2\2"+
@@ -176,15 +176,15 @@ public class CalcLexer extends Lexer {
 		"\2\2\u00bc\u00ba\3\2\2\2\u00bc\u00bd\3\2\2\2\u00bd@\3\2\2\2\u00be\u00c2"+
 		"\7$\2\2\u00bf\u00c1\n\4\2\2\u00c0\u00bf\3\2\2\2\u00c1\u00c4\3\2\2\2\u00c2"+
 		"\u00c0\3\2\2\2\u00c2\u00c3\3\2\2\2\u00c3\u00c5\3\2\2\2\u00c4\u00c2\3\2"+
-		"\2\2\u00c5\u00c6\7$\2\2\u00c6B\3\2\2\2\u00c7\u00c8\7v\2\2\u00c8\u00c9"+
-		"\7t\2\2\u00c9\u00ca\7w\2\2\u00ca\u00cb\7g\2\2\u00cbD\3\2\2\2\u00cc\u00cd"+
-		"\7h\2\2\u00cd\u00ce\7c\2\2\u00ce\u00cf\7n\2\2\u00cf\u00d0\7u\2\2\u00d0"+
-		"\u00d1\7g\2\2\u00d1F\3\2\2\2\u00d2\u00d6\t\5\2\2\u00d3\u00d5\t\6\2\2\u00d4"+
-		"\u00d3\3\2\2\2\u00d5\u00d8\3\2\2\2\u00d6\u00d4\3\2\2\2\u00d6\u00d7\3\2"+
-		"\2\2\u00d7H\3\2\2\2\u00d8\u00d6\3\2\2\2\u00d9\u00db\t\7\2\2\u00da\u00d9"+
-		"\3\2\2\2\u00db\u00dc\3\2\2\2\u00dc\u00da\3\2\2\2\u00dc\u00dd\3\2\2\2\u00dd"+
+		"\2\2\u00c5\u00c6\7$\2\2\u00c6B\3\2\2\2\u00c7\u00cb\t\5\2\2\u00c8\u00ca"+
+		"\t\6\2\2\u00c9\u00c8\3\2\2\2\u00ca\u00cd\3\2\2\2\u00cb\u00c9\3\2\2\2\u00cb"+
+		"\u00cc\3\2\2\2\u00ccD\3\2\2\2\u00cd\u00cb\3\2\2\2\u00ce\u00cf\7v\2\2\u00cf"+
+		"\u00d0\7t\2\2\u00d0\u00d1\7w\2\2\u00d1\u00d2\7g\2\2\u00d2F\3\2\2\2\u00d3"+
+		"\u00d4\7h\2\2\u00d4\u00d5\7c\2\2\u00d5\u00d6\7n\2\2\u00d6\u00d7\7u\2\2"+
+		"\u00d7\u00d8\7g\2\2\u00d8H\3\2\2\2\u00d9\u00db\t\7\2\2\u00da\u00d9\3\2"+
+		"\2\2\u00db\u00dc\3\2\2\2\u00dc\u00da\3\2\2\2\u00dc\u00dd\3\2\2\2\u00dd"+
 		"\u00de\3\2\2\2\u00de\u00df\b%\2\2\u00dfJ\3\2\2\2\u00e0\u00e1\7^\2\2\u00e1"+
-		"\u00e2\t\b\2\2\u00e2L\3\2\2\2\t\2\u00b1\u00b6\u00bc\u00c2\u00d6\u00dc"+
+		"\u00e2\t\b\2\2\u00e2L\3\2\2\2\t\2\u00b1\u00b6\u00bc\u00c2\u00cb\u00dc"+
 		"\3\b\2\2";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
