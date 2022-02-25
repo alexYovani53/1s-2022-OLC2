@@ -2,14 +2,16 @@ package controllers
 
 import (
 	"OLC2/analizador"
-	"OLC2/analizador/ast/interfaces"
 	"OLC2/analizador/entorno"
+	"OLC2/analizador/entorno/Simbolos"
 	parser2 "OLC2/analizador/parser"
 	"OLC2/utilidades"
 	"encoding/json"
 	"fmt"
 	"github.com/antlr/antlr4/runtime/Go/antlr"
+	"github.com/colegno/arraylist"
 	"net/http"
+	"reflect"
 )
 
 type Solicitud struct {
@@ -28,7 +30,6 @@ func Data() http.HandlerFunc {
 		w.Header().Set("Content-Type", "application/json")
 
 		var solicitu Solicitud
-		analizador.Consola = ""
 
 		if err := json.NewDecoder(r.Body).Decode(&solicitu); err != nil {
 			w.WriteHeader(http.StatusBadRequest)
@@ -40,6 +41,7 @@ func Data() http.HandlerFunc {
 
 		//is := antlr.NewInputStream("{system.out.println( \"\nresultado: \"+( 10*1)+ \"\n\") ;system.out.println( \"\nresultado: \"+( 10*1)+ \"\n\") ;}")
 
+		analizador.Consola = ""
 		is := antlr.NewInputStream(solicitu.Text)
 
 		// Creación de lexer
@@ -70,14 +72,25 @@ func Data() http.HandlerFunc {
 		AST := listener.Ast
 
 		ENTORNO_GLOBAL := entorno.NewEntorno("GLOBAL", nil)
+		ListFunciones := arraylist.New()
 
 		for i := 0; i < AST.ListaInstrucciones.Len(); i++ {
 
 			r := AST.ListaInstrucciones.GetValue(i)
 			if r != nil {
-				r.(interfaces.Instruccion).Ejecutar(ENTORNO_GLOBAL)
+				if reflect.TypeOf(r) == reflect.TypeOf(Simbolos.Funcion{}) {
+					ListFunciones.Add(r.(Simbolos.Funcion))
+					ENTORNO_GLOBAL.AgregarFuncion(r.(Simbolos.Funcion).Identificador, r)
+				}
 			}
+		}
 
+		for i := 0; i < ListFunciones.Len(); i++ {
+			funcion := ListFunciones.GetValue(i).(Simbolos.Funcion)
+
+			if funcion.Identificador == "main" {
+				funcion.Ejecutar(ENTORNO_GLOBAL)
+			}
 		}
 
 		json.NewEncoder(w).Encode(map[string]interface{}{"val": analizador.Consola})

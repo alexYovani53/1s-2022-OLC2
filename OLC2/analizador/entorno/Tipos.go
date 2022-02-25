@@ -1,6 +1,7 @@
 package entorno
 
 type TipoDato int
+type TipoModAccess int
 
 const (
 	INTEGER TipoDato = iota
@@ -8,9 +9,15 @@ const (
 	STRING
 	BOOLEAN
 	NULL
+	VOID
 )
 
-type RetornoType struct {
+const (
+	PUBLIC TipoModAccess = iota
+	PRIVATE
+)
+
+type ValorType struct {
 	Tipo  TipoDato
 	Valor interface{}
 }

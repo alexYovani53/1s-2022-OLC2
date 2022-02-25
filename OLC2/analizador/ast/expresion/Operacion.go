@@ -44,25 +44,27 @@ func NewOperacion(Op1 interfaces2.Expresion, Operador string, Op2 interfaces2.Ex
 	return e
 }
 
-func (p Operacion) ObtenerValor(ent entorno.Entorno) entorno.RetornoType {
+func (p Operacion) ObtenerValor(ent entorno.Entorno) entorno.ValorType {
 
-	var retornoIzq entorno.RetornoType
-	var retornoDer entorno.RetornoType
+	var retornoIzq entorno.ValorType
+	var retornoDer entorno.ValorType
 
 	if p.Unario == true {
+
 		retornoIzq = p.Op1.ObtenerValor(ent)
+
 	} else {
 
 		if reflect.TypeOf(p.Op1).Name() == "Identificador" {
 			existeIzquierdo := ent.ExisteSimbolo(p.Op1.(Identificador).Identificador)
 			if !existeIzquierdo {
-				return entorno.RetornoType{Tipo: entorno.NULL, Valor: nil}
+				return entorno.ValorType{Tipo: entorno.NULL, Valor: nil}
 			}
 		}
 		if reflect.TypeOf(p.Op2).Name() == "Identificador" {
 			existeDerecho := ent.ExisteSimbolo(p.Op2.(Identificador).Identificador)
 			if !existeDerecho {
-				return entorno.RetornoType{Tipo: entorno.NULL, Valor: nil}
+				return entorno.ValorType{Tipo: entorno.NULL, Valor: nil}
 			}
 		}
 
@@ -80,28 +82,28 @@ func (p Operacion) ObtenerValor(ent entorno.Entorno) entorno.RetornoType {
 
 			if dominante == entorno.INTEGER {
 
-				fmt.Println(retornoIzq.Tipo)
-				fmt.Println(retornoDer.Tipo)
-
 				/*
 
 					nuevaVariable :=   variable.(instrucciones.Imprimir)
 
 				*/
 
-				return entorno.RetornoType{Tipo: dominante, Valor: retornoIzq.Valor.(int) + retornoDer.Valor.(int)}
+				fmt.Printf(" valor: %v", retornoIzq.Valor)
+				fmt.Printf(" valor: %v", retornoDer.Valor)
+
+				return entorno.ValorType{Tipo: dominante, Valor: retornoIzq.Valor.(int) + retornoDer.Valor.(int)}
 
 			} else if dominante == entorno.FLOAT {
 				val1, _ := strconv.ParseFloat(fmt.Sprintf("%v", retornoIzq.Valor), 64)
 				val2, _ := strconv.ParseFloat(fmt.Sprintf("%v", retornoDer.Valor), 64)
-				return entorno.RetornoType{Tipo: dominante, Valor: val1 + val2}
+				return entorno.ValorType{Tipo: dominante, Valor: val1 + val2}
 
 			} else if dominante == entorno.STRING {
-				
+
 				r1 := fmt.Sprintf("%v", retornoIzq.Valor)
 				r2 := fmt.Sprintf("%v", retornoDer.Valor)
 
-				return entorno.RetornoType{Tipo: dominante, Valor: r1 + r2}
+				return entorno.ValorType{Tipo: dominante, Valor: r1 + r2}
 			}
 
 		}
@@ -111,15 +113,15 @@ func (p Operacion) ObtenerValor(ent entorno.Entorno) entorno.RetornoType {
 			dominante = multi_division_dominante[retornoIzq.Tipo][retornoDer.Tipo]
 
 			if dominante == entorno.INTEGER {
-				return entorno.RetornoType{Tipo: dominante, Valor: retornoIzq.Valor.(int) * retornoDer.Valor.(int)}
+				return entorno.ValorType{Tipo: dominante, Valor: retornoIzq.Valor.(int) * retornoDer.Valor.(int)}
 
 			} else if dominante == entorno.FLOAT {
 				val1, _ := strconv.ParseFloat(fmt.Sprintf("%v", retornoIzq.Valor), 64)
 				val2, _ := strconv.ParseFloat(fmt.Sprintf("%v", retornoDer.Valor), 64)
-				return entorno.RetornoType{Tipo: dominante, Valor: val1 * val2}
+				return entorno.ValorType{Tipo: dominante, Valor: val1 * val2}
 
 			} else if dominante == entorno.NULL {
-				return entorno.RetornoType{Tipo: dominante, Valor: nil}
+				return entorno.ValorType{Tipo: dominante, Valor: nil}
 			}
 
 		}
@@ -127,14 +129,16 @@ func (p Operacion) ObtenerValor(ent entorno.Entorno) entorno.RetornoType {
 		{
 			if p.Unario {
 
+				fmt.Printf("%v ", retornoIzq.Valor)
+
 				if retornoIzq.Tipo != entorno.INTEGER && retornoIzq.Tipo != entorno.FLOAT {
-					return entorno.RetornoType{Tipo: entorno.NULL, Valor: nil}
+					return entorno.ValorType{Tipo: entorno.NULL, Valor: nil}
 				}
 
 				if retornoIzq.Tipo == entorno.INTEGER {
-					return entorno.RetornoType{Tipo: retornoIzq.Tipo, Valor: -1 * retornoIzq.Valor.(int)}
+					return entorno.ValorType{Tipo: retornoIzq.Tipo, Valor: -1 * retornoIzq.Valor.(int)}
 				} else if retornoIzq.Tipo == entorno.FLOAT {
-					return entorno.RetornoType{Tipo: retornoIzq.Tipo, Valor: -1 * retornoIzq.Valor.(float64)}
+					return entorno.ValorType{Tipo: retornoIzq.Tipo, Valor: -1 * retornoIzq.Valor.(float64)}
 				}
 
 			} else {
@@ -145,19 +149,19 @@ func (p Operacion) ObtenerValor(ent entorno.Entorno) entorno.RetornoType {
 					fmt.Println(retornoIzq.Tipo)
 					fmt.Println(retornoDer.Tipo)
 
-					return entorno.RetornoType{Tipo: dominante, Valor: retornoIzq.Valor.(int) - retornoDer.Valor.(int)}
+					return entorno.ValorType{Tipo: dominante, Valor: retornoIzq.Valor.(int) - retornoDer.Valor.(int)}
 
 				} else if dominante == entorno.FLOAT {
 					val1, _ := strconv.ParseFloat(fmt.Sprintf("%v", retornoIzq.Valor), 64)
 					val2, _ := strconv.ParseFloat(fmt.Sprintf("%v", retornoDer.Valor), 64)
-					return entorno.RetornoType{Tipo: dominante, Valor: val1 - val2}
+					return entorno.ValorType{Tipo: dominante, Valor: val1 - val2}
 
 				} else if dominante == entorno.NULL {
-					return entorno.RetornoType{Tipo: dominante, Valor: nil}
+					return entorno.ValorType{Tipo: dominante, Valor: nil}
 				}
 			}
 		}
 	}
 
-	return entorno.RetornoType{Tipo: entorno.NULL, Valor: nil}
+	return entorno.ValorType{Tipo: entorno.NULL, Valor: nil}
 }

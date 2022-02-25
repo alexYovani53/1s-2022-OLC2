@@ -13,7 +13,6 @@ type IfInstruccion struct {
 	ListaInstruccionesPrincipal *arrayList.List
 	ListaIfElse                 *arrayList.List
 	ListaInstruccionesElse      *arrayList.List
-
 }
 
 func NewIfInstruccion(condicion interfaces.Expresion, listaInstruccionesPrincipal *arrayList.List, listaIfElse *arrayList.List, listaInstruccionesElse *arrayList.List) IfInstruccion {
@@ -49,13 +48,45 @@ func (i IfInstruccion) Ejecutar(ent entorno.Entorno) interface{} {
 
 	} else {
 
-		entornoNuevoIf := entorno.NewEntorno("IF", &ent)
-		
-		for j := 0; j < i.ListaInstruccionesElse.Len(); j++ {
+		if i.ListaIfElse != nil {
+			for _, elseIf_instruccion := range i.ListaIfElse.ToArray() {
 
-			instr := i.ListaInstruccionesElse.GetValue(j).(interfaces.Instruccion)
+				nuevoIf := elseIf_instruccion.(IfInstruccion)
 
-			instr.Ejecutar(entornoNuevoIf)
+				retornoCondicionNuevoIf := nuevoIf.Condicion.ObtenerValor(ent)
+
+				if retornoCondicionNuevoIf.Tipo != entorno.BOOLEAN {
+					return nil
+				}
+
+				if retornoCondicionNuevoIf.Valor.(bool) {
+
+					entornoNuevoElseIf := entorno.NewEntorno("Else if", &ent)
+
+					for j := 0; j < nuevoIf.ListaInstruccionesPrincipal.Len(); j++ {
+
+						instr := nuevoIf.ListaInstruccionesPrincipal.GetValue(j).(interfaces.Instruccion)
+
+						instr.Ejecutar(entornoNuevoElseIf)
+					}
+
+					return nil
+				}
+
+			}
+		}
+
+		if i.ListaInstruccionesElse != nil {
+
+			entornoElseFinal := entorno.NewEntorno("entorno Else final", &ent)
+
+			for j := 0; j < i.ListaInstruccionesElse.Len(); j++ {
+
+				instr := i.ListaInstruccionesElse.GetValue(j).(interfaces.Instruccion)
+
+				instr.Ejecutar(entornoElseFinal)
+			}
+
 		}
 
 	}

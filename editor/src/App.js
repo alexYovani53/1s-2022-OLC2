@@ -9,7 +9,7 @@ export default function App() {
 
      const [code, setCode] = React.useState(`public class Main
     {
-        public static void main(String[] args) {
+        public static void main(String args[]) {
             system.out.println("Ejemplo1 " + (5+6--9 + 1));
         }
     }
@@ -36,7 +36,6 @@ export default function App() {
     .catch(err=>console.log(err))
   }
 
-  
 
   return (
     <div className="pagina">
@@ -55,10 +54,10 @@ export default function App() {
             }}
           /> */}
           <div className="container" >
-            <Editor  ref={editor1} cod={code} onClick={setFocus}></Editor>
-            <button className="enviar" onClick={enviarDatos}> Enviar</button>
-            <Editor ref={editor2} cod={""}></Editor>
+            <Editor className="editorT" ref={editor1} cod={code} onClick={setFocus}></Editor>
+            <Editor className="editorT" ref={editor2} cod={""}></Editor>
           </div>
+          <button className="enviar" onClick={enviarDatos}> Enviar</button>
     </div>
 
   );

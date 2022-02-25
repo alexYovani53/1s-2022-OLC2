@@ -4,6 +4,9 @@
     background-size: cover;
     height: 100vh;
     width: 100vw;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
     
 }
 
@@ -15,20 +18,39 @@
     transform: translate(-50%,-50%);
     left: 50%;
     top: 50%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
 }
 
 .enviar{
-    width: 60px;
+    width: 80%;
     box-shadow: 0 0 3px black;
     border-radius: 5px;
     border-style: none;
     background: greenyellow;
     
-    margin: 15px auto;
+    margin: 15px 15px;
 
     display: block;
     text-align: center;
-    height: 25px;
+    height: 30px;
+
+    
+    position: relative;
+    left: 50%;
+    top: 5%;
+    transform: translate(-50%,-50%);
+}
+
+.editorT{
+    width: 45%;
+}
+
+.cm-theme-dark{
+    width: 49%;
+    margin-bottom: 15px;
 }
 
 .enviar:hover{

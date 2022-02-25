@@ -5,12 +5,11 @@ import (
 )
 
 type Expresion interface {
-
-	ObtenerValor(entorno entorno.Entorno) entorno.RetornoType
+	ObtenerValor(ent entorno.Entorno) entorno.ValorType
 }
 
 type Instruccion interface {
-	Ejecutar(entorno entorno.Entorno) interface{}
+	Ejecutar(ent entorno.Entorno) interface{}
 }
 
 // type Instruccion interface {

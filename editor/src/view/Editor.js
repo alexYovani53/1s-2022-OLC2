@@ -25,7 +25,7 @@ const Editor = React.forwardRef((props,referencia) => {
     return (
             <CodeMirror
                 value={code}
-                height="200px"
+                height="450px"
                 theme={'dark'}
                 extensions={[java()]}
                 onChange={(value, viewUpdate) => {

@@ -9,18 +9,32 @@ LP       : '(';
 RP       : ')';
 L_LLAVE  : '{';
 R_LLAVE  : '}';
+L_CORCH  : '[';
+R_CORCH  : ']';
 
 
-SYSTEM:  'system';
 OUT:      'out';
 PRINTLN:   'println';
+
+
+IF_TOK:     'if';
+ELSE:       'else';
+
+ARGS:       'args';
+CLASS:      'class';
+MAIN:       'main';
+PRIVATE:    'private';
+PUBLIC:     'public';
+STATIC:     'static';
+STRINGARGS: 'String';
+RETURN_P:   'return';
+
 INTTYPE:    'int';
 FLOATTYPE:  'float';
 STRINGTYPE: 'string';
+VOIDTYPE:   'void';
+SYSTEM:     'system';
 BOOLTYPE:   'boolean';
-
-IF_T:    'if';
-ELSE_T:   'else';
 
 
 PUNTO       : '.';
@@ -45,9 +59,10 @@ SUB: '-' ;
 NUMBER: [0-9]+;
 FLOAT: [0-9]+[.][0-9]+;
 STRING: '"'~["]*'"';
-
 TRUE: 'true';
 FALSE: 'false';
+
+
 ID: [a-zA-Z_] [a-zA-Z0-9_]*;
 
 

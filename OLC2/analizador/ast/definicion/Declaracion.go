@@ -4,7 +4,6 @@ import (
 	"OLC2/analizador/ast/expresion"
 	"OLC2/analizador/ast/interfaces"
 	"OLC2/analizador/entorno"
-	"encoding/json"
 	"fmt"
 	"github.com/colegno/arraylist"
 )
@@ -38,6 +37,12 @@ func NewDeclaracionInicializacion(listaVars *arraylist.List, tipoVariables entor
 }
 
 func (dec *Declaracion) Ejecutar(ent entorno.Entorno) interface{} {
+
+	/*
+
+		int a,b,c,d;
+
+	*/
 
 	if dec.esInicializado() {
 		if dec.ListaVars.Len() > 1 {
@@ -75,15 +80,6 @@ func (dec *Declaracion) Ejecutar(ent entorno.Entorno) interface{} {
 		}
 
 	}
-
-	data, err := json.MarshalIndent(ent, "", "  ")
-	if err != nil {
-		panic(err)
-	}
-
-	stringEsQuery := string(data)
-	fmt.Println(stringEsQuery)
-	fmt.Printf("%v", dec.ListaVars)
 
 	return nil
 }

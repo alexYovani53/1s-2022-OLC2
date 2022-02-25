@@ -11,20 +11,29 @@ type CalcListener interface {
 	// EnterStart is called when entering the start production.
 	EnterStart(c *StartContext)
 
-	// EnterPrueba is called when entering the prueba production.
-	EnterPrueba(c *PruebaContext)
+	// EnterListaFunciones is called when entering the listaFunciones production.
+	EnterListaFunciones(c *ListaFuncionesContext)
+
+	// EnterFuncionItem is called when entering the funcionItem production.
+	EnterFuncionItem(c *FuncionItemContext)
+
+	// EnterModaccess is called when entering the modaccess production.
+	EnterModaccess(c *ModaccessContext)
+
+	// EnterParametros is called when entering the parametros production.
+	EnterParametros(c *ParametrosContext)
+
+	// EnterFuncmain is called when entering the funcmain production.
+	EnterFuncmain(c *FuncmainContext)
+
+	// EnterBloque is called when entering the bloque production.
+	EnterBloque(c *BloqueContext)
 
 	// EnterInstrucciones is called when entering the instrucciones production.
 	EnterInstrucciones(c *InstruccionesContext)
 
 	// EnterInstruccion is called when entering the instruccion production.
 	EnterInstruccion(c *InstruccionContext)
-
-	// EnterConsola is called when entering the consola production.
-	EnterConsola(c *ConsolaContext)
-
-	// EnterDeclaracion is called when entering the declaracion production.
-	EnterDeclaracion(c *DeclaracionContext)
 
 	// EnterIf_instr is called when entering the if_instr production.
 	EnterIf_instr(c *If_instrContext)
@@ -35,8 +44,23 @@ type CalcListener interface {
 	// EnterElse_if is called when entering the else_if production.
 	EnterElse_if(c *Else_ifContext)
 
-	// EnterBloque is called when entering the bloque production.
-	EnterBloque(c *BloqueContext)
+	// EnterConsola is called when entering the consola production.
+	EnterConsola(c *ConsolaContext)
+
+	// EnterLlamada is called when entering the llamada production.
+	EnterLlamada(c *LlamadaContext)
+
+	// EnterListaExpresiones is called when entering the listaExpresiones production.
+	EnterListaExpresiones(c *ListaExpresionesContext)
+
+	// EnterDeclaracionIni is called when entering the declaracionIni production.
+	EnterDeclaracionIni(c *DeclaracionIniContext)
+
+	// EnterDeclaracion is called when entering the declaracion production.
+	EnterDeclaracion(c *DeclaracionContext)
+
+	// EnterRetorno is called when entering the retorno production.
+	EnterRetorno(c *RetornoContext)
 
 	// EnterListides is called when entering the listides production.
 	EnterListides(c *ListidesContext)
@@ -62,20 +86,29 @@ type CalcListener interface {
 	// ExitStart is called when exiting the start production.
 	ExitStart(c *StartContext)
 
-	// ExitPrueba is called when exiting the prueba production.
-	ExitPrueba(c *PruebaContext)
+	// ExitListaFunciones is called when exiting the listaFunciones production.
+	ExitListaFunciones(c *ListaFuncionesContext)
+
+	// ExitFuncionItem is called when exiting the funcionItem production.
+	ExitFuncionItem(c *FuncionItemContext)
+
+	// ExitModaccess is called when exiting the modaccess production.
+	ExitModaccess(c *ModaccessContext)
+
+	// ExitParametros is called when exiting the parametros production.
+	ExitParametros(c *ParametrosContext)
+
+	// ExitFuncmain is called when exiting the funcmain production.
+	ExitFuncmain(c *FuncmainContext)
+
+	// ExitBloque is called when exiting the bloque production.
+	ExitBloque(c *BloqueContext)
 
 	// ExitInstrucciones is called when exiting the instrucciones production.
 	ExitInstrucciones(c *InstruccionesContext)
 
 	// ExitInstruccion is called when exiting the instruccion production.
 	ExitInstruccion(c *InstruccionContext)
-
-	// ExitConsola is called when exiting the consola production.
-	ExitConsola(c *ConsolaContext)
-
-	// ExitDeclaracion is called when exiting the declaracion production.
-	ExitDeclaracion(c *DeclaracionContext)
 
 	// ExitIf_instr is called when exiting the if_instr production.
 	ExitIf_instr(c *If_instrContext)
@@ -86,8 +119,23 @@ type CalcListener interface {
 	// ExitElse_if is called when exiting the else_if production.
 	ExitElse_if(c *Else_ifContext)
 
-	// ExitBloque is called when exiting the bloque production.
-	ExitBloque(c *BloqueContext)
+	// ExitConsola is called when exiting the consola production.
+	ExitConsola(c *ConsolaContext)
+
+	// ExitLlamada is called when exiting the llamada production.
+	ExitLlamada(c *LlamadaContext)
+
+	// ExitListaExpresiones is called when exiting the listaExpresiones production.
+	ExitListaExpresiones(c *ListaExpresionesContext)
+
+	// ExitDeclaracionIni is called when exiting the declaracionIni production.
+	ExitDeclaracionIni(c *DeclaracionIniContext)
+
+	// ExitDeclaracion is called when exiting the declaracion production.
+	ExitDeclaracion(c *DeclaracionContext)
+
+	// ExitRetorno is called when exiting the retorno production.
+	ExitRetorno(c *RetornoContext)
 
 	// ExitListides is called when exiting the listides production.
 	ExitListides(c *ListidesContext)

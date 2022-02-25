@@ -9,9 +9,9 @@ type Primitivo struct {
 	Tipo  entorno.TipoDato
 }
 
-func (p Primitivo) ObtenerValor(ent entorno.Entorno) entorno.RetornoType {
+func (p Primitivo) ObtenerValor(ent entorno.Entorno) entorno.ValorType {
 
-	return entorno.RetornoType{
+	return entorno.ValorType{
 		Tipo:  p.Tipo,
 		Valor: p.Valor,
 	}

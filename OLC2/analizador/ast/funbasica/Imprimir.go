@@ -19,11 +19,9 @@ func NewImprimir(val interfaces.Expresion) Imprimir {
 func (p Imprimir) Ejecutar(ent entorno.Entorno) interface{} {
 
 	retornoExpr := p.Expresiones.ObtenerValor(ent)
-
 	conSalto := fmt.Sprintf("%v", retornoExpr.Valor)
 	conSalto = conSalto + "\n"
-
 	analizador2.Consola += conSalto
-
+	
 	return nil
 }

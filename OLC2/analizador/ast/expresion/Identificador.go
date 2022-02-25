@@ -12,16 +12,16 @@ func NewIdentificador(identificador string) Identificador {
 	return Identificador{Identificador: identificador}
 }
 
-func (ide Identificador) ObtenerValor(ent entorno.Entorno) entorno.RetornoType {
+func (ide Identificador) ObtenerValor(ent entorno.Entorno) entorno.ValorType {
 
 	var encontrado bool = ent.ExisteSimbolo(ide.Identificador)
 
 	if encontrado == false {
-		return entorno.RetornoType{Valor: nil, Tipo: entorno.NULL}
+		return entorno.ValorType{Valor: nil, Tipo: entorno.NULL}
 	}
 
 	simbo := ent.ObtenerSimbolo(ide.Identificador)
 
-	return entorno.RetornoType{Valor: simbo.Valor, Tipo: simbo.Tipo}
+	return entorno.ValorType{Valor: simbo.Valor, Tipo: simbo.Tipo}
 
 }

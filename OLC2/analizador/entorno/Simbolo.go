@@ -1,5 +1,9 @@
 package entorno
 
+import (
+	"github.com/colegno/arraylist"
+)
+
 type Simbolo struct {
 	Linea         int
 	Columna       int
@@ -8,6 +12,7 @@ type Simbolo struct {
 	Tipo          TipoDato
 	Constante     bool
 	EsFuncion     bool
+	ListaParams   *arraylist.List
 }
 
 /**
@@ -44,3 +49,16 @@ func NewSimboloIdentificadorValor(linea int, columna int, identificador string, 
 	return e
 }
 
+func NewSimboloFuncion(linea int, columna int, identificador string, tipoRet TipoDato, listParametros *arraylist.List) Simbolo {
+	e := Simbolo{
+		Linea:         linea,
+		Columna:       columna,
+		Identificador: identificador,
+		Constante:     false,
+		EsFuncion:     true,
+		Valor:         nil,
+		Tipo:          tipoRet,
+		ListaParams:   listParametros,
+	}
+	return e
+}
