@@ -91,6 +91,7 @@ func Data() http.HandlerFunc {
 			if funcion.Identificador == "main" {
 				funcion.Ejecutar(ENTORNO_GLOBAL)
 			}
+
 		}
 
 		json.NewEncoder(w).Encode(map[string]interface{}{"val": analizador.Consola})

@@ -62,3 +62,16 @@ func NewSimboloFuncion(linea int, columna int, identificador string, tipoRet Tip
 	}
 	return e
 }
+func NewSimboloArreglo(linea int, columna int, identificador string, tipoDatos TipoDato) Simbolo {
+	e := Simbolo{
+		Linea:         linea,
+		Columna:       columna,
+		Identificador: identificador,
+		Constante:     false,
+		EsFuncion:     true,
+		Valor:         nil,
+		Tipo:          tipoDatos,
+		ListaParams:   nil,
+	}
+	return e
+}

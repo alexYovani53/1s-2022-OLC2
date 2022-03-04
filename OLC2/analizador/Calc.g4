@@ -10,10 +10,12 @@ options {
     import "OLC2/analizador/ast"
     import "OLC2/analizador/ast/interfaces"
     import "OLC2/analizador/ast/expresion"
+    import "OLC2/analizador/ast/expresion/Accesos"
     import "OLC2/analizador/ast/funbasica"
     import "OLC2/analizador/ast/definicion"
+    import "OLC2/analizador/ast/definicion/defarreglos"
     import "OLC2/analizador/ast/control"
-    import "OLC2/analizador/ast/other"
+    import "OLC2/analizador/ast/expresion2"
     import "OLC2/analizador/ast/transferenciaFlujo"
     import "OLC2/analizador/entorno"
     import "OLC2/analizador/entorno/Simbolos"
@@ -83,13 +85,6 @@ funcmain returns[interfaces.Instruccion instr]
     { $instr = Simbolos.NewFuncion("main",listaParams,$bloque.lista,entorno.VOID)}
 ;
 
-
-bloque returns [ *arrayList.List  lista]
-    : L_LLAVE instrucciones R_LLAVE                                     {$lista = $instrucciones.lista }
-    | L_LLAVE R_LLAVE                                                   {$lista = arrayList.New()}
-;
-
-
 instrucciones returns [*arrayList.List lista]
 @init{ $lista =  arrayList.New() }
   : e += instruccion+                                           {
@@ -109,8 +104,47 @@ instruccion returns [interfaces.Instruccion instr]
   | declaracion                              ';'                {$instr = $declaracion.instr}
   | llamada                                  ';'                {$instr = $llamada.instr}
   | retorno                                  ';'                {$instr = $retorno.instr}
+  | dec_arr                                  ';'                {$instr = $dec_arr.instr}
 ;
 
+
+//SECCIÓN ARREGLOS
+dec_arr returns [interfaces.Instruccion instr]
+    : tiposvars  dimensiones ID '=' expression                  {$instr = defarreglos.NewDeclaracionArray($dimensiones.tam,$ID.text,$expression.expr,$tiposvars.tipo)}
+;
+
+
+dimensiones returns [int tam]
+@init{ $tam = 0}
+    :  tamano = dimensiones dimension                           {
+
+                                                                    $tam = $tamano.tam + 1
+                                                                 }
+    |  dimension                                                {$tam = 1}
+;
+
+dimension
+    : '[' ']'
+;
+
+
+listanchos returns[*arrayList.List lista]
+@init{
+    $lista = arrayList.New()
+}
+    :  sublist = listanchos ancho                                          {
+                                                                                $sublist.lista.Add($ancho.expr)
+                                                                                $lista = $sublist.lista
+                                                                            }
+    |  ancho                                                                {$lista.Add($ancho.expr)}
+;
+
+ancho   returns [interfaces.Expresion expr]
+    :   '[' expression ']'                                                  {$expr = $expression.expr}
+;
+
+
+// SECCION IF
 
 if_instr  returns [interfaces.Instruccion instr]
     : IF_TOK LP expression RP bloque                                        {$instr = control.NewIfInstruccion($expression.expr,$bloque.lista,nil,nil)}
@@ -135,22 +169,25 @@ else_if returns [interfaces.Instruccion instr]
 ;
 
 
+bloque returns [ *arrayList.List  lista]
+    : L_LLAVE instrucciones R_LLAVE                                     {$lista = $instrucciones.lista }
+    | L_LLAVE R_LLAVE                                                   {$lista = arrayList.New()}
+;
+
+//SECCIÓN SYSTEM . OUT . PRINTLN
+
 consola returns [interfaces.Instruccion instr]
     : SYSTEM '.' OUT '.' PRINTLN LP expression RP                    {$instr = funbasica.NewImprimir($expression.expr)}
 ;
 
-
-
-
-/* LLAMADA**/
-
+//SECCIÓN LLAMADA
 llamada returns [interfaces.Instruccion instr, interfaces.Expresion expr]
     : ID '(' ')'                                                    {
-                                                                        $instr = other.NewLlamada($ID.text, arrayList.New())
-                                                                        $expr = other.NewLlamada($ID.text, arrayList.New())}
+                                                                        $instr = expresion2.NewLlamada($ID.text, arrayList.New())
+                                                                        $expr = expresion2.NewLlamada($ID.text, arrayList.New())}
     | ID '(' listaExpresiones ')'                                   {
-                                                                        $instr = other.NewLlamada($ID.text, $listaExpresiones.lista)
-                                                                        $expr = other.NewLlamada($ID.text, $listaExpresiones.lista)}
+                                                                        $instr = expresion2.NewLlamada($ID.text, $listaExpresiones.lista)
+                                                                        $expr = expresion2.NewLlamada($ID.text, $listaExpresiones.lista)}
 ;
 
 listaExpresiones returns [*arrayList.List lista]
@@ -166,18 +203,21 @@ listaExpresiones returns [*arrayList.List lista]
                                                                      }
 ;
 
+//SECCIÓN DECLARACIÓN INICIALIZADA
 declaracionIni returns [interfaces.Instruccion instr]
     : tiposvars listides '=' expression                              {
                                                                         $instr = definicion.NewDeclaracionInicializacion($listides.lista,$tiposvars.tipo,$expression.expr)
                                                                      }
 ;
 
+//SECCIÓN DECLARACIÓN SIN INICIAR
 declaracion returns [interfaces.Instruccion instr]
     : tiposvars listides                                            {
                                                                         $instr = definicion.NewDeclaracion($listides.lista,$tiposvars.tipo)
                                                                     }
 ;
 
+//SECCIÓN RETURN
 retorno returns [interfaces.Instruccion instr]
     : RETURN_P                                                      { $instr = transferenciaFlujo.NewReturn(entorno.VOID,nil)}
     | RETURN_P  expression                                          { $instr = transferenciaFlujo.NewReturn(entorno.NULL,$expression.expr)}
@@ -203,23 +243,24 @@ tiposvars returns[entorno.TipoDato tipo]
     | VOIDTYPE                                                  {$tipo = entorno.VOID}
 ;
 
-
-
-
-
-
-
-/*
-    SECCION DE EXPRESSIONES ************************************************
- */
-
-
-
-
 expression returns[interfaces.Expresion expr]
     : expr_rel                                                  {$expr = $expr_rel.expr}
     | expr_arit                                                 {$expr = $expr_arit.expr}
+    | instancia                                                 {$expr = $instancia.expr}
+    | arraydata                                                 {$expr = $arraydata.expr}
+;
 
+arraydata returns [interfaces.Expresion expr]
+    : L_LLAVE listaExpresiones R_LLAVE                          {$expr = expresion2.NewValorArreglo($listaExpresiones.lista)}
+;
+
+
+instancia returns[interfaces.Expresion expr]
+    : NEW_ tiposvars listanchos                                 {$expr = expresion2.NewInstanciaArreglo($tiposvars.tipo, $listanchos.lista )}
+;
+
+accesoarr returns[interfaces.Expresion expr]
+    : ID listanchos                                             {$expr = Accesos.NewAccessoArr($ID.text,$listanchos.lista)}
 ;
 
 expr_rel returns[interfaces.Expresion expr]
@@ -228,6 +269,7 @@ expr_rel returns[interfaces.Expresion expr]
 ;
 
 expr_arit returns[interfaces.Expresion expr]
+
     : '-' opU = expression                                      {$expr = expresion.NewOperacion($opU.expr,"-",nil,true)}
     | opIz = expr_arit op=('*'|'/') opDe = expr_arit            {$expr = expresion.NewOperacion($opIz.expr,$op.text,$opDe.expr,false)}
     | opIz = expr_arit op=('+'|'-') opDe = expr_arit            {$expr = expresion.NewOperacion($opIz.expr,$op.text,$opDe.expr,false)}
@@ -238,6 +280,7 @@ expr_arit returns[interfaces.Expresion expr]
 expr_valor returns[interfaces.Expresion expr]
   : primitivo                                                   {$expr = $primitivo.expr}
   | llamada                                                     {$expr = $llamada.expr}
+  | accesoarr                                                   {$expr = $accesoarr.expr}
 ;
 
 primitivo returns[interfaces.Expresion expr]

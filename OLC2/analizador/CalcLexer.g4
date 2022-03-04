@@ -22,6 +22,7 @@ ELSE:       'else';
 
 ARGS:       'args';
 CLASS:      'class';
+NEW_:       'new';
 MAIN:       'main';
 PRIVATE:    'private';
 PUBLIC:     'public';

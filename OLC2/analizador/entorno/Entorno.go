@@ -37,13 +37,13 @@ func (ent *Entorno) ExisteSimbolo(identificador string) bool {
 	return false
 }
 
-func (ent *Entorno) AgregarSimbolo(identificador string, simbolo Simbolo) {
+func (ent *Entorno) AgregarSimbolo(identificador string, simbolo interface{}) {
 	ideFinal := strings.ToLower(identificador)
 
 	ent.Tabla[ideFinal] = simbolo
 }
 
-func (ent *Entorno) ObtenerSimbolo(identificador string) Simbolo {
+func (ent *Entorno) ObtenerSimbolo(identificador string) interface{} {
 
 	ideFinal := strings.ToLower(identificador)
 
@@ -51,7 +51,7 @@ func (ent *Entorno) ObtenerSimbolo(identificador string) Simbolo {
 
 		for key, simboloElement := range entActual.Tabla {
 			if key == ideFinal {
-				return simboloElement.(Simbolo)
+				return simboloElement
 			}
 		}
 
@@ -61,7 +61,7 @@ func (ent *Entorno) ObtenerSimbolo(identificador string) Simbolo {
 	return simboloNil
 }
 
-func (ent *Entorno) CambiarValor(identificador string, simboloNuevo Simbolo) {
+func (ent *Entorno) CambiarValor(identificador string, simboloNuevo interface{}) {
 
 	ideFinal := strings.ToLower(identificador)
 

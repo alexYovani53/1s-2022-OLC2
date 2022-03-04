@@ -10,6 +10,7 @@ const (
 	BOOLEAN
 	NULL
 	VOID
+	ARREGLO
 )
 
 const (

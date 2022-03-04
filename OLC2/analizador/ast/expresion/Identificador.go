@@ -2,6 +2,7 @@ package expresion
 
 import (
 	"OLC2/analizador/entorno"
+	"reflect"
 )
 
 type Identificador struct {
@@ -22,6 +23,11 @@ func (ide Identificador) ObtenerValor(ent entorno.Entorno) entorno.ValorType {
 
 	simbo := ent.ObtenerSimbolo(ide.Identificador)
 
-	return entorno.ValorType{Valor: simbo.Valor, Tipo: simbo.Tipo}
+	if (reflect.TypeOf(simbo) == reflect.TypeOf(entorno.Simbolo{})) {
+		dato := simbo.(entorno.Simbolo)
+		return entorno.ValorType{Valor: dato.Valor, Tipo: dato.Tipo}
+	}
+
+	return entorno.ValorType{Valor: -1, Tipo: entorno.NULL}
 
 }

@@ -50,9 +50,7 @@ func (p Operacion) ObtenerValor(ent entorno.Entorno) entorno.ValorType {
 	var retornoDer entorno.ValorType
 
 	if p.Unario == true {
-
 		retornoIzq = p.Op1.ObtenerValor(ent)
-
 	} else {
 
 		if reflect.TypeOf(p.Op1).Name() == "Identificador" {
@@ -78,6 +76,8 @@ func (p Operacion) ObtenerValor(ent entorno.Entorno) entorno.ValorType {
 	case "+":
 		{
 
+			fmt.Printf("%v -> %v", retornoIzq.Tipo, retornoDer.Tipo)
+
 			dominante = suma_dominante[retornoIzq.Tipo][retornoDer.Tipo]
 
 			if dominante == entorno.INTEGER {
@@ -87,9 +87,6 @@ func (p Operacion) ObtenerValor(ent entorno.Entorno) entorno.ValorType {
 					nuevaVariable :=   variable.(instrucciones.Imprimir)
 
 				*/
-
-				fmt.Printf(" valor: %v", retornoIzq.Valor)
-				fmt.Printf(" valor: %v", retornoDer.Valor)
 
 				return entorno.ValorType{Tipo: dominante, Valor: retornoIzq.Valor.(int) + retornoDer.Valor.(int)}
 
@@ -128,8 +125,6 @@ func (p Operacion) ObtenerValor(ent entorno.Entorno) entorno.ValorType {
 	case "-":
 		{
 			if p.Unario {
-
-				fmt.Printf("%v ", retornoIzq.Valor)
 
 				if retornoIzq.Tipo != entorno.INTEGER && retornoIzq.Tipo != entorno.FLOAT {
 					return entorno.ValorType{Tipo: entorno.NULL, Valor: nil}

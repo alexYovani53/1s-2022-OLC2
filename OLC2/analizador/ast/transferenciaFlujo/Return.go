@@ -10,6 +10,17 @@ type Return struct {
 	Salida interfaces.Expresion
 }
 
+func (r Return) Ejecutar(ent entorno.Entorno) interface{} {
+
+	if r.Tipo == entorno.VOID {
+		return entorno.ValorType{Tipo: entorno.VOID, Valor: 0}
+	}
+
+	retExpresion := r.Salida.ObtenerValor(ent)
+
+	return retExpresion
+
+}
 
 func NewReturn(tipo entorno.TipoDato, salida interfaces.Expresion) Return {
 
@@ -24,16 +35,4 @@ func NewReturn(tipo entorno.TipoDato, salida interfaces.Expresion) Return {
 		Tipo:   tipo,
 		Salida: nil,
 	}
-}
-
-func (r Return) Ejecutar(ent entorno.Entorno) interface{} {
-
-	if r.Tipo == entorno.VOID {
-		return entorno.ValorType{Tipo: entorno.VOID, Valor: 0}
-	}
-
-	retExpresion := r.Salida.ObtenerValor(ent)
-
-	return retExpresion
-
 }

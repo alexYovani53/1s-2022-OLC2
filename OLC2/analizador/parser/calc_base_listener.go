@@ -57,12 +57,6 @@ func (s *BaseCalcListener) EnterFuncmain(ctx *FuncmainContext) {}
 // ExitFuncmain is called when production funcmain is exited.
 func (s *BaseCalcListener) ExitFuncmain(ctx *FuncmainContext) {}
 
-// EnterBloque is called when production bloque is entered.
-func (s *BaseCalcListener) EnterBloque(ctx *BloqueContext) {}
-
-// ExitBloque is called when production bloque is exited.
-func (s *BaseCalcListener) ExitBloque(ctx *BloqueContext) {}
-
 // EnterInstrucciones is called when production instrucciones is entered.
 func (s *BaseCalcListener) EnterInstrucciones(ctx *InstruccionesContext) {}
 
@@ -74,6 +68,36 @@ func (s *BaseCalcListener) EnterInstruccion(ctx *InstruccionContext) {}
 
 // ExitInstruccion is called when production instruccion is exited.
 func (s *BaseCalcListener) ExitInstruccion(ctx *InstruccionContext) {}
+
+// EnterDec_arr is called when production dec_arr is entered.
+func (s *BaseCalcListener) EnterDec_arr(ctx *Dec_arrContext) {}
+
+// ExitDec_arr is called when production dec_arr is exited.
+func (s *BaseCalcListener) ExitDec_arr(ctx *Dec_arrContext) {}
+
+// EnterDimensiones is called when production dimensiones is entered.
+func (s *BaseCalcListener) EnterDimensiones(ctx *DimensionesContext) {}
+
+// ExitDimensiones is called when production dimensiones is exited.
+func (s *BaseCalcListener) ExitDimensiones(ctx *DimensionesContext) {}
+
+// EnterDimension is called when production dimension is entered.
+func (s *BaseCalcListener) EnterDimension(ctx *DimensionContext) {}
+
+// ExitDimension is called when production dimension is exited.
+func (s *BaseCalcListener) ExitDimension(ctx *DimensionContext) {}
+
+// EnterListanchos is called when production listanchos is entered.
+func (s *BaseCalcListener) EnterListanchos(ctx *ListanchosContext) {}
+
+// ExitListanchos is called when production listanchos is exited.
+func (s *BaseCalcListener) ExitListanchos(ctx *ListanchosContext) {}
+
+// EnterAncho is called when production ancho is entered.
+func (s *BaseCalcListener) EnterAncho(ctx *AnchoContext) {}
+
+// ExitAncho is called when production ancho is exited.
+func (s *BaseCalcListener) ExitAncho(ctx *AnchoContext) {}
 
 // EnterIf_instr is called when production if_instr is entered.
 func (s *BaseCalcListener) EnterIf_instr(ctx *If_instrContext) {}
@@ -92,6 +116,12 @@ func (s *BaseCalcListener) EnterElse_if(ctx *Else_ifContext) {}
 
 // ExitElse_if is called when production else_if is exited.
 func (s *BaseCalcListener) ExitElse_if(ctx *Else_ifContext) {}
+
+// EnterBloque is called when production bloque is entered.
+func (s *BaseCalcListener) EnterBloque(ctx *BloqueContext) {}
+
+// ExitBloque is called when production bloque is exited.
+func (s *BaseCalcListener) ExitBloque(ctx *BloqueContext) {}
 
 // EnterConsola is called when production consola is entered.
 func (s *BaseCalcListener) EnterConsola(ctx *ConsolaContext) {}
@@ -146,6 +176,24 @@ func (s *BaseCalcListener) EnterExpression(ctx *ExpressionContext) {}
 
 // ExitExpression is called when production expression is exited.
 func (s *BaseCalcListener) ExitExpression(ctx *ExpressionContext) {}
+
+// EnterArraydata is called when production arraydata is entered.
+func (s *BaseCalcListener) EnterArraydata(ctx *ArraydataContext) {}
+
+// ExitArraydata is called when production arraydata is exited.
+func (s *BaseCalcListener) ExitArraydata(ctx *ArraydataContext) {}
+
+// EnterInstancia is called when production instancia is entered.
+func (s *BaseCalcListener) EnterInstancia(ctx *InstanciaContext) {}
+
+// ExitInstancia is called when production instancia is exited.
+func (s *BaseCalcListener) ExitInstancia(ctx *InstanciaContext) {}
+
+// EnterAccesoarr is called when production accesoarr is entered.
+func (s *BaseCalcListener) EnterAccesoarr(ctx *AccesoarrContext) {}
+
+// ExitAccesoarr is called when production accesoarr is exited.
+func (s *BaseCalcListener) ExitAccesoarr(ctx *AccesoarrContext) {}
 
 // EnterExpr_rel is called when production expr_rel is entered.
 func (s *BaseCalcListener) EnterExpr_rel(ctx *Expr_relContext) {}

@@ -26,14 +26,26 @@ type CalcListener interface {
 	// EnterFuncmain is called when entering the funcmain production.
 	EnterFuncmain(c *FuncmainContext)
 
-	// EnterBloque is called when entering the bloque production.
-	EnterBloque(c *BloqueContext)
-
 	// EnterInstrucciones is called when entering the instrucciones production.
 	EnterInstrucciones(c *InstruccionesContext)
 
 	// EnterInstruccion is called when entering the instruccion production.
 	EnterInstruccion(c *InstruccionContext)
+
+	// EnterDec_arr is called when entering the dec_arr production.
+	EnterDec_arr(c *Dec_arrContext)
+
+	// EnterDimensiones is called when entering the dimensiones production.
+	EnterDimensiones(c *DimensionesContext)
+
+	// EnterDimension is called when entering the dimension production.
+	EnterDimension(c *DimensionContext)
+
+	// EnterListanchos is called when entering the listanchos production.
+	EnterListanchos(c *ListanchosContext)
+
+	// EnterAncho is called when entering the ancho production.
+	EnterAncho(c *AnchoContext)
 
 	// EnterIf_instr is called when entering the if_instr production.
 	EnterIf_instr(c *If_instrContext)
@@ -43,6 +55,9 @@ type CalcListener interface {
 
 	// EnterElse_if is called when entering the else_if production.
 	EnterElse_if(c *Else_ifContext)
+
+	// EnterBloque is called when entering the bloque production.
+	EnterBloque(c *BloqueContext)
 
 	// EnterConsola is called when entering the consola production.
 	EnterConsola(c *ConsolaContext)
@@ -70,6 +85,15 @@ type CalcListener interface {
 
 	// EnterExpression is called when entering the expression production.
 	EnterExpression(c *ExpressionContext)
+
+	// EnterArraydata is called when entering the arraydata production.
+	EnterArraydata(c *ArraydataContext)
+
+	// EnterInstancia is called when entering the instancia production.
+	EnterInstancia(c *InstanciaContext)
+
+	// EnterAccesoarr is called when entering the accesoarr production.
+	EnterAccesoarr(c *AccesoarrContext)
 
 	// EnterExpr_rel is called when entering the expr_rel production.
 	EnterExpr_rel(c *Expr_relContext)
@@ -101,14 +125,26 @@ type CalcListener interface {
 	// ExitFuncmain is called when exiting the funcmain production.
 	ExitFuncmain(c *FuncmainContext)
 
-	// ExitBloque is called when exiting the bloque production.
-	ExitBloque(c *BloqueContext)
-
 	// ExitInstrucciones is called when exiting the instrucciones production.
 	ExitInstrucciones(c *InstruccionesContext)
 
 	// ExitInstruccion is called when exiting the instruccion production.
 	ExitInstruccion(c *InstruccionContext)
+
+	// ExitDec_arr is called when exiting the dec_arr production.
+	ExitDec_arr(c *Dec_arrContext)
+
+	// ExitDimensiones is called when exiting the dimensiones production.
+	ExitDimensiones(c *DimensionesContext)
+
+	// ExitDimension is called when exiting the dimension production.
+	ExitDimension(c *DimensionContext)
+
+	// ExitListanchos is called when exiting the listanchos production.
+	ExitListanchos(c *ListanchosContext)
+
+	// ExitAncho is called when exiting the ancho production.
+	ExitAncho(c *AnchoContext)
 
 	// ExitIf_instr is called when exiting the if_instr production.
 	ExitIf_instr(c *If_instrContext)
@@ -118,6 +154,9 @@ type CalcListener interface {
 
 	// ExitElse_if is called when exiting the else_if production.
 	ExitElse_if(c *Else_ifContext)
+
+	// ExitBloque is called when exiting the bloque production.
+	ExitBloque(c *BloqueContext)
 
 	// ExitConsola is called when exiting the consola production.
 	ExitConsola(c *ConsolaContext)
@@ -145,6 +184,15 @@ type CalcListener interface {
 
 	// ExitExpression is called when exiting the expression production.
 	ExitExpression(c *ExpressionContext)
+
+	// ExitArraydata is called when exiting the arraydata production.
+	ExitArraydata(c *ArraydataContext)
+
+	// ExitInstancia is called when exiting the instancia production.
+	ExitInstancia(c *InstanciaContext)
+
+	// ExitAccesoarr is called when exiting the accesoarr production.
+	ExitAccesoarr(c *AccesoarrContext)
 
 	// ExitExpr_rel is called when exiting the expr_rel production.
 	ExitExpr_rel(c *Expr_relContext)
