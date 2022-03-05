@@ -244,7 +244,8 @@ tiposvars returns[entorno.TipoDato tipo]
 ;
 
 expression returns[interfaces.Expresion expr]
-    : expr_rel                                                  {$expr = $expr_rel.expr}
+    : expr_valor                                                {$expr = $expr_valor.expr}
+    | expr_rel                                                  {$expr = $expr_rel.expr}
     | expr_arit                                                 {$expr = $expr_arit.expr}
     | instancia                                                 {$expr = $instancia.expr}
     | arraydata                                                 {$expr = $arraydata.expr}
