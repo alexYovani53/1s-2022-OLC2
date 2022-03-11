@@ -49,7 +49,7 @@ public class CalcLexer extends Lexer {
 			null, "'('", "')'", "'{'", "'}'", "'['", "']'", "'out'", "'println'", 
 			"'if'", "'else'", "'args'", "'class'", "'new'", "'main'", "'private'", 
 			"'public'", "'static'", "'String'", "'return'", "'int'", "'float'", "'string'", 
-			"'void'", "'system'", "'boolean'", "'.'", "','", "';'", "'&&'", "'||'", 
+			"'void'", "'System'", "'boolean'", "'.'", "','", "';'", "'&&'", "'||'", 
 			"'!'", "'='", "'!='", "'>='", "'<='", "'>'", "'<'", "'*'", "'/'", "'+'", 
 			"'-'", null, null, null, "'true'", "'false'"
 		};
@@ -194,7 +194,7 @@ public class CalcLexer extends Lexer {
 		",\3\2\2\2\u00c7\u00c8\7u\2\2\u00c8\u00c9\7v\2\2\u00c9\u00ca\7t\2\2\u00ca"+
 		"\u00cb\7k\2\2\u00cb\u00cc\7p\2\2\u00cc\u00cd\7i\2\2\u00cd.\3\2\2\2\u00ce"+
 		"\u00cf\7x\2\2\u00cf\u00d0\7q\2\2\u00d0\u00d1\7k\2\2\u00d1\u00d2\7f\2\2"+
-		"\u00d2\60\3\2\2\2\u00d3\u00d4\7u\2\2\u00d4\u00d5\7{\2\2\u00d5\u00d6\7"+
+		"\u00d2\60\3\2\2\2\u00d3\u00d4\7U\2\2\u00d4\u00d5\7{\2\2\u00d5\u00d6\7"+
 		"u\2\2\u00d6\u00d7\7v\2\2\u00d7\u00d8\7g\2\2\u00d8\u00d9\7o\2\2\u00d9\62"+
 		"\3\2\2\2\u00da\u00db\7d\2\2\u00db\u00dc\7q\2\2\u00dc\u00dd\7q\2\2\u00dd"+
 		"\u00de\7n\2\2\u00de\u00df\7g\2\2\u00df\u00e0\7c\2\2\u00e0\u00e1\7p\2\2"+

@@ -31,3 +31,21 @@ func (ide Identificador) ObtenerValor(ent entorno.Entorno) entorno.ValorType {
 	return entorno.ValorType{Valor: -1, Tipo: entorno.NULL}
 
 }
+
+func (ide Identificador) ObtenerReferencia(ent entorno.Entorno) entorno.ValorType {
+
+	var encontrado bool = ent.ExisteSimbolo(ide.Identificador)
+
+	if encontrado == false {
+		return entorno.ValorType{Valor: nil, Tipo: entorno.NULL}
+	}
+
+	simbo := ent.ObtenerSimboloRef(ide.Identificador)
+
+	if simbo == nil {
+		return entorno.ValorType{Valor: -1, Tipo: entorno.NULL}
+	}
+
+	return entorno.ValorType{Valor: simbo, Tipo: entorno.NULL}
+
+}

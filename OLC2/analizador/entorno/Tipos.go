@@ -11,6 +11,7 @@ const (
 	NULL
 	VOID
 	ARREGLO
+	OBJETO
 )
 
 const (

@@ -2,6 +2,8 @@ package controllers
 
 import (
 	"OLC2/analizador"
+	"OLC2/analizador/ast/definicion"
+	"OLC2/analizador/ast/interfaces"
 	"OLC2/analizador/entorno"
 	"OLC2/analizador/entorno/Simbolos"
 	parser2 "OLC2/analizador/parser"
@@ -9,7 +11,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/antlr/antlr4/runtime/Go/antlr"
-	"github.com/colegno/arraylist"
 	"net/http"
 	"reflect"
 )
@@ -72,28 +73,75 @@ func Data() http.HandlerFunc {
 		AST := listener.Ast
 
 		ENTORNO_GLOBAL := entorno.NewEntorno("GLOBAL", nil)
-		ListFunciones := arraylist.New()
 
 		for i := 0; i < AST.ListaInstrucciones.Len(); i++ {
 
 			r := AST.ListaInstrucciones.GetValue(i)
 			if r != nil {
-				if reflect.TypeOf(r) == reflect.TypeOf(Simbolos.Funcion{}) {
-					ListFunciones.Add(r.(Simbolos.Funcion))
-					ENTORNO_GLOBAL.AgregarFuncion(r.(Simbolos.Funcion).Identificador, r)
+				if reflect.TypeOf(r) == reflect.TypeOf(definicion.DefClase{}) {
+					def_CLASE := r.(definicion.DefClase)
+					def_CLASE.Ejecutar(ENTORNO_GLOBAL)
 				}
 			}
+
 		}
 
-		for i := 0; i < ListFunciones.Len(); i++ {
-			funcion := ListFunciones.GetValue(i).(Simbolos.Funcion)
+		salir := false
 
-			if funcion.Identificador == "main" {
-				funcion.Ejecutar(ENTORNO_GLOBAL)
+		for _, element := range ENTORNO_GLOBAL.TablaClases {
+
+			pivotClass := element.(*entorno.Clase)
+
+			if salir {
+				break
+			}
+
+			for j := 0; j < pivotClass.Instrucciones.Len(); j++ {
+
+				buscar := pivotClass.Instrucciones.GetValue(j)
+
+				if (reflect.TypeOf(buscar) == reflect.TypeOf(Simbolos.Funcion{})) {
+
+					if buscar.(Simbolos.Funcion).Identificador == "main" {
+
+						CREAR_MAIN(*pivotClass, ENTORNO_GLOBAL)
+
+						MAIN_FN := buscar.(Simbolos.Funcion)
+						MAIN_FN.Ejecutar(ENTORNO_GLOBAL)
+
+						salir = true
+						break
+					}
+				}
 			}
 
 		}
 
 		json.NewEncoder(w).Encode(map[string]interface{}{"val": analizador.Consola})
 	}
+}
+
+func CREAR_MAIN(MAIN entorno.Clase, ent entorno.Entorno) {
+	for x := 0; x < MAIN.Instrucciones.Len(); x++ {
+
+		r := MAIN.Instrucciones.GetValue(x)
+
+		if r != nil {
+			if reflect.TypeOf(r) == reflect.TypeOf(Simbolos.Funcion{}) {
+				func_ := r.(Simbolos.Funcion)
+
+				if !ent.ExisteFuncion(func_.Identificador) {
+					ent.AgregarFuncion(func_.Identificador, func_)
+				} else {
+					//ERROR
+				}
+
+			} else {
+				r.(interfaces.Instruccion).Ejecutar(ent)
+			}
+
+		}
+
+	}
+
 }

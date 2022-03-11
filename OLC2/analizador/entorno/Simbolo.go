@@ -1,18 +1,25 @@
 package entorno
 
 import (
+	"OLC2/analizador/entorno/Referencia"
 	"github.com/colegno/arraylist"
 )
+
+type SimboloAbstracto interface {
+	GetTipo() TipoDato
+}
 
 type Simbolo struct {
 	Linea         int
 	Columna       int
 	Identificador string
 	Valor         interface{}
+	EsReferencia  bool
 	Tipo          TipoDato
 	Constante     bool
 	EsFuncion     bool
 	ListaParams   *arraylist.List
+	ValorR        Referencia.ValorRef
 }
 
 /**
@@ -33,6 +40,7 @@ func NewSimboloIdentificador(linea int, columna int, identificador string) *Simb
 		Constante:     false,
 		EsFuncion:     false,
 		Valor:         nil,
+		EsReferencia:  false,
 	}
 }
 
@@ -45,6 +53,22 @@ func NewSimboloIdentificadorValor(linea int, columna int, identificador string, 
 		EsFuncion:     false,
 		Valor:         valor,
 		Tipo:          dato,
+		EsReferencia:  false,
+	}
+	return e
+}
+
+func NewSimboloObjeto(linea int, columna int, identificador string, tipoRet TipoDato) Simbolo {
+	e := Simbolo{
+		Linea:         linea,
+		Columna:       columna,
+		Identificador: identificador,
+		Constante:     false,
+		EsFuncion:     true,
+		Valor:         nil,
+		Tipo:          tipoRet,
+		ListaParams:   nil,
+		EsReferencia:  false,
 	}
 	return e
 }
@@ -59,6 +83,7 @@ func NewSimboloFuncion(linea int, columna int, identificador string, tipoRet Tip
 		Valor:         nil,
 		Tipo:          tipoRet,
 		ListaParams:   listParametros,
+		EsReferencia:  false,
 	}
 	return e
 }
@@ -72,6 +97,12 @@ func NewSimboloArreglo(linea int, columna int, identificador string, tipoDatos T
 		Valor:         nil,
 		Tipo:          tipoDatos,
 		ListaParams:   nil,
+		EsReferencia:  false,
 	}
 	return e
+}
+
+// IMPLEMENTANDO INTERFAZ
+func (s Simbolo) GetTipo() TipoDato {
+	return s.Tipo
 }

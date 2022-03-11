@@ -11,8 +11,20 @@ type CalcListener interface {
 	// EnterStart is called when entering the start production.
 	EnterStart(c *StartContext)
 
-	// EnterListaFunciones is called when entering the listaFunciones production.
-	EnterListaFunciones(c *ListaFuncionesContext)
+	// EnterListaClases is called when entering the listaClases production.
+	EnterListaClases(c *ListaClasesContext)
+
+	// EnterClases is called when entering the clases production.
+	EnterClases(c *ClasesContext)
+
+	// EnterCuerpoClase is called when entering the cuerpoClase production.
+	EnterCuerpoClase(c *CuerpoClaseContext)
+
+	// EnterContenidoClase is called when entering the contenidoClase production.
+	EnterContenidoClase(c *ContenidoClaseContext)
+
+	// EnterItemClase is called when entering the itemClase production.
+	EnterItemClase(c *ItemClaseContext)
 
 	// EnterFuncionItem is called when entering the funcionItem production.
 	EnterFuncionItem(c *FuncionItemContext)
@@ -23,6 +35,9 @@ type CalcListener interface {
 	// EnterParametros is called when entering the parametros production.
 	EnterParametros(c *ParametrosContext)
 
+	// EnterParametro is called when entering the parametro production.
+	EnterParametro(c *ParametroContext)
+
 	// EnterFuncmain is called when entering the funcmain production.
 	EnterFuncmain(c *FuncmainContext)
 
@@ -31,6 +46,9 @@ type CalcListener interface {
 
 	// EnterInstruccion is called when entering the instruccion production.
 	EnterInstruccion(c *InstruccionContext)
+
+	// EnterDec_objeto is called when entering the dec_objeto production.
+	EnterDec_objeto(c *Dec_objetoContext)
 
 	// EnterDec_arr is called when entering the dec_arr production.
 	EnterDec_arr(c *Dec_arrContext)
@@ -92,8 +110,20 @@ type CalcListener interface {
 	// EnterInstancia is called when entering the instancia production.
 	EnterInstancia(c *InstanciaContext)
 
+	// EnterInstanciaClase is called when entering the instanciaClase production.
+	EnterInstanciaClase(c *InstanciaClaseContext)
+
 	// EnterAccesoarr is called when entering the accesoarr production.
 	EnterAccesoarr(c *AccesoarrContext)
+
+	// EnterAccesoObjeto is called when entering the accesoObjeto production.
+	EnterAccesoObjeto(c *AccesoObjetoContext)
+
+	// EnterListaAccesos is called when entering the listaAccesos production.
+	EnterListaAccesos(c *ListaAccesosContext)
+
+	// EnterAcceso is called when entering the acceso production.
+	EnterAcceso(c *AccesoContext)
 
 	// EnterExpr_rel is called when entering the expr_rel production.
 	EnterExpr_rel(c *Expr_relContext)
@@ -110,8 +140,20 @@ type CalcListener interface {
 	// ExitStart is called when exiting the start production.
 	ExitStart(c *StartContext)
 
-	// ExitListaFunciones is called when exiting the listaFunciones production.
-	ExitListaFunciones(c *ListaFuncionesContext)
+	// ExitListaClases is called when exiting the listaClases production.
+	ExitListaClases(c *ListaClasesContext)
+
+	// ExitClases is called when exiting the clases production.
+	ExitClases(c *ClasesContext)
+
+	// ExitCuerpoClase is called when exiting the cuerpoClase production.
+	ExitCuerpoClase(c *CuerpoClaseContext)
+
+	// ExitContenidoClase is called when exiting the contenidoClase production.
+	ExitContenidoClase(c *ContenidoClaseContext)
+
+	// ExitItemClase is called when exiting the itemClase production.
+	ExitItemClase(c *ItemClaseContext)
 
 	// ExitFuncionItem is called when exiting the funcionItem production.
 	ExitFuncionItem(c *FuncionItemContext)
@@ -122,6 +164,9 @@ type CalcListener interface {
 	// ExitParametros is called when exiting the parametros production.
 	ExitParametros(c *ParametrosContext)
 
+	// ExitParametro is called when exiting the parametro production.
+	ExitParametro(c *ParametroContext)
+
 	// ExitFuncmain is called when exiting the funcmain production.
 	ExitFuncmain(c *FuncmainContext)
 
@@ -130,6 +175,9 @@ type CalcListener interface {
 
 	// ExitInstruccion is called when exiting the instruccion production.
 	ExitInstruccion(c *InstruccionContext)
+
+	// ExitDec_objeto is called when exiting the dec_objeto production.
+	ExitDec_objeto(c *Dec_objetoContext)
 
 	// ExitDec_arr is called when exiting the dec_arr production.
 	ExitDec_arr(c *Dec_arrContext)
@@ -191,8 +239,20 @@ type CalcListener interface {
 	// ExitInstancia is called when exiting the instancia production.
 	ExitInstancia(c *InstanciaContext)
 
+	// ExitInstanciaClase is called when exiting the instanciaClase production.
+	ExitInstanciaClase(c *InstanciaClaseContext)
+
 	// ExitAccesoarr is called when exiting the accesoarr production.
 	ExitAccesoarr(c *AccesoarrContext)
+
+	// ExitAccesoObjeto is called when exiting the accesoObjeto production.
+	ExitAccesoObjeto(c *AccesoObjetoContext)
+
+	// ExitListaAccesos is called when exiting the listaAccesos production.
+	ExitListaAccesos(c *ListaAccesosContext)
+
+	// ExitAcceso is called when exiting the acceso production.
+	ExitAcceso(c *AccesoContext)
 
 	// ExitExpr_rel is called when exiting the expr_rel production.
 	ExitExpr_rel(c *Expr_relContext)

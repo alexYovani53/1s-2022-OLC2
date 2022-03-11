@@ -45,6 +45,7 @@ func (d DeclaracionArray) Ejecutar(ent entorno.Entorno) interface{} {
 	Objeto := valorDec.Valor.(entorno.ValorType)
 
 	if Objeto.Tipo != d.Tipo {
+
 		fmt.Println("Err3")
 		return nil
 	}

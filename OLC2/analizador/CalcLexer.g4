@@ -34,7 +34,7 @@ INTTYPE:    'int';
 FLOATTYPE:  'float';
 STRINGTYPE: 'string';
 VOIDTYPE:   'void';
-SYSTEM:     'system';
+SYSTEM:     'System';
 BOOLTYPE:   'boolean';
 
 

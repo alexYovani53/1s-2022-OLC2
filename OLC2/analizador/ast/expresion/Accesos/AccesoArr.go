@@ -36,8 +36,6 @@ func (a AccessoArr) ObtenerValor(ent entorno.Entorno) entorno.ValorType {
 
 	objetoArr := simbol.(Simbolos.ObjetoArray)
 
-	// [0][0][0][0]
-
 	if objetoArr.ListaIntDimensiones.Len() != a.Dimensiones.Len() {
 
 		fmt.Println("Dimensiones invalidas")

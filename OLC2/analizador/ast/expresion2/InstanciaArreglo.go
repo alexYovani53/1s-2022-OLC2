@@ -33,7 +33,6 @@ func (i InstanciaArreglo) ObtenerValor(ent entorno.Entorno) entorno.ValorType {
 	fmt.Printf(" data %v ", stringEsQuery)
 
 	objeto := Simbolos.NewObjetoArray("", entorno.INTEGER, valors, ListaIntDimensiones)
-
 	objetoVal := entorno.ValorType{
 		Valor: objeto,
 		Tipo:  entorno.INTEGER,
@@ -71,14 +70,12 @@ func (i InstanciaArreglo) agregarValores(list *arraylist.List) []interface{} {
 	s := make([]interface{}, anchoPiv)
 
 	if nuevaLista.Len() > 0 {
-
 		for x := 0; x < anchoPiv; x++ {
 			s[x] = i.agregarValores(nuevaLista)
 		}
-
 	} else {
 		for x := 0; x < anchoPiv; x++ {
-			s[x] = -1
+			s[x] = 50
 		}
 	}
 

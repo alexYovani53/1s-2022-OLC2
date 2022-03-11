@@ -13,6 +13,7 @@ options {
     import "OLC2/analizador/ast/expresion/Accesos"
     import "OLC2/analizador/ast/funbasica"
     import "OLC2/analizador/ast/definicion"
+    import "OLC2/analizador/ast/definicion/defobjetos"
     import "OLC2/analizador/ast/definicion/defarreglos"
     import "OLC2/analizador/ast/control"
     import "OLC2/analizador/ast/expresion2"
@@ -23,27 +24,53 @@ options {
 }
 
 @members{
-    type  Prueba2 struct {
-        Op1 int
-        Operador string
-        Op2 int
-    }
+
 }
-
-
 start returns [ast.Ast  ast]
-    : listaFunciones                      { $ast = ast.NewAst( $listaFunciones.lista)}
+    : listaClases                      { $ast = ast.NewAst( $listaClases.lista)}
 ;
 
-listaFunciones returns [*arrayList.List lista]
+
+listaClases returns [*arrayList.List lista]
 @init{
     $lista = arrayList.New()
 }
-    : SUBLISTA =  listaFunciones funcionItem         {
-                                                $SUBLISTA.lista.Add( $funcionItem.instr)
+    : SUBLISTA =  listaClases clases        {
+                                                $SUBLISTA.lista.Add( $clases.instr)
                                                 $lista =  $SUBLISTA.lista
-    }
-    | funcionItem                                    { $lista.Add( $funcionItem.instr ) }
+                                            }
+    | clases                                { $lista.Add( $clases.instr ) }
+;
+
+
+clases returns[interfaces.Instruccion instr]
+    : CLASS ID cuerpoClase                              {$instr = definicion.NewDefClase($ID.text, $cuerpoClase.lista)}
+;
+
+
+
+cuerpoClase returns[*arrayList.List lista]
+    : L_LLAVE contenidoClase R_LLAVE                    {$lista = $contenidoClase.lista}
+    | L_LLAVE R_LLAVE                                   {$lista = arrayList.New()}
+;
+
+contenidoClase returns [*arrayList.List lista]
+@init{
+    $lista = arrayList.New()
+}
+    : SUBLISTA = contenidoClase itemClase              {
+                                                            $SUBLISTA.lista.Add( $itemClase.instr )
+                                                            $lista = $SUBLISTA.lista
+                                                        }
+    | itemClase                                         {
+                                                            $lista.Add( $itemClase.instr )
+                                                        }
+;
+
+itemClase returns[interfaces.Instruccion instr]
+    : funcionItem                               {$instr = $funcionItem.instr}
+    | declaracionIni       ';'                  {$instr = $declaracionIni.instr}
+    | declaracion          ';'                  {$instr = $declaracion.instr}
 ;
 
 funcionItem   returns [ interfaces.Instruccion  instr]
@@ -63,20 +90,28 @@ parametros returns [*arrayList.List lista]
 @init{
 $lista =  arrayList.New()
 }
-    : sublista = parametros ','  tiposvars ID                     {
-                                                                    listaIdes := arrayList.New()
-                                                                    listaIdes.Add(expresion.NewIdentificador($ID.text))
-                                                                    decl := definicion.NewDeclaracion(listaIdes, $tiposvars.tipo)
-                                                                    $sublista.lista.Add( decl )
+    : sublista = parametros ','  parametro                      {
+                                                                    $sublista.lista.Add( $parametro.instr )
                                                                     $lista =  $sublista.lista
                                                                  }
-    | tiposvars ID                                               {
-                                                                    listaIdes := arrayList.New()
-                                                                    listaIdes.Add(expresion.NewIdentificador($ID.text))
-                                                                    decl := definicion.NewDeclaracion(listaIdes, $tiposvars.tipo)
-                                                                    $lista.Add( decl)
+    | parametro                                                 {
+                                                                    $lista.Add( $parametro.instr)
                                                                  }
 ;
+
+parametro returns [interfaces.Instruccion instr]
+    :   tiposvars ID                                            {
+                                                                    listaIdes := arrayList.New()
+                                                                    listaIdes.Add(expresion.NewIdentificador($ID.text))
+                                                                    $instr = definicion.NewDeclaracionParametro(listaIdes, $tiposvars.tipo,false)
+                                                                }
+    | '*' tiposvars ID                                          {
+                                                                    listaIdes := arrayList.New()
+                                                                    listaIdes.Add(expresion.NewIdentificador($ID.text))
+                                                                    $instr = definicion.NewDeclaracionParametro(listaIdes, $tiposvars.tipo,true)
+                                                                }
+;
+
 
 
 funcmain returns[interfaces.Instruccion instr]
@@ -105,7 +140,15 @@ instruccion returns [interfaces.Instruccion instr]
   | llamada                                  ';'                {$instr = $llamada.instr}
   | retorno                                  ';'                {$instr = $retorno.instr}
   | dec_arr                                  ';'                {$instr = $dec_arr.instr}
+  | dec_objeto                               ';'                {$instr = $dec_objeto.instr}
 ;
+
+// SECCIÓN CLASES
+
+dec_objeto returns[interfaces.Instruccion instr]
+    : ID listides '=' expression                                {$instr = defobjetos.NewDeclararObjeto( $ID.text, $listides.lista, $expression.expr)}
+;
+
 
 
 //SECCIÓN ARREGLOS
@@ -244,11 +287,11 @@ tiposvars returns[entorno.TipoDato tipo]
 ;
 
 expression returns[interfaces.Expresion expr]
-    : expr_valor                                                {$expr = $expr_valor.expr}
-    | expr_rel                                                  {$expr = $expr_rel.expr}
+    : expr_rel                                                  {$expr = $expr_rel.expr}
     | expr_arit                                                 {$expr = $expr_arit.expr}
     | instancia                                                 {$expr = $instancia.expr}
     | arraydata                                                 {$expr = $arraydata.expr}
+    | instanciaClase                                             {$expr = $instanciaClase.expr}
 ;
 
 arraydata returns [interfaces.Expresion expr]
@@ -260,9 +303,36 @@ instancia returns[interfaces.Expresion expr]
     : NEW_ tiposvars listanchos                                 {$expr = expresion2.NewInstanciaArreglo($tiposvars.tipo, $listanchos.lista )}
 ;
 
+instanciaClase returns[interfaces.Expresion expr]
+    : NEW_ ID '(' ')'                                           {$expr = expresion2.NewInstanciaObjeto($ID.text )}
+;
+
+
 accesoarr returns[interfaces.Expresion expr]
     : ID listanchos                                             {$expr = Accesos.NewAccessoArr($ID.text,$listanchos.lista)}
 ;
+
+accesoObjeto returns[interfaces.Expresion expr]
+    :  listaAccesos                                             {$expr = Accesos.NewAccesoObjeto( $listaAccesos.lista)}
+;
+
+listaAccesos returns[*arrayList.List lista]
+@init{
+    $lista = arrayList.New()
+}
+    :  SUBLISTA =  listaAccesos '.' acceso       {
+                                                    $SUBLISTA.lista.Add( $acceso.expr)
+                                                    $lista = $SUBLISTA.lista
+                                                }
+    | acceso                                    {   $lista.Add($acceso.expr)}
+;
+
+acceso  returns [interfaces.Expresion expr]
+    : ID                                        { $expr = expresion.NewIdentificador($ID.text)}
+    | accesoarr                                 { $expr = $accesoarr.expr}
+;
+
+
 
 expr_rel returns[interfaces.Expresion expr]
     : opIz = expr_rel op=( MAYORIGUAL | MENORIGUAL | MENOR | MAYOR ) opDe = expr_rel {$expr = expresion.NewOperacion($opIz.expr,$op.text,$opDe.expr,false)}
@@ -282,6 +352,7 @@ expr_valor returns[interfaces.Expresion expr]
   : primitivo                                                   {$expr = $primitivo.expr}
   | llamada                                                     {$expr = $llamada.expr}
   | accesoarr                                                   {$expr = $accesoarr.expr}
+  | accesoObjeto                                                {$expr = $accesoObjeto.expr}
 ;
 
 primitivo returns[interfaces.Expresion expr]
@@ -304,7 +375,7 @@ primitivo returns[interfaces.Expresion expr]
                                                                     str:= $STRING.text[1:len($STRING.text)-1]
                                                                     $expr = expresion.NewPrimitivo(str,entorno.STRING)
                                                                 }
-                                                                
+
     | ID                                                        { $expr = expresion.NewIdentificador($ID.text)}
 
     | TRUE                                                      { $expr = expresion.NewPrimitivo(true,entorno.BOOLEAN)}

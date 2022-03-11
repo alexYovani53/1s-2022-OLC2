@@ -14,7 +14,7 @@
 .container{
     position: relative;
     height: 80%;
-    width: 80%;
+    width: 95%;
     transform: translate(-50%,-50%);
     left: 50%;
     top: 50%;
@@ -31,7 +31,7 @@
     border-style: none;
     background: greenyellow;
     
-    margin: 15px 15px;
+    margin: 10px 10px;
 
     display: block;
     text-align: center;
@@ -45,7 +45,7 @@
 }
 
 .editorT{
-    width: 45%;
+    width: 48%;
 }
 
 .cm-theme-dark{

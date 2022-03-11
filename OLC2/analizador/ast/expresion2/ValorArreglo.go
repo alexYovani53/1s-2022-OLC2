@@ -45,13 +45,10 @@ func (v ValorArreglo) ObtenerData(ent entorno.Entorno) (interface{}, entorno.Tip
 
 	ListaIntDimensiones := arrayList.New()
 	ListaIntDimensiones.Add(data.Len())
-
 	TipoDatos := entorno.NULL
-
 	s := make([]interface{}, data.Len())
 
 	for i := 0; i < data.Len(); i++ {
-
 		dato := data.GetValue(i)
 		valorDato := dato.(entorno.ValorType)
 
@@ -59,9 +56,7 @@ func (v ValorArreglo) ObtenerData(ent entorno.Entorno) (interface{}, entorno.Tip
 			fmt.Println("Error2")
 			return nil, entorno.NULL
 		}
-		/*
-			{ 5 , 6, 7 , 8}
-		*/
+
 		if valorDato.Tipo != entorno.ARREGLO {
 			if i == 0 {
 				TipoDatos = valorDato.Tipo
@@ -74,10 +69,6 @@ func (v ValorArreglo) ObtenerData(ent entorno.Entorno) (interface{}, entorno.Tip
 			s[i] = valorDato.Valor
 			continue
 		}
-
-		/*
-			DIMENSION ARREGLO
-		*/
 
 		valorObjeto := valorDato.Valor.(entorno.ValorType)
 		ObjectoArreglo := valorObjeto.Valor.(Simbolos.ObjetoArray)

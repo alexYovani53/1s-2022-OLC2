@@ -23,13 +23,6 @@ func (Ob ObjetoArray) ObtenerValor(lista *arraylist.List, indiceNivel int, valor
 
 	listaClon := lista.Clone()
 
-	/*
-		                           0   1  2
-			Ent -> Un arreglo  arr[5][6][7]
-
-			arr[2][3][4]
-	*/
-
 	indicePiv := listaClon.GetValue(0).(int)
 	tamaNivel := Ob.ListaIntDimensiones.GetValue(indiceNivel).(int)
 	listaClon.RemoveAtIndex(0)
@@ -62,6 +55,46 @@ func (Ob ObjetoArray) ObtenerValor(lista *arraylist.List, indiceNivel int, valor
 			return nil
 		}
 		return valores[indicePiv]
+	}
+
+}
+
+func (Ob ObjetoArray) CambiarValor(lista *arraylist.List, indiceNivel int, valores []interface{}, nuevoValor interface{}) {
+
+	// 1  2  0
+
+	listaClon := lista.Clone()
+
+	indicePiv := listaClon.GetValue(0).(int)
+	tamaNivel := Ob.ListaIntDimensiones.GetValue(indiceNivel).(int)
+	listaClon.RemoveAtIndex(0)
+
+	fmt.Printf("%v -> %v", indicePiv, indiceNivel)
+
+	if listaClon.Len() > 0 {
+
+		if indicePiv > tamaNivel-1 {
+			fmt.Println("Error1")
+		} else {
+
+			subArray := valores[indicePiv]
+
+			if reflect.TypeOf(subArray) != reflect.TypeOf([]interface{}{}) {
+
+				fmt.Println("Error2")
+			} else {
+				Ob.CambiarValor(listaClon, indiceNivel+1, subArray.([]interface{}), nuevoValor)
+			}
+
+		}
+
+	} else {
+		if indicePiv > tamaNivel-1 {
+
+			fmt.Println("Error3")
+			return
+		}
+		valores[indicePiv] = nuevoValor
 	}
 
 }

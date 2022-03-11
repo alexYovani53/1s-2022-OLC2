@@ -4,6 +4,7 @@ import (
 	"OLC2/analizador/ast/expresion"
 	"OLC2/analizador/ast/interfaces"
 	"OLC2/analizador/entorno"
+	"OLC2/analizador/entorno/Referencia"
 	"fmt"
 	"github.com/colegno/arraylist"
 )
@@ -18,8 +19,10 @@ var tipoDef = [5][5]entorno.TipoDato{
 
 type Declaracion struct {
 	ValorInicializacion interfaces.Expresion
+	ValorObjeto         interface{}
 	TipoVariables       entorno.TipoDato
 	ListaVars           *arraylist.List
+	Referencia          bool
 }
 
 func NewDeclaracion(listaVars *arraylist.List, tipoVariables entorno.TipoDato) *Declaracion {
@@ -28,6 +31,15 @@ func NewDeclaracion(listaVars *arraylist.List, tipoVariables entorno.TipoDato) *
 		ListaVars:     listaVars,
 	}
 }
+
+func NewDeclaracionParametro(listaVars *arraylist.List, tipoVariables entorno.TipoDato, referencia bool) *Declaracion {
+	return &Declaracion{
+		TipoVariables: tipoVariables,
+		ListaVars:     listaVars,
+		Referencia:    referencia,
+	}
+}
+
 func NewDeclaracionInicializacion(listaVars *arraylist.List, tipoVariables entorno.TipoDato, valInicial interfaces.Expresion) *Declaracion {
 	return &Declaracion{
 		TipoVariables:       tipoVariables,
@@ -43,8 +55,8 @@ func (dec *Declaracion) Ejecutar(ent entorno.Entorno) interface{} {
 		int a,b,c,d;
 
 	*/
-
 	if dec.esInicializado() {
+
 		if dec.ListaVars.Len() > 1 {
 			return nil
 		}
@@ -67,12 +79,19 @@ func (dec *Declaracion) Ejecutar(ent entorno.Entorno) interface{} {
 			if ent.ExisteSimbolo(varDeclarar.Identificador) {
 				fmt.Printf("Errror, variable %s ya declarada", varDeclarar.Identificador)
 			} else {
+
 				simboloTabala := entorno.NewSimboloIdentificadorValor(
 					0,
 					0,
 					varDeclarar.Identificador,
 					retornoExpresion.Valor,
 					tipoResultante)
+
+				if dec.Referencia {
+					valorRef := Referencia.NewValorRef(dec.ValorInicializacion)
+					simboloTabala.EsReferencia = true
+					simboloTabala.ValorR = valorRef
+				}
 
 				ent.AgregarSimbolo(varDeclarar.Identificador, simboloTabala)
 			}

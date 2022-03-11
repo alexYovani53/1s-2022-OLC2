@@ -27,11 +27,35 @@ func (s *BaseCalcListener) EnterStart(ctx *StartContext) {}
 // ExitStart is called when production start is exited.
 func (s *BaseCalcListener) ExitStart(ctx *StartContext) {}
 
-// EnterListaFunciones is called when production listaFunciones is entered.
-func (s *BaseCalcListener) EnterListaFunciones(ctx *ListaFuncionesContext) {}
+// EnterListaClases is called when production listaClases is entered.
+func (s *BaseCalcListener) EnterListaClases(ctx *ListaClasesContext) {}
 
-// ExitListaFunciones is called when production listaFunciones is exited.
-func (s *BaseCalcListener) ExitListaFunciones(ctx *ListaFuncionesContext) {}
+// ExitListaClases is called when production listaClases is exited.
+func (s *BaseCalcListener) ExitListaClases(ctx *ListaClasesContext) {}
+
+// EnterClases is called when production clases is entered.
+func (s *BaseCalcListener) EnterClases(ctx *ClasesContext) {}
+
+// ExitClases is called when production clases is exited.
+func (s *BaseCalcListener) ExitClases(ctx *ClasesContext) {}
+
+// EnterCuerpoClase is called when production cuerpoClase is entered.
+func (s *BaseCalcListener) EnterCuerpoClase(ctx *CuerpoClaseContext) {}
+
+// ExitCuerpoClase is called when production cuerpoClase is exited.
+func (s *BaseCalcListener) ExitCuerpoClase(ctx *CuerpoClaseContext) {}
+
+// EnterContenidoClase is called when production contenidoClase is entered.
+func (s *BaseCalcListener) EnterContenidoClase(ctx *ContenidoClaseContext) {}
+
+// ExitContenidoClase is called when production contenidoClase is exited.
+func (s *BaseCalcListener) ExitContenidoClase(ctx *ContenidoClaseContext) {}
+
+// EnterItemClase is called when production itemClase is entered.
+func (s *BaseCalcListener) EnterItemClase(ctx *ItemClaseContext) {}
+
+// ExitItemClase is called when production itemClase is exited.
+func (s *BaseCalcListener) ExitItemClase(ctx *ItemClaseContext) {}
 
 // EnterFuncionItem is called when production funcionItem is entered.
 func (s *BaseCalcListener) EnterFuncionItem(ctx *FuncionItemContext) {}
@@ -51,6 +75,12 @@ func (s *BaseCalcListener) EnterParametros(ctx *ParametrosContext) {}
 // ExitParametros is called when production parametros is exited.
 func (s *BaseCalcListener) ExitParametros(ctx *ParametrosContext) {}
 
+// EnterParametro is called when production parametro is entered.
+func (s *BaseCalcListener) EnterParametro(ctx *ParametroContext) {}
+
+// ExitParametro is called when production parametro is exited.
+func (s *BaseCalcListener) ExitParametro(ctx *ParametroContext) {}
+
 // EnterFuncmain is called when production funcmain is entered.
 func (s *BaseCalcListener) EnterFuncmain(ctx *FuncmainContext) {}
 
@@ -68,6 +98,12 @@ func (s *BaseCalcListener) EnterInstruccion(ctx *InstruccionContext) {}
 
 // ExitInstruccion is called when production instruccion is exited.
 func (s *BaseCalcListener) ExitInstruccion(ctx *InstruccionContext) {}
+
+// EnterDec_objeto is called when production dec_objeto is entered.
+func (s *BaseCalcListener) EnterDec_objeto(ctx *Dec_objetoContext) {}
+
+// ExitDec_objeto is called when production dec_objeto is exited.
+func (s *BaseCalcListener) ExitDec_objeto(ctx *Dec_objetoContext) {}
 
 // EnterDec_arr is called when production dec_arr is entered.
 func (s *BaseCalcListener) EnterDec_arr(ctx *Dec_arrContext) {}
@@ -189,11 +225,35 @@ func (s *BaseCalcListener) EnterInstancia(ctx *InstanciaContext) {}
 // ExitInstancia is called when production instancia is exited.
 func (s *BaseCalcListener) ExitInstancia(ctx *InstanciaContext) {}
 
+// EnterInstanciaClase is called when production instanciaClase is entered.
+func (s *BaseCalcListener) EnterInstanciaClase(ctx *InstanciaClaseContext) {}
+
+// ExitInstanciaClase is called when production instanciaClase is exited.
+func (s *BaseCalcListener) ExitInstanciaClase(ctx *InstanciaClaseContext) {}
+
 // EnterAccesoarr is called when production accesoarr is entered.
 func (s *BaseCalcListener) EnterAccesoarr(ctx *AccesoarrContext) {}
 
 // ExitAccesoarr is called when production accesoarr is exited.
 func (s *BaseCalcListener) ExitAccesoarr(ctx *AccesoarrContext) {}
+
+// EnterAccesoObjeto is called when production accesoObjeto is entered.
+func (s *BaseCalcListener) EnterAccesoObjeto(ctx *AccesoObjetoContext) {}
+
+// ExitAccesoObjeto is called when production accesoObjeto is exited.
+func (s *BaseCalcListener) ExitAccesoObjeto(ctx *AccesoObjetoContext) {}
+
+// EnterListaAccesos is called when production listaAccesos is entered.
+func (s *BaseCalcListener) EnterListaAccesos(ctx *ListaAccesosContext) {}
+
+// ExitListaAccesos is called when production listaAccesos is exited.
+func (s *BaseCalcListener) ExitListaAccesos(ctx *ListaAccesosContext) {}
+
+// EnterAcceso is called when production acceso is entered.
+func (s *BaseCalcListener) EnterAcceso(ctx *AccesoContext) {}
+
+// ExitAcceso is called when production acceso is exited.
+func (s *BaseCalcListener) ExitAcceso(ctx *AccesoContext) {}
 
 // EnterExpr_rel is called when production expr_rel is entered.
 func (s *BaseCalcListener) EnterExpr_rel(ctx *Expr_relContext) {}
