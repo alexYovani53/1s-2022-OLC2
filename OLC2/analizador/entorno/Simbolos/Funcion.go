@@ -34,7 +34,7 @@ func NewFuncion(nombre string, listaParams *arraylist.List, listaInstrucciones *
 	}
 }
 
-func (f Funcion) EjecutarParametros(ent entorno.Entorno, expresiones *arraylist.List) bool {
+func (f Funcion) EjecutarParametros(ent entorno.Entorno, expresiones *arraylist.List, entRef *entorno.Entorno) bool {
 
 	declaraciones := f.ListaParamsDecl.Clone()
 
@@ -46,6 +46,9 @@ func (f Funcion) EjecutarParametros(ent entorno.Entorno, expresiones *arraylist.
 	for i := 0; i < declaraciones.Len(); i++ {
 
 		pivoteDec := declaraciones.GetValue(i).(*definicion.Declaracion)
+		if pivoteDec.Referencia {
+			pivoteDec.EntornoRef = entRef
+		}
 		pivoteDec.ValorInicializacion = expresiones.GetValue(i).(interfaces.Expresion)
 
 		pivoteDec.Ejecutar(ent)

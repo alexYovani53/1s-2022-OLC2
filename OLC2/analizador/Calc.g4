@@ -141,19 +141,20 @@ instruccion returns [interfaces.Instruccion instr]
   | retorno                                  ';'                {$instr = $retorno.instr}
   | dec_arr                                  ';'                {$instr = $dec_arr.instr}
   | dec_objeto                               ';'                {$instr = $dec_objeto.instr}
+  | asignacion                               ';'                {$instr = $asignacion.instr}
 ;
 
 // SECCIÓN CLASES
 
 dec_objeto returns[interfaces.Instruccion instr]
-    : ID listides '=' expression                                {$instr = defobjetos.NewDeclararObjeto( $ID.text, $listides.lista, $expression.expr)}
+    : ID listides '=' expresion                                {$instr = defobjetos.NewDeclararObjeto( $ID.text, $listides.lista, $expresion.expr)}
 ;
 
 
 
 //SECCIÓN ARREGLOS
 dec_arr returns [interfaces.Instruccion instr]
-    : tiposvars  dimensiones ID '=' expression                  {$instr = defarreglos.NewDeclaracionArray($dimensiones.tam,$ID.text,$expression.expr,$tiposvars.tipo)}
+    : tiposvars  dimensiones ID '=' expresion                  {$instr = defarreglos.NewDeclaracionArray($dimensiones.tam,$ID.text,$expresion.expr,$tiposvars.tipo)}
 ;
 
 
@@ -183,17 +184,23 @@ listanchos returns[*arrayList.List lista]
 ;
 
 ancho   returns [interfaces.Expresion expr]
-    :   '[' expression ']'                                                  {$expr = $expression.expr}
+    :   '[' expresion ']'                                                  {$expr = $expresion.expr}
+;
+
+//SECCION ASIGNACION
+
+asignacion returns[interfaces.Instruccion instr]
+    : ID '=' expresion                                                     {$instr = definicion.NewAsignacion($ID.text, $expresion.expr)}
 ;
 
 
 // SECCION IF
 
 if_instr  returns [interfaces.Instruccion instr]
-    : IF_TOK LP expression RP bloque                                        {$instr = control.NewIfInstruccion($expression.expr,$bloque.lista,nil,nil)}
-    | IF_TOK LP expression RP bprincipal = bloque ELSE  belse = bloque      {$instr = control.NewIfInstruccion($expression.expr,$bprincipal.lista,nil,$belse.lista)}
-    | IF_TOK LP expression RP bprincipal = bloque listaelseif ELSE  belse = bloque {
-        $instr = control.NewIfInstruccion($expression.expr,$bprincipal.lista,$listaelseif.lista,$belse.lista)
+    : IF_TOK LP expresion RP bloque                                        {$instr = control.NewIfInstruccion($expresion.expr,$bloque.lista,nil,nil)}
+    | IF_TOK LP expresion RP bprincipal = bloque ELSE  belse = bloque      {$instr = control.NewIfInstruccion($expresion.expr,$bprincipal.lista,nil,$belse.lista)}
+    | IF_TOK LP expresion RP bprincipal = bloque listaelseif ELSE  belse = bloque {
+        $instr = control.NewIfInstruccion($expresion.expr,$bprincipal.lista,$listaelseif.lista,$belse.lista)
     }
 ;
 
@@ -208,7 +215,7 @@ listaelseif returns [*arrayList.List lista]
 ;
 
 else_if returns [interfaces.Instruccion instr]
-    : ELSE IF_TOK LP expression RP bloque                               {$instr = control.NewIfInstruccion($expression.expr,$bloque.lista,nil,nil)}
+    : ELSE IF_TOK LP expresion RP bloque                               {$instr = control.NewIfInstruccion($expresion.expr,$bloque.lista,nil,nil)}
 ;
 
 
@@ -220,7 +227,7 @@ bloque returns [ *arrayList.List  lista]
 //SECCIÓN SYSTEM . OUT . PRINTLN
 
 consola returns [interfaces.Instruccion instr]
-    : SYSTEM '.' OUT '.' PRINTLN LP expression RP                    {$instr = funbasica.NewImprimir($expression.expr)}
+    : SYSTEM '.' OUT '.' PRINTLN LP expresion RP                    {$instr = funbasica.NewImprimir($expresion.expr)}
 ;
 
 //SECCIÓN LLAMADA
@@ -237,19 +244,19 @@ listaExpresiones returns [*arrayList.List lista]
 @init{
     $lista = arrayList.New()
 }
-    : LISTA = listaExpresiones ',' expression                        {
-                                                                        $LISTA.lista.Add( $expression.expr )
+    : LISTA = listaExpresiones ',' expresion                        {
+                                                                        $LISTA.lista.Add( $expresion.expr )
                                                                         $lista =  $LISTA.lista
                                                                      }
-    | expression                                                    {
-                                                                        $lista.Add( $expression.expr )
+    | expresion                                                    {
+                                                                        $lista.Add( $expresion.expr )
                                                                      }
 ;
 
 //SECCIÓN DECLARACIÓN INICIALIZADA
 declaracionIni returns [interfaces.Instruccion instr]
-    : tiposvars listides '=' expression                              {
-                                                                        $instr = definicion.NewDeclaracionInicializacion($listides.lista,$tiposvars.tipo,$expression.expr)
+    : tiposvars listides '=' expresion                              {
+                                                                        $instr = definicion.NewDeclaracionInicializacion($listides.lista,$tiposvars.tipo,$expresion.expr)
                                                                      }
 ;
 
@@ -263,7 +270,7 @@ declaracion returns [interfaces.Instruccion instr]
 //SECCIÓN RETURN
 retorno returns [interfaces.Instruccion instr]
     : RETURN_P                                                      { $instr = transferenciaFlujo.NewReturn(entorno.VOID,nil)}
-    | RETURN_P  expression                                          { $instr = transferenciaFlujo.NewReturn(entorno.NULL,$expression.expr)}
+    | RETURN_P  expresion                                          { $instr = transferenciaFlujo.NewReturn(entorno.NULL,$expresion.expr)}
 ;
 
 
@@ -286,7 +293,7 @@ tiposvars returns[entorno.TipoDato tipo]
     | VOIDTYPE                                                  {$tipo = entorno.VOID}
 ;
 
-expression returns[interfaces.Expresion expr]
+expresion returns[interfaces.Expresion expr]
     : expr_rel                                                  {$expr = $expr_rel.expr}
     | expr_arit                                                 {$expr = $expr_arit.expr}
     | instancia                                                 {$expr = $instancia.expr}
@@ -341,11 +348,11 @@ expr_rel returns[interfaces.Expresion expr]
 
 expr_arit returns[interfaces.Expresion expr]
 
-    : '-' opU = expression                                      {$expr = expresion.NewOperacion($opU.expr,"-",nil,true)}
+    : '-' opU = expresion                                      {$expr = expresion.NewOperacion($opU.expr,"-",nil,true)}
     | opIz = expr_arit op=('*'|'/') opDe = expr_arit            {$expr = expresion.NewOperacion($opIz.expr,$op.text,$opDe.expr,false)}
     | opIz = expr_arit op=('+'|'-') opDe = expr_arit            {$expr = expresion.NewOperacion($opIz.expr,$op.text,$opDe.expr,false)}
     | expr_valor                                                {$expr = $expr_valor.expr}
-    | LP expression RP                                          {$expr = $expression.expr}
+    | LP expresion RP                                          {$expr = $expresion.expr}
 ;
 
 expr_valor returns[interfaces.Expresion expr]
@@ -385,7 +392,7 @@ primitivo returns[interfaces.Expresion expr]
 
 
 /*
-BinaryExpression:
+Binaryexpresion:
   'or'? AndOp; //or op
 
 AndOp:
@@ -404,4 +411,4 @@ MultDivOp:
   ('*' | '/')? ExpOp;
 
 ExpOp:
-  '^'? expr=Expression; */
+  '^'? expr=expresion; */

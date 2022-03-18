@@ -1,7 +1,6 @@
 package entorno
 
 import (
-	"OLC2/analizador/entorno/Referencia"
 	"github.com/colegno/arraylist"
 )
 
@@ -15,11 +14,11 @@ type Simbolo struct {
 	Identificador string
 	Valor         interface{}
 	EsReferencia  bool
+	Referencia    interface{}
 	Tipo          TipoDato
 	Constante     bool
 	EsFuncion     bool
 	ListaParams   *arraylist.List
-	ValorR        Referencia.ValorRef
 }
 
 /**

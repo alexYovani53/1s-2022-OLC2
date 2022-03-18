@@ -7,6 +7,7 @@ import (
 	"OLC2/analizador/entorno/Referencia"
 	"fmt"
 	"github.com/colegno/arraylist"
+	"reflect"
 )
 
 var tipoDef = [5][5]entorno.TipoDato{
@@ -19,10 +20,10 @@ var tipoDef = [5][5]entorno.TipoDato{
 
 type Declaracion struct {
 	ValorInicializacion interfaces.Expresion
-	ValorObjeto         interface{}
 	TipoVariables       entorno.TipoDato
 	ListaVars           *arraylist.List
 	Referencia          bool
+	EntornoRef          *entorno.Entorno
 }
 
 func NewDeclaracion(listaVars *arraylist.List, tipoVariables entorno.TipoDato) *Declaracion {
@@ -88,9 +89,23 @@ func (dec *Declaracion) Ejecutar(ent entorno.Entorno) interface{} {
 					tipoResultante)
 
 				if dec.Referencia {
-					valorRef := Referencia.NewValorRef(dec.ValorInicializacion)
+
+					if reflect.TypeOf(dec.ValorInicializacion) == reflect.TypeOf(expresion.Primitivo{}) {
+						fmt.Printf("No se puede pasar una referencia a un primitivo")
+						return nil
+					}
+
+					//      llama( ID,  ID.ID , ID[0] )
+					//
+					//      ID = VALOR
+					// 		ID.ID = VALOR
+					// 		ID[0] = VALOR
+
 					simboloTabala.EsReferencia = true
-					simboloTabala.ValorR = valorRef
+					simboloTabala.Referencia = Referencia.ValorRef{
+						Entorno: dec.EntornoRef,
+						ID:      dec.ValorInicializacion,
+					}
 				}
 
 				ent.AgregarSimbolo(varDeclarar.Identificador, simboloTabala)

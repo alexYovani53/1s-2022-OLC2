@@ -29,21 +29,23 @@ func (i InstanciaObjeto) ObtenerValor(ent entorno.Entorno) entorno.ValorType {
 
 	for i := 0; i < clasePlantilla.Instrucciones.Len(); i++ {
 
-		pivoteInstr := clasePlantilla.Instrucciones.GetValue(i)
+		r := clasePlantilla.Instrucciones.GetValue(i)
 
-		if reflect.TypeOf(pivoteInstr) == reflect.TypeOf(Simbolos.Funcion{}) {
-			// FUNCIONES
-			func_ := pivoteInstr.(Simbolos.Funcion)
+		if r != nil {
+			if reflect.TypeOf(r) == reflect.TypeOf(Simbolos.Funcion{}) {
+				func_ := r.(Simbolos.Funcion)
 
-			if !ENTORNO_OBJETO.ExisteFuncion(func_.Identificador) {
-				ENTORNO_OBJETO.AgregarFuncion(func_.Identificador, func_)
+				if !ENTORNO_OBJETO.ExisteFuncion(func_.Identificador) {
+					ENTORNO_OBJETO.AgregarFuncion(func_.Identificador, func_)
+
+				} else {
+					//ERROR
+				}
+
+			} else {
+				r.(interfaces.Instruccion).Ejecutar(ENTORNO_OBJETO)
 			}
 
-		} else {
-			// DECLARACIONE
-
-			//pivoteInstr.(definicion.Declaracion).ValorObjeto = ?
-			pivoteInstr.(interfaces.Instruccion).Ejecutar(ENTORNO_OBJETO)
 		}
 
 	}

@@ -24,12 +24,13 @@ func (l Llamada) ObtenerValor(ent entorno.Entorno) entorno.ValorType {
 		return entorno.ValorType{Valor: -1, Tipo: entorno.NULL}
 	}
 
+	// ENTORNO DE FUNCION
 	entFunc := entorno.NewEntorno("Funcion", &ent)
 
 	funcion := ent.ObtenerFuncion(l.IdFuncion).(Simbolos.Funcion)
 	clonFunc := Simbolos.NewFuncion(funcion.Identificador, funcion.ListaParamsDecl.Clone(), funcion.ListaInstrucciones.Clone(), funcion.Tipo)
 
-	completo := clonFunc.EjecutarParametros(entFunc, l.ListaExpresiones)
+	completo := clonFunc.EjecutarParametros(entFunc, l.ListaExpresiones, &ent)
 
 	if !completo {
 		return entorno.ValorType{Valor: -1, Tipo: entorno.NULL}

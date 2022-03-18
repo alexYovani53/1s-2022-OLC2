@@ -65,6 +65,9 @@ type CalcListener interface {
 	// EnterAncho is called when entering the ancho production.
 	EnterAncho(c *AnchoContext)
 
+	// EnterAsignacion is called when entering the asignacion production.
+	EnterAsignacion(c *AsignacionContext)
+
 	// EnterIf_instr is called when entering the if_instr production.
 	EnterIf_instr(c *If_instrContext)
 
@@ -101,8 +104,8 @@ type CalcListener interface {
 	// EnterTiposvars is called when entering the tiposvars production.
 	EnterTiposvars(c *TiposvarsContext)
 
-	// EnterExpression is called when entering the expression production.
-	EnterExpression(c *ExpressionContext)
+	// EnterExpresion is called when entering the expresion production.
+	EnterExpresion(c *ExpresionContext)
 
 	// EnterArraydata is called when entering the arraydata production.
 	EnterArraydata(c *ArraydataContext)
@@ -194,6 +197,9 @@ type CalcListener interface {
 	// ExitAncho is called when exiting the ancho production.
 	ExitAncho(c *AnchoContext)
 
+	// ExitAsignacion is called when exiting the asignacion production.
+	ExitAsignacion(c *AsignacionContext)
+
 	// ExitIf_instr is called when exiting the if_instr production.
 	ExitIf_instr(c *If_instrContext)
 
@@ -230,8 +236,8 @@ type CalcListener interface {
 	// ExitTiposvars is called when exiting the tiposvars production.
 	ExitTiposvars(c *TiposvarsContext)
 
-	// ExitExpression is called when exiting the expression production.
-	ExitExpression(c *ExpressionContext)
+	// ExitExpresion is called when exiting the expresion production.
+	ExitExpresion(c *ExpresionContext)
 
 	// ExitArraydata is called when exiting the arraydata production.
 	ExitArraydata(c *ArraydataContext)

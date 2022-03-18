@@ -11,6 +11,10 @@ type DefClase struct {
 	Instrucciones *arrayList.List `json:'Instruccion'`
 }
 
+type s struct {
+	a int
+}
+
 func NewDefClase(id string, instrucciones *arrayList.List) DefClase {
 
 	return DefClase{Id: id, Instrucciones: instrucciones}
@@ -18,18 +22,16 @@ func NewDefClase(id string, instrucciones *arrayList.List) DefClase {
 
 func (d DefClase) Ejecutar(ent entorno.Entorno) interface{} {
 
-	clasePlantilla := entorno.NewClase(d.Id, d.Instrucciones)
+	classPlantilla := entorno.NewClase(d.Id, d.Instrucciones)
 
-	existeClase := ent.ExisteClase(clasePlantilla.Id)
+	existeClase := ent.ExisteClase(classPlantilla.Id)
 
 	if !existeClase {
-
-		ent.AgregarClase(clasePlantilla.Id, clasePlantilla)
+		ent.AgregarClase(classPlantilla.Id, classPlantilla)
 		return nil
-
 	}
 
-	fmt.Printf("ERROR, LA CLASE %s YA EXISTE", clasePlantilla.Id)
+	fmt.Printf("ERROR, LA CLASE %s YA EXISTE", classPlantilla.Id)
 
 	return nil
 }

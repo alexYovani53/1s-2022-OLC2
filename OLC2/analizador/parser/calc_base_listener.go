@@ -135,6 +135,12 @@ func (s *BaseCalcListener) EnterAncho(ctx *AnchoContext) {}
 // ExitAncho is called when production ancho is exited.
 func (s *BaseCalcListener) ExitAncho(ctx *AnchoContext) {}
 
+// EnterAsignacion is called when production asignacion is entered.
+func (s *BaseCalcListener) EnterAsignacion(ctx *AsignacionContext) {}
+
+// ExitAsignacion is called when production asignacion is exited.
+func (s *BaseCalcListener) ExitAsignacion(ctx *AsignacionContext) {}
+
 // EnterIf_instr is called when production if_instr is entered.
 func (s *BaseCalcListener) EnterIf_instr(ctx *If_instrContext) {}
 
@@ -207,11 +213,11 @@ func (s *BaseCalcListener) EnterTiposvars(ctx *TiposvarsContext) {}
 // ExitTiposvars is called when production tiposvars is exited.
 func (s *BaseCalcListener) ExitTiposvars(ctx *TiposvarsContext) {}
 
-// EnterExpression is called when production expression is entered.
-func (s *BaseCalcListener) EnterExpression(ctx *ExpressionContext) {}
+// EnterExpresion is called when production expresion is entered.
+func (s *BaseCalcListener) EnterExpresion(ctx *ExpresionContext) {}
 
-// ExitExpression is called when production expression is exited.
-func (s *BaseCalcListener) ExitExpression(ctx *ExpressionContext) {}
+// ExitExpresion is called when production expresion is exited.
+func (s *BaseCalcListener) ExitExpresion(ctx *ExpresionContext) {}
 
 // EnterArraydata is called when production arraydata is entered.
 func (s *BaseCalcListener) EnterArraydata(ctx *ArraydataContext) {}
