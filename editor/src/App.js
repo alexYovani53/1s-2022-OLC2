@@ -7,12 +7,14 @@ import axios from "axios";
 
 export default function App() {
 
-     const [code, setCode] = React.useState(`public class Main
-    {
-        public static void main(String args[]) {
-            system.out.println("Ejemplo1 " + (5+6--9 + 1));
-        }
-    }
+     const [code, setCode] = React.useState(`
+      class Main
+      {
+          public static void main(String args[]) {
+              System.out.println("Ejemplo1 " + (5+6--9 + 1));
+          }
+      }
+      
     `);
   const editor1  = useRef();
   const editor2  = useRef();

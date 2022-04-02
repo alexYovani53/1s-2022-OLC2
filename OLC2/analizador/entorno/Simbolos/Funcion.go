@@ -91,3 +91,13 @@ func (f Funcion) Ejecutar(ent entorno.Entorno) interface{} {
 	}
 	return entorno.ValorType{Tipo: entorno.NULL, Valor: -1}
 }
+
+/*
+fn is_even(a:u8) -> bool {
+    if a % 2 == 0 {
+        return true
+    }
+    return false // el valor de retorno en todos los otros casos
+}
+
+*/

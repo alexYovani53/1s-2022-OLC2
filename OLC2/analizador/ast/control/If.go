@@ -6,6 +6,7 @@ import (
 	"OLC2/analizador/entorno"
 	"fmt"
 	arrayList "github.com/colegno/arraylist"
+	"reflect"
 )
 
 type IfInstruccion struct {
@@ -43,7 +44,21 @@ func (i IfInstruccion) Ejecutar(ent entorno.Entorno) interface{} {
 
 			instr := i.ListaInstruccionesPrincipal.GetValue(j).(interfaces.Instruccion)
 
-			instr.Ejecutar(entornoNuevoIf)
+			valorRetorno := instr.Ejecutar(entornoNuevoIf)
+
+			if valorRetorno != nil {
+
+				if reflect.TypeOf(valorRetorno) != reflect.TypeOf(entorno.ValorType{}) {
+					fmt.Println("Error en función, se esperaba un retorno valido")
+					return entorno.ValorType{Tipo: entorno.NULL, Valor: -1}
+				}
+
+				valorAretornar := valorRetorno.(entorno.ValorType)
+
+				return valorAretornar
+
+			}
+
 		}
 
 	} else {
