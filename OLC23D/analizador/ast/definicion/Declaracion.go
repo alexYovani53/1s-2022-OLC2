@@ -23,20 +23,27 @@ type Declaracion struct {
 	ListaVars           *arraylist.List
 	Referencia          bool
 	EntornoRef          *entorno.Entorno
+
+	CambiarEntorno  bool
+	TemporalEntorno string
 }
 
 func NewDeclaracion(listaVars *arraylist.List, tipoVariables entorno.TipoDato) *Declaracion {
 	return &Declaracion{
-		TipoVariables: tipoVariables,
-		ListaVars:     listaVars,
+		TipoVariables:   tipoVariables,
+		ListaVars:       listaVars,
+		CambiarEntorno:  false,
+		TemporalEntorno: "",
 	}
 }
 
 func NewDeclaracionParametro(listaVars *arraylist.List, tipoVariables entorno.TipoDato, referencia bool) *Declaracion {
 	return &Declaracion{
-		TipoVariables: tipoVariables,
-		ListaVars:     listaVars,
-		Referencia:    referencia,
+		TipoVariables:   tipoVariables,
+		ListaVars:       listaVars,
+		Referencia:      referencia,
+		CambiarEntorno:  false,
+		TemporalEntorno: "",
 	}
 }
 
@@ -45,10 +52,20 @@ func NewDeclaracionInicializacion(listaVars *arraylist.List, tipoVariables entor
 		TipoVariables:       tipoVariables,
 		ListaVars:           listaVars,
 		ValorInicializacion: valInicial,
+		CambiarEntorno:      false,
+		TemporalEntorno:     "",
 	}
 }
 
 func (dec *Declaracion) Get3D(ent *entorno.Entorno) string {
+
+	PUNTERO_STACK_O_HEAP := "SP"
+	STACK_O_HEAP := "Stack"
+
+	if dec.CambiarEntorno {
+		PUNTERO_STACK_O_HEAP = dec.TemporalEntorno
+		STACK_O_HEAP = "Heap"
+	}
 
 	CODIGO_SALIDA := "\n\n\n"
 	puntero_ambito := analizador.GeneradorGlobal.ObtenerTemporal()
@@ -72,12 +89,18 @@ func (dec *Declaracion) Get3D(ent *entorno.Entorno) string {
 		temporal := analizador.GeneradorGlobal.ObtenerTemporal()
 
 		CODIGO_SALIDA += "/* DECLARACIÓN DE VARIABLE INICIALIZADA*/\n"
-		CODIGO_SALIDA += temporal + " = SP + " + fmt.Sprint(posicionRelativa) + ";\n"
-		CODIGO_SALIDA += "Stack[(int)" + temporal + "] = " + resultadoExpr.Temporal
+		//CODIGO_SALIDA += temporal + " = SP + " + fmt.Sprint(posicionRelativa) + ";\n"
 
-		simbolo := entorno.NewSimboloIdentificador(0, 0, IDE.Identificador)
+		//  TEMPORAL =  SP | HP  + ent.tamano
+		CODIGO_SALIDA += fmt.Sprintf("%s = %s + %d;\n", temporal, PUNTERO_STACK_O_HEAP, posicionRelativa)
+
+		//CODIGO_SALIDA += "Stack[(int)" + temporal + "] = " + resultadoExpr.Temporal
+		CODIGO_SALIDA += fmt.Sprintf("%s[(int) %s]= %s;\n", STACK_O_HEAP, temporal, resultadoExpr.Temporal)
+
+		simbolo := entorno.NewSimboloIdentificadorValor(0, 0, IDE.Identificador, dec.TipoVariables)
 		simbolo.Direccion = posicionRelativa
 
+		ent.AgregarSimbolo(simbolo.Identificador, simbolo)
 		ent.Tamanio = ent.Tamanio + 1
 
 	} else {

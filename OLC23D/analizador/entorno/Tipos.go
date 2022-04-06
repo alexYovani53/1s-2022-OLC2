@@ -25,4 +25,5 @@ type Result3D struct {
 	Temporal  string
 	EtiquetaF string
 	EtiquetaV string
+	Valor     interface{}
 }

@@ -29,12 +29,12 @@ func (this Imprimir) Get3D(ent *entorno.Entorno) string {
 	if resultadoExpr.Tipo == entorno.INTEGER {
 
 		CODIGO_SALIDA += "/* IMPRIMIENDO INTEGER*/\n"
-		CODIGO_SALIDA += fmt.Sprintf("\"printf(\"%d\", (int)%s\"); \n", resultadoExpr.Temporal)
+		CODIGO_SALIDA += "printf(\"%d\", (int) " + resultadoExpr.Temporal + ");\n"
 
 	} else if resultadoExpr.Tipo == entorno.FLOAT {
 
 		CODIGO_SALIDA += "/* IMPRIMIENDO INTEGER*/\n"
-		CODIGO_SALIDA += fmt.Sprintf("\"printf(\"%f\", (float)%s\"); \n", resultadoExpr.Temporal)
+		CODIGO_SALIDA += "printf(\"%f\", (float) " + resultadoExpr.Temporal + ");\n"
 
 	} else if resultadoExpr.Tipo == entorno.STRING {
 
@@ -55,12 +55,12 @@ func (this Imprimir) Get3D(ent *entorno.Entorno) string {
 		CODIGO_SALIDA += fmt.Sprintf("		if(%s != -1) goto %s; \n", CARACTER, etiquetaChar)
 		CODIGO_SALIDA += fmt.Sprintf("			%s = %s + 1; \n", temporal1, temporal1)
 		CODIGO_SALIDA += fmt.Sprintf("			%s = Heap[(int)%s]; /*tomando caracter*/\n", CARACTER, temporal1)
-		CODIGO_SALIDA += "printf(\"%d\", (char) " + CARACTER + ");\n"
+		CODIGO_SALIDA += "		printf(\"%d\", (int) " + CARACTER + ");\n"
 		CODIGO_SALIDA += fmt.Sprintf("			goto %s; \n", etiquetaAumento)
 
 		CODIGO_SALIDA += fmt.Sprintf("		%s: \n", etiquetaChar)
 		CODIGO_SALIDA += fmt.Sprintf("		if(%s == 0 ) goto %s; \n", CARACTER, etiquetaSalida)
-		CODIGO_SALIDA += "printf(\"%c\", (char) " + CARACTER + ");\n"
+		CODIGO_SALIDA += "		printf(\"%c\", (char) " + CARACTER + ");\n"
 
 		CODIGO_SALIDA += fmt.Sprintf("			%s: \n", etiquetaAumento)
 		CODIGO_SALIDA += fmt.Sprintf("			%s = %s + 1; \n", temporal1, temporal1)

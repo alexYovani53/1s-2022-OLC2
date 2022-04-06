@@ -43,7 +43,7 @@ func NewSimboloIdentificador(linea int, columna int, identificador string) *Simb
 	}
 }
 
-func NewSimboloIdentificadorValor(linea int, columna int, identificador string, valor interface{}, dato TipoDato) Simbolo {
+func NewSimboloIdentificadorValor(linea int, columna int, identificador string, dato TipoDato) Simbolo {
 	e := Simbolo{
 		Linea:         linea,
 		Columna:       columna,
