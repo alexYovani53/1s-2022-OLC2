@@ -11,7 +11,8 @@ import (
 )
 
 type AccesoObjeto struct {
-	ListaAccesos *arrayList.List
+	ListaAccesos      *arrayList.List
+	ObtenerReferencia bool
 }
 
 func NewAccesoObjeto(listaAccesos *arrayList.List) AccesoObjeto {
@@ -22,74 +23,88 @@ func (a AccesoObjeto) Obtener3D(ent *entorno.Entorno) entorno.Result3D {
 
 	EXPR_INICIAL := a.ListaAccesos.GetValue(0)
 
-	if (reflect.TypeOf(EXPR_INICIAL) == reflect.TypeOf(expresion.Identificador{})) {
+	if reflect.TypeOf(EXPR_INICIAL) != reflect.TypeOf(expresion.Identificador{}) {
+		return entorno.Result3D{Tipo: entorno.NULL}
+	}
 
-		ID := EXPR_INICIAL.(expresion.Identificador).Identificador
+	ID := EXPR_INICIAL.(expresion.Identificador)
+	existeEnEntorno := ent.ExisteSimbolo(ID.Identificador)
 
-		if !ent.ExisteSimbolo(ID) {
-			fmt.Printf("No existe OBJETOOOOOO")
-			return entorno.Result3D{Tipo: entorno.NULL}
-		}
+	if !existeEnEntorno {
+		return entorno.Result3D{Tipo: entorno.NULL}
+	}
 
-		OBJETO := ent.ObtenerSimbolo(ID).(entorno.SimboloAbstracto)
+	OBJETO := ent.ObtenerSimbolo(ID.Identificador).(entorno.SimboloAbstracto)
 
-		if OBJETO.GetTipo() == entorno.OBJETO {
+	if OBJETO.GetTipo() == entorno.OBJETO {
 
-			nuevaLista := a.ListaAccesos.Clone()
-			nuevaLista.RemoveAtIndex(0)
+		nuevaLista := a.ListaAccesos.Clone()
+		nuevaLista.RemoveAtIndex(0)
 
-			VALOR := OBJETO.(Simbolos.Objecto)
-			RESULTADO_FINAL := entorno.Result3D{}
-			DIR_STACK := analizador.GeneradorGlobal.ObtenerTemporal()
-			DIR_HEAP := analizador.GeneradorGlobal.ObtenerTemporal()
+		VALOR := OBJETO.(Simbolos.Objecto)
 
-			RESULTADO_FINAL.Codigo += "/* ACCEDIENDO A UN OBJETO */ \n"
-			RESULTADO_FINAL.Codigo += fmt.Sprintf("%s = SP + %d;\n", DIR_STACK, VALOR.Direccion)
-			RESULTADO_FINAL.Codigo += fmt.Sprintf("%s = Stack[(int)%s];\n", DIR_HEAP, DIR_STACK)
+		RESULTADO_FINAL := entorno.Result3D{}
 
-			DATO_ENCONTRADO := a.ObtenerValorRecursivo(ent, nuevaLista, VALOR, DIR_HEAP)
+		DIRECCION_STACK := analizador.GeneradorGlobal.ObtenerTemporal()
+		DIRECCION_Heap := analizador.GeneradorGlobal.ObtenerTemporal()
 
-			RESULTADO_FINAL.Codigo += DATO_ENCONTRADO.Codigo
-			RESULTADO_FINAL.Tipo = DATO_ENCONTRADO.Tipo
-			RESULTADO_FINAL.Temporal = DATO_ENCONTRADO.Temporal
+		RESULTADO_FINAL.Codigo += "/* ACCEDIENDO A UN OBJETO */ \n"
 
-			return RESULTADO_FINAL
+		RESULTADO_FINAL.Codigo += fmt.Sprintf("%s = SP + %d;  /* CAPTURANDO DIRECCION EN STACK*/ \n", DIRECCION_STACK, VALOR.Direccion)
+		RESULTADO_FINAL.Codigo += fmt.Sprintf("%s = Stack[(int) %s]; \n", DIRECCION_Heap, DIRECCION_STACK)
 
-		}
+		BUSQUEDA := a.ObtenerValorRecursivo(ent, nuevaLista, VALOR, DIRECCION_Heap)
 
+		RESULTADO_FINAL.Codigo += BUSQUEDA.Codigo
+		RESULTADO_FINAL.Tipo = BUSQUEDA.Tipo
+		RESULTADO_FINAL.Temporal = BUSQUEDA.Temporal
+		RESULTADO_FINAL.ValorEnHeap = BUSQUEDA.ValorEnHeap
+
+		return RESULTADO_FINAL
 	}
 
 	return entorno.Result3D{Tipo: entorno.NULL}
-
 }
 
 func (a AccesoObjeto) ObtenerValorRecursivo(ent *entorno.Entorno, ListaAccesos *arrayList.List, OBJETO Simbolos.Objecto, DIR_HEAP string) entorno.Result3D {
 
-	EXPR_INICIAL := ListaAccesos.GetValue(0)
+	EXPR_INI := ListaAccesos.GetValue(0)
 
-	if (reflect.TypeOf(EXPR_INICIAL) == reflect.TypeOf(expresion.Identificador{})) {
-
-		ID := EXPR_INICIAL.(expresion.Identificador).Identificador
-
-		if !OBJETO.EntornoPropio.ExisteSimbolo(ID) {
-			fmt.Printf("No existe OBJETOOOOOO")
-			return entorno.Result3D{Tipo: entorno.NULL}
-		}
-
-		simb := OBJETO.EntornoPropio.ObtenerSimbolo(ID)
-		simbolo := simb.(entorno.Simbolo)
-
-		RESULTADO_FINAL := entorno.Result3D{}
-		POS_HEAP := analizador.GeneradorGlobal.ObtenerTemporal()
-		TEMP := analizador.GeneradorGlobal.ObtenerTemporal()
-
-		RESULTADO_FINAL.Codigo += fmt.Sprintf("%s = %s + %d;\n", POS_HEAP, DIR_HEAP, simbolo.Direccion)
-		RESULTADO_FINAL.Codigo += fmt.Sprintf("%s = Heap[(int) %s];\n", TEMP, POS_HEAP)
-
-		RESULTADO_FINAL.Tipo = simbolo.Tipo
-		RESULTADO_FINAL.Temporal = TEMP
-
-		return RESULTADO_FINAL
+	if reflect.TypeOf(EXPR_INI) != reflect.TypeOf(expresion.Identificador{}) {
+		return entorno.Result3D{Tipo: entorno.NULL}
 	}
-	return entorno.Result3D{}
+
+	ID := EXPR_INI.(expresion.Identificador)
+
+	existeVariable := OBJETO.EntornoPropio.ExisteSimbolo(ID.Identificador)
+	if !existeVariable {
+		return entorno.Result3D{Tipo: entorno.NULL}
+	}
+
+	Simbolo_ := OBJETO.EntornoPropio.ObtenerSimbolo(ID.Identificador).(entorno.Simbolo)
+
+	RESULTADO_FINAL := entorno.Result3D{}
+	POS_HEAP := analizador.GeneradorGlobal.ObtenerTemporal()
+	TEMPORAL := analizador.GeneradorGlobal.ObtenerTemporal()
+
+	RESULTADO_FINAL.Codigo += fmt.Sprintf("%s = %s  + %d;\n", POS_HEAP, DIR_HEAP, Simbolo_.Direccion)
+
+	if a.ObtenerReferencia {
+		RESULTADO_FINAL.Temporal = POS_HEAP
+		RESULTADO_FINAL.ValorEnHeap = true
+	} else {
+
+		RESULTADO_FINAL.Codigo += fmt.Sprintf("%s = Heap[(int) %s];/*CAPTURANDO VARIABLE %s */;\n ", TEMPORAL, POS_HEAP, ID.Identificador)
+		RESULTADO_FINAL.Temporal = TEMPORAL
+	}
+
+	RESULTADO_FINAL.Tipo = Simbolo_.Tipo
+
+	return RESULTADO_FINAL
+}
+
+func (this AccesoObjeto) Obtener3DRef(ent *entorno.Entorno) entorno.Result3D {
+	this.ObtenerReferencia = true
+
+	return this.Obtener3D(ent)
 }

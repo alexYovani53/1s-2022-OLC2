@@ -70,6 +70,7 @@ func Data() http.HandlerFunc {
 			antlr.ParseTreeWalkerDefault.Walk(listener, tree)
 		}
 
+		analizador.GeneradorGlobal.Reiniciar()
 		AST := listener.Ast
 
 		ENTORNO_GLOBAL := entorno.NewEntorno("GLOBAL", nil)
@@ -130,6 +131,7 @@ func Data() http.HandlerFunc {
 
 		CODIGO_FINAL += analizador.GeneradorGlobal.Encabezado()
 		CODIGO_FINAL += CODIGO_FUNCIONES
+		CODIGO_FINAL += analizador.GeneradorGlobal.Funciones + "\n"
 		CODIGO_FINAL += "\n\nvoid main() {\n\n"
 		CODIGO_FINAL += CODIGO_MAIN
 		CODIGO_FINAL += "\treturn;\n"
@@ -153,14 +155,10 @@ func CREAR_MAIN(MAIN entorno.Clase, ent *entorno.Entorno) string {
 
 				if !ent.ExisteFuncion(func_.Identificador) {
 					ent.AgregarFuncion(func_.Identificador, func_)
-
-					if func_.Identificador != "main" {
-						codigo += func_.Get3D(ent)
-					}
-
 				} else {
 					//ERROR
 				}
+
 			} else {
 				codigo += r.(interfaces.Instruccion).Get3D(ent)
 			}

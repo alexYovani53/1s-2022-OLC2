@@ -19,6 +19,8 @@ type Simbolo struct {
 	EsFuncion     bool
 	ListaParams   *arraylist.List
 	Direccion     int
+
+	Temporal_REF string
 }
 
 /**

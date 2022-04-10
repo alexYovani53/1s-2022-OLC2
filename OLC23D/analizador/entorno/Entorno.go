@@ -169,3 +169,19 @@ func (ent *Entorno) ObtenerClase(identificador string) interface{} {
 
 	return nil
 }
+
+func (ent *Entorno) CambiarFuncionGenerada(identificador string, funcionGenerada interface{}) {
+
+	ideFinal := strings.ToLower(identificador)
+
+	for entActual := ent; entActual != nil; entActual = entActual.EntAnterior {
+
+		for key, _ := range entActual.TablaFunciones {
+			if key == ideFinal {
+				entActual.TablaFunciones[key] = funcionGenerada
+				return
+			}
+		}
+	}
+	return
+}

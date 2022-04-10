@@ -18,7 +18,7 @@ func (p Primitivo) Obtener3D(ent *entorno.Entorno) entorno.Result3D {
 	if p.Tipo == entorno.BOOLEAN {
 
 		valor := ""
-		if (p.Valor.(bool) == true) {
+		if p.Valor.(bool) == true {
 			valor = "1"
 		} else {
 			valor = "0"
@@ -65,4 +65,8 @@ func (p Primitivo) Obtener3D(ent *entorno.Entorno) entorno.Result3D {
 func NewPrimitivo(val interface{}, tipo entorno.TipoDato) Primitivo {
 	e := Primitivo{val, tipo}
 	return e
+}
+
+func (this Primitivo) Obtener3DRef(ent *entorno.Entorno) entorno.Result3D {
+	return entorno.Result3D{}
 }

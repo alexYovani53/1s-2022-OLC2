@@ -282,6 +282,8 @@ func (this Operacion) RESTA(Izq interfaces2.Expresion, Der interfaces2.Expresion
 	RESULTADO_FINAL.Temporal = analizador.GeneradorGlobal.ObtenerTemporal()
 	RESULTADO_FINAL.Tipo = tipoDominante
 
+	RESULTADO_FINAL.Codigo += resultadoIzq.Codigo + "\n"
+	RESULTADO_FINAL.Codigo += resultadoDer.Codigo + "\n"
 	RESULTADO_FINAL.Codigo += fmt.Sprintf("%s= %s - %s; \n", RESULTADO_FINAL.Temporal, resultadoIzq.Temporal, resultadoDer.Temporal)
 
 	return RESULTADO_FINAL
@@ -424,4 +426,8 @@ func (this Operacion) SumarCadena(exprResultado entorno.Result3D) string {
 
 	return CODIGO_SALIDA
 
+}
+
+func (this Operacion) Obtener3DRef(ent *entorno.Entorno) entorno.Result3D {
+	return entorno.Result3D{}
 }

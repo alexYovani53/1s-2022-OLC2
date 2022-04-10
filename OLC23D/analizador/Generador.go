@@ -8,11 +8,24 @@ import (
 type Generador struct {
 	temporales int
 	etiquetas  int
+	Bloquear   bool
+	Funciones  string
 }
 
-var GeneradorGlobal Generador = Generador{0, 0}
+var GeneradorGlobal Generador = Generador{0, 0, false, ""}
 
 func (g *Generador) ObtenerTemporal() string {
+
+	if g.Bloquear {
+		return " "
+	}
+
+	temporaln := "t" + fmt.Sprint(g.temporales)
+	g.temporales = g.temporales + 1
+	return temporaln
+}
+
+func (g *Generador) ObtenerTemporalForzado() string {
 
 	temporaln := "t" + fmt.Sprint(g.temporales)
 	g.temporales = g.temporales + 1
@@ -20,6 +33,10 @@ func (g *Generador) ObtenerTemporal() string {
 }
 
 func (g *Generador) ObtenerEtiqueta() string {
+
+	if g.Bloquear {
+		return " "
+	}
 
 	temporalEtiqueta := "L" + fmt.Sprint(g.etiquetas)
 	g.etiquetas = g.etiquetas + 1
@@ -58,6 +75,7 @@ func (g *Generador) Encabezado() string {
 func (g *Generador) Reiniciar() {
 	g.temporales = 0
 	g.etiquetas = 0
+	g.Funciones = ""
 }
 
 func (g *Generador) Tabular(cadena string) string {
@@ -76,4 +94,8 @@ func (g *Generador) TabularLinea(cadena string, tabs int) string {
 		stringNuevo = "\t" + stringNuevo
 	}
 	return stringNuevo
+}
+
+func (this *Generador) GenerarFuncion(codFuncion string) {
+	this.Funciones += codFuncion
 }

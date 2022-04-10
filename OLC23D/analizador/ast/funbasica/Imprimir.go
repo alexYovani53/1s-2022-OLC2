@@ -20,7 +20,7 @@ func (this Imprimir) Get3D(ent *entorno.Entorno) string {
 
 	resultadoExpr := this.Expresiones.Obtener3D(ent)
 
-	CODIGO_SALIDA := ""
+	CODIGO_SALIDA := "\n\n"
 
 	if resultadoExpr.Tipo == entorno.NULL {
 		return ""
@@ -28,11 +28,13 @@ func (this Imprimir) Get3D(ent *entorno.Entorno) string {
 
 	if resultadoExpr.Tipo == entorno.INTEGER {
 
+		CODIGO_SALIDA += resultadoExpr.Codigo
 		CODIGO_SALIDA += "/* IMPRIMIENDO INTEGER*/\n"
 		CODIGO_SALIDA += "printf(\"%d\", (int) " + resultadoExpr.Temporal + ");\n"
 
 	} else if resultadoExpr.Tipo == entorno.FLOAT {
 
+		CODIGO_SALIDA += resultadoExpr.Codigo
 		CODIGO_SALIDA += "/* IMPRIMIENDO INTEGER*/\n"
 		CODIGO_SALIDA += "printf(\"%f\", (float) " + resultadoExpr.Temporal + ");\n"
 
@@ -70,6 +72,8 @@ func (this Imprimir) Get3D(ent *entorno.Entorno) string {
 		CODIGO_SALIDA += fmt.Sprintf("%s: \n", etiquetaSalida)
 
 	}
+
+	CODIGO_SALIDA += "printf(\"%c\", (char)10); /*imprime salto de linea*/ \n"
 
 	return CODIGO_SALIDA
 }

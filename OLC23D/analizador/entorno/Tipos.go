@@ -20,10 +20,11 @@ const (
 )
 
 type Result3D struct {
-	Tipo      TipoDato
-	Codigo    string
-	Temporal  string
-	EtiquetaF string
-	EtiquetaV string
-	Valor     interface{}
+	Tipo        TipoDato
+	Codigo      string
+	Temporal    string
+	EtiquetaF   string
+	EtiquetaV   string
+	Valor       interface{}
+	ValorEnHeap bool
 }

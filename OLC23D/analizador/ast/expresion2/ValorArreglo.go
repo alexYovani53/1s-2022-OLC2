@@ -32,3 +32,7 @@ func (val ValorArreglo) dimensionArreglo(dato entorno.TipoDato) bool {
 	}
 	return true
 }
+
+func (this ValorArreglo) Obtener3DRef(ent *entorno.Entorno) entorno.Result3D {
+	return entorno.Result3D{}
+}

@@ -21,58 +21,53 @@ func (this InstanciaObjeto) Obtener3D(ent *entorno.Entorno) entorno.Result3D {
 
 	RESULTADO_FINAL := entorno.Result3D{}
 
-	existeClase := ent.ExisteClase(this.Id)
+	existe := ent.ExisteClase(this.Id)
 
-	if !existeClase {
-		return entorno.Result3D{}
+	if !existe {
+		return entorno.Result3D{Tipo: entorno.NULL}
 	}
 
 	clasePlantilla := ent.ObtenerClase(this.Id).(*entorno.Clase)
 
-	RESULTADO_FINAL.Codigo += "/******************************* DECLARANDO OBJETO ************************/ \n"
+	RESULTADO_FINAL.Codigo += fmt.Sprintf("/* **** VAMOS A DECLARAR UN OBJETO *************/\n")
 
 	direccionStack := analizador.GeneradorGlobal.ObtenerTemporal()
 	direccionHeap := analizador.GeneradorGlobal.ObtenerTemporal()
 
-	tamano := this.tamano(clasePlantilla)
+	tamanioEntornoActual := ent.Tamanio
 
-	RESULTADO_FINAL.Codigo += fmt.Sprintf("%s = HP; /* DIRECCIÓN INICIAL DEL OBJETO*/\n", direccionHeap)
-	RESULTADO_FINAL.Codigo += fmt.Sprintf("HP = HP + %s; /* APARTAR TAMAÑO DEL STRUCT */ \n", tamano)
+	tamanioClase := this.tamano(clasePlantilla)
 
-	posicionRelativa := ent.Tamanio
-	RESULTADO_FINAL.Codigo += fmt.Sprintf("%s = SP + %d;\n", direccionStack, posicionRelativa)
-	RESULTADO_FINAL.Codigo += fmt.Sprintf("Heap[(int)%s] = %s;\n", direccionStack, direccionHeap)
+	RESULTADO_FINAL.Codigo += fmt.Sprintf("%s = HP; /* DIRECCIÓN INICIAL EN HEAP*/ \n ", direccionHeap)
+	RESULTADO_FINAL.Codigo += fmt.Sprintf("HP = HP + %s; \n", tamanioClase)
 
-	ENTORNO_OBJETO := entorno.NewEntorno("OBJETO", nil)
+	RESULTADO_FINAL.Codigo += fmt.Sprintf("%s = SP + %d; /* DIRECCION EN STACK*/\n", direccionStack, tamanioEntornoActual)
+	RESULTADO_FINAL.Codigo += fmt.Sprintf("Stack[(int) %s] = %s  ;\n ", direccionStack, direccionHeap)
+
+	ENTORNO_OBJETO := entorno.NewEntorno("OBJETO", ent)
 
 	for i := 0; i < clasePlantilla.Instrucciones.Len(); i++ {
 
-		r := clasePlantilla.Instrucciones.GetValue(i)
+		INSTRU_PIVOTE := clasePlantilla.Instrucciones.GetValue(i)
 
-		if r != nil {
-			if reflect.TypeOf(r) == reflect.TypeOf(Simbolos.Funcion{}) {
-				func_ := r.(Simbolos.Funcion)
+		if reflect.TypeOf(INSTRU_PIVOTE) == reflect.TypeOf(Simbolos.Funcion{}) {
+			//
+		} else {
 
-				if !ENTORNO_OBJETO.ExisteFuncion(func_.Identificador) {
-					ENTORNO_OBJETO.AgregarFuncion(func_.Identificador, func_)
+			DECLAR_ := INSTRU_PIVOTE.(*definicion.Declaracion)
 
-				} else {
-					//ERROR
-				}
+			DECLAR_.CambiarEntorno = true
+			DECLAR_.TemporalEntorno = direccionHeap
 
-			} else {
-
-				decl := r.(*definicion.Declaracion)
-				decl.CambiarEntorno = true
-				decl.TemporalEntorno = direccionHeap
-				RESULTADO_FINAL.Codigo += decl.Get3D(&ENTORNO_OBJETO)
-			}
+			RESULTADO_FINAL.Codigo += DECLAR_.Get3D(&ENTORNO_OBJETO)
 
 		}
 
 	}
 
-	OBJETO_SIMBOLO := Simbolos.NewObjecto("", ENTORNO_OBJETO, this.Id)
+	posicionRelativa := tamanioEntornoActual
+
+	OBJETO_SIMBOLO := Simbolos.NewObjecto("", ENTORNO_OBJETO, clasePlantilla.Id)
 	OBJETO_SIMBOLO.Direccion = posicionRelativa
 
 	RESULTADO_FINAL.Tipo = entorno.OBJETO
@@ -92,4 +87,8 @@ func (this InstanciaObjeto) tamano(clase *entorno.Clase) string {
 	}
 
 	return fmt.Sprintf("%d", tamano)
+}
+
+func (this InstanciaObjeto) Obtener3DRef(ent *entorno.Entorno) entorno.Result3D {
+	return entorno.Result3D{}
 }

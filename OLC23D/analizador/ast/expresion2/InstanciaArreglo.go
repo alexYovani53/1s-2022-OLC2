@@ -46,3 +46,7 @@ func (i InstanciaArreglo) agregarValores(list *arraylist.List) []interface{} {
 	return s
 
 }
+
+func (this InstanciaArreglo) Obtener3DRef(ent *entorno.Entorno) entorno.Result3D {
+	return entorno.Result3D{}
+}

@@ -24,3 +24,7 @@ func (a AccessoArr) ObtenerIntDimensiones(ent *entorno.Entorno) *arrayList.List 
 	return nil
 
 }
+
+func (a AccessoArr) Obtener3DRef(ent *entorno.Entorno) entorno.Result3D {
+	return entorno.Result3D{}
+}

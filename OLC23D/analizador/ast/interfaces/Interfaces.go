@@ -6,6 +6,7 @@ import (
 
 type Expresion interface {
 	Obtener3D(ent *entorno.Entorno) entorno.Result3D
+	Obtener3DRef(ent *entorno.Entorno) entorno.Result3D
 }
 
 type Instruccion interface {
